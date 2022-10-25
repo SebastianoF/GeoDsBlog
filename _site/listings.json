@@ -1,0 +1,23 @@
+[
+  {
+    "listing": "/posts/index_gds.html",
+    "items": []
+  },
+  {
+    "listing": "/posts/index_git.html",
+    "items": []
+  },
+  {
+    "listing": "/posts/index.html",
+    "items": [
+      "/posts/2022-07-29-office-pos/geods/index.html",
+      "/posts/2022-07-23-gpg/bp/index.html"
+    ]
+  },
+  {
+    "listing": "/posts/index_bp.html",
+    "items": [
+      "/posts/2022-07-23-gpg/bp/index.html"
+    ]
+  }
+]

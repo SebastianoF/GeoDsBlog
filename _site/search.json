@@ -1,0 +1,191 @@
+[
+  {
+    "objectID": "posts/index_gds.html",
+    "href": "posts/index_gds.html",
+    "title": "geods",
+    "section": "",
+    "text": "No matching items"
+  },
+  {
+    "objectID": "posts/index_git.html",
+    "href": "posts/index_git.html",
+    "title": "geods",
+    "section": "",
+    "text": "No matching items"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code."
+  },
+  {
+    "objectID": "posts/index.html",
+    "href": "posts/index.html",
+    "title": "Posts",
+    "section": "",
+    "text": "How well positioned is your office?\n\n\nTime to question your workplace location\n\n\n\n\n\n\nJul 29, 2022\n\n\n\n\n\n\n  \n\n\n\n\nHow to sign your commits - a tutorial for the data scientist\n\n\nSetting up gpg authentication while keeping separate work and personal projects\n\n\n\n\n\n\nJul 23, 2022\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "Since this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "",
+    "text": "This short blog post introduces the reader to the PGP key signatures, and suggests a way of creating a signature for a work user, for a private user and how to swap between them painlessly."
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#requirements",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#requirements",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Requirements",
+    "text": "Requirements\n\nyou are familiar with git command line and gitlab / github interface.\nyou installed the gpg command line interface (Mac, Linux or PowerShell - Windows). GPG stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880. It is easy to confuse it with PGP!"
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#create-and-add-a-pgp-key-signature-to-github-or-gitlab",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#create-and-add-a-pgp-key-signature-to-github-or-gitlab",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Create and add a PGP key signature to github or gitlab",
+    "text": "Create and add a PGP key signature to github or gitlab\nThe procedure of creating and adding a PGP key signature is similar to the one you may have previously done to add an RSA key to your github or gitlab account (no worries if you have not done it before). The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your\n\ncreate a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command\n\ngpg --full-generate-key\nThis will bring you to a prompt asking to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sing commits is RSA (sign only) followed by 4096 for the keysize (see the appendix if you need to undo the key creation).\n\nIf you are using gitlab add the pgp public key to the page https://gitlab.com/-/profile/gpg_keys, if you are using github use the page https://github.com/settings/keys.\n\nYou can see the list of created key pairs with pgp -k, and you can export the public key to a file with gpg --export -a \"email@address.com\" > public.key, then copy the content of public.key to clipboard to export it to github/gitlab.\n\nNow the missing step is to tell git that it has to start using the created key to sign the commits. Change the user setting on the local machine with\n\ngit config --global user.email <same email used when creating the key-pair>\ngit config --global user.name <same username used when creating the key-pair>\ngit config --global user.signingkey <your fingerprint - copy paste from gitlab gpg page>\ngit config --global commit.gpgSign true"
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#swap-between-work-and-personal-profile",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#swap-between-work-and-personal-profile",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Swap between work and personal profile",
+    "text": "Swap between work and personal profile\nAt this point I had the problem of swapping between multiple gitub/gitlab profiles, for work, personal project, etc. With the commands above I can create as many gpg keys with as many username and emails. To quickly tell git to swap between them I created a bash script for each profile in the sub-folder ~/.git-accounts-settings/:\n# ~/.git-accounts-settings/company_A.sh\ngit config --global user.email <same email used when creating the key-pair>\ngit config --global user.name <same username used when creating the key-pair>\ngit config --global user.signingkey <your fingerprint - copy paste from gitlab gpg page>\ngit config --global commit.gpgSign true\n# ~/.git-accounts-settings/company_B.sh\ngit config --global user.email <another email, same used when creating the key-pair>\ngit config --global user.name <another username used when creating the key-pair>\ngit config --global user.signingkey <your fingerprint - copy paste from gitlab gpg page>\ngit config --global commit.gpgSign true\n# ~/.git-accounts-settings/personal.sh\ngit config --global user.email <personal email>\ngit config --global user.name <personal user>\ngit config --global commit.gpgSign false\nEach time I want to swap across profiles, I can call the script with bash ~/.git-accounts-settings/<my profile>.sh.\nAnd to quickly swap between them, the commands can be aliased with shorter commands:\n# in the .bashrc\nalias set_git_config_company_A=\"bash ~/.git-accounts-settings/company_A.sh\"\nalias set_git_config_company_B=\"bash ~/.git-accounts-settings/company_B.sh\"\nalias set_git_config_personal=\"bash ~/.git-accounts-settings/personal.sh\""
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#cache-the-passphrases",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#cache-the-passphrases",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Cache the passphrases",
+    "text": "Cache the passphrases\nTo avoid typing the passphrase each time a commit requires to be signed, it is possible to specify a caching duration the gpp agent config file, under ~/.gnupg/gpg-agent.conf.\nFor caching the passphrase for 400 days, create the config file with these two lines, where 34560000 is 400 times the number of seconds in a day.\ndefault-cache-ttl 34560000\nmaximum-cache-ttl 34560000\n\n\n\nkey-and-nib"
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-0-list-key-creation",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-0-list-key-creation",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Appendix 0: list key creation",
+    "text": "Appendix 0: list key creation\nTo undo the key creation of step 1 you can retrieve the list of existing keys with gpg -k, hen copy the key public id to clipboard, that is a string like this dummy 43525435HJJH5K2H3KJHK3452KJH65NBMBV in the output\npub   ed25519 2022-02-18 [SC] [expires: 2024-02-18]\n      43525435HJJH5K2H3KJHK3452KJH65NBMBV\nuid           [ultimate] Sebastiano Ferraris <seb@email.com>\nsub   cv25519 2022-02-18 [E] [expires: 2024-02-18]\nFinally delete public and private key with:\ngpg --delete-secret-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV\ngpg --delete-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV"
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-1-troubleshooting-on-mac",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-1-troubleshooting-on-mac",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Appendix 1: troubleshooting on mac",
+    "text": "Appendix 1: troubleshooting on mac\nIf git commit fails to authenticate the git commit, with the following error message\nThen you have to redirect the GPG_TTY key to the local tty with:\nexport GPG_TTY=$(tty)\nIf this solves the problem, you will have to append it to your .bashrc."
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-2-export-public-and-private-keys",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-2-export-public-and-private-keys",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Appendix 2: export public and private keys",
+    "text": "Appendix 2: export public and private keys\nHow do I know my public key?\nThis command will export an ascii armored version of the public key:\ngpg --output public.pgp --armor --export username@email\nAlso to export the secret key, there is a similar command:\ngpg --output private.pgp --armor --export-secret-key username@email"
+  },
+  {
+    "objectID": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-3-trigger-gpg-passphrase-linux",
+    "href": "posts/2022-07-23-gpg/git/gpg_authentication.html#appendix-3-trigger-gpg-passphrase-linux",
+    "title": "How to sign your commits - a tutorial for the data scientist",
+    "section": "Appendix 3: trigger gpg passphrase linux",
+    "text": "Appendix 3: trigger gpg passphrase linux\nOn some linux distributions, the prompt to insert the gpg passphrase does not pop up when you create a new commit. Git simply refuses to add a new non-signed commit. So you will be in the situation where you have some code to commit, you know your passphrase, you have the gpg-agent on so you not need to retype the passphrase each time, but nobody is asking you for your passphrase.\nA workaround is to trigger gpg to ask you for your passphrase for another reason (e.g. signing a file), after which your passphrase is stored in the gpg-agent and you will be free to create signed commits, as the passphrase is automatically retrieved. The list of commands would be:\ngit commit -am \"new stuff\"  # this commit is not added and does not trigger the passphrase prompt\ncd \ntouch z_tmp.txt  # creating a dummy file to authenticate\ngpg -s z_tmp.txt  # this trigger the passphrase (and a y/n question to confirm your choice)\ncd <repo you were working>\ngit commit -am \"new stuff\"\nTo turn this workaround into a oneliner, you can create the dummy file z_tmp.txt in the root directory (as above), and then add the following line to your bash profile:\nalias gpg_trigger='gpg -s ~/z_tmp.txt'\nSo the next time, instead of running all the commands of the previous block, you can simply call the newly created alias gpg_trigger."
+  },
+  {
+    "objectID": "about/about.html",
+    "href": "about/about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "posts/index_bp.html",
+    "href": "posts/index_bp.html",
+    "title": "Code development best practices",
+    "section": "",
+    "text": "How to sign your commits - a tutorial for the data scientist\n\n\nSetting up gpg authentication while keeping separate work and personal projects\n\n\n\n\n\n\nJul 23, 2022\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html",
+    "href": "posts/2022-07-29-office-pos/geods/index.html",
+    "title": "How well positioned is your office?",
+    "section": "",
+    "text": "Employees location respect to their office"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#problem-statement",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#problem-statement",
+    "title": "How well positioned is your office?",
+    "section": "Problem statement",
+    "text": "Problem statement\n\nIs your company office optimally located in respect to the position of its employees?"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#setup-and-requirements",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#setup-and-requirements",
+    "title": "How well positioned is your office?",
+    "section": "Setup and Requirements",
+    "text": "Setup and Requirements\nConda environment:\nconda create -n geods python=3.9\nconda activate geods\nRequirements:\n# requirements.txt\ngeopandas==0.10.2\njupyter==1.0.0\nkeplergl==0.3.2\nmatplotlib==3.5.1\nosmnx==1.1.2\npandas==1.4.2\nseaborn==0.11.2"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#download-and-visualise-the-dataset",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#download-and-visualise-the-dataset",
+    "title": "How well positioned is your office?",
+    "section": "Download and visualise the dataset",
+    "text": "Download and visualise the dataset\n\nimport contextily as cx\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport osmnx\nimport pandas as pd\n\nfrom keplergl import KeplerGl\nfrom shapely.geometry import shape\n\n\n# About 10 seconds\ndf_commuter = pd.read_csv(\"https://github.com/uber-web/kepler.gl-data/raw/master/ukcommute/data.csv\")\ndf_commuter.head()\n\n\nconfig = {\n    'version': 'v1',\n    'config': {\n        'mapState': {\n            'latitude': 51.536265,\n            'longitude': -0.039740,\n            'zoom': 10\n        }\n    }\n}\nmap_1 = KeplerGl(data={'commuters': df_commuter}, config=config, height=800)\n\ndisplay(map_1)"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#narrow-the-dataset-to-the-city-of-london",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#narrow-the-dataset-to-the-city-of-london",
+    "title": "How well positioned is your office?",
+    "section": "Narrow the dataset to the city of London",
+    "text": "Narrow the dataset to the city of London\n\nosmnx.config(use_cache=True, log_console=True)\n\ndef gdf_concat(list_gdf: list):\n    return gpd.GeoDataFrame( pd.concat(list_gdf, ignore_index=True)) \n\nquery_city = {'city': 'City of London'}\nquery_london = {'city': 'London'}\n\ngdf = gdf_concat([osmnx.geocode_to_gdf(query_city), osmnx.geocode_to_gdf(query_london)])\n\ngdf.head()\n\n\ngdf_epsg = gdf.to_crs(epsg=3857)\nax = gdf_epsg.plot(figsize=(10, 10), alpha=0.5, edgecolor='k')\ncx.add_basemap(ax)\n\n\ntry:\n    from kepler_config import config_map_2\nexcept ImportError:\n    config = config_map_2\n\nmap_2 = KeplerGl(data={'london' :gdf_epsg}, config=config, height=800)  # kepler knows what to do when fed with a geodataframe\ndisplay(map_2)\n\n\n# -- about 17 seconds --\ngdf_commuters_workplace = gpd.GeoDataFrame(df_commuter.copy(), geometry=gpd.points_from_xy(df_commuter.workplace_lng, df_commuter.workplace_lat))\n\n# -- about 120 seconds: points in polygon \nmask_points_in_city = gdf_commuters_workplace.intersects(gdf.geometry.iloc[0])\nmask_points_in_london = gdf_commuters_workplace.intersects(gdf.geometry.iloc[1])\n\n\nnum_total_rows = len(gdf_commuters_workplace)\nnum_rows_in_city = len(mask_points_in_city[mask_points_in_city == True])\nnum_rows_in_london = len(mask_points_in_london[mask_points_in_london == True])\nprint(f\"Number of rows for offices in the city {num_rows_in_city} ({100 * num_rows_in_city / num_total_rows} %)\")\nprint(f\"Number of rows for offices in london {num_rows_in_london} ({100 * num_rows_in_london / num_total_rows} %)\")\n\nmask_union = mask_points_in_city | mask_points_in_london\nnum_rows_in_union = mask_union.sum()\nprint(f\"Number of offices in the union of London and the City {num_rows_in_union} ({100 * num_rows_in_union / num_total_rows} %)\")\n\n# Sanity check\nassert num_rows_in_union == num_rows_in_city + num_rows_in_london\n\ndf_commuter_london_office = df_commuter[mask_union]\ndf_commuter_london_office.reset_index(inplace=True, drop=True)\n\n\ntry:\n    from kepler_config import config_map_3\nexcept ImportError:\n    config_map_3 = config\n\n# Use the config_3 in kepler_config.py in the repo to reproduce the same image\nmap_3 = KeplerGl(data={'london':gdf_epsg.copy(),  \"commuters\": df_commuter_london_office.copy()}, config=config_map_3, height=800)\ndisplay(map_3)"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#select-the-office-location",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#select-the-office-location",
+    "title": "How well positioned is your office?",
+    "section": "Select the office location",
+    "text": "Select the office location\nGeometry drawn by hand on Kepler GL and copy-pasted below\n\npolygon_st_luke_office = {\"type\":\"Polygon\",\"coordinates\":[[[-0.0930210043528368,51.52553386809767],[-0.09362754938510826,51.5257442611004],[-0.09398505401347826,51.52546150215205],[-0.09363181940230854,51.525218817282784],[-0.09313761642997592,51.52527679524477],[-0.0930210043528368,51.52553386809767]]]}\n\npolygon_albert_road = {\"type\":\"Polygon\",\"coordinates\":[[[0.05074120549614755,51.503014231092195],[0.04882522609357891,51.50189434877025],[0.051410997081145014,51.49996117091324],[0.05337913172491038,51.501678115383754],[0.05074120549614755,51.503014231092195]]]}\n\n\n# narrow dataset to the geometry\nmask_st_luke_office = gdf_commuters_workplace.intersects(shape(polygon_st_luke_office))\ndf_commuters_st_luke_office = df_commuter[mask_st_luke_office]\n\n# embed shape into a geopandas to visualise in kepler\ngdf_st_luke_geometry = gpd.GeoDataFrame({'geometry':[shape(polygon_st_luke_office)], \"display_name\": [\"St Luke's Close Office\"]})\n\n\n# Same for Albert Road office\n\nmask_albert_road = gdf_commuters_workplace.intersects(shape(polygon_albert_road))\ndf_commuters_albert_road = df_commuter[mask_albert_road]\n\ngdf_albert_road = gpd.GeoDataFrame({'geometry':[shape(polygon_albert_road)], \"display_name\": [\"St Luke's Close Office\"]})\n\n\ntry:\n    from kepler_config import config_map_4\nexcept ImportError:\n    config_map_4 = config\n\nmap_4 = KeplerGl(\n    data={\n        \"St Luke's Close Office\": gdf_st_luke_geometry.copy(),  \n        \"commuters to St Luke\": df_commuters_st_luke_office.copy(),\n        \"Albert Road Office\": gdf_albert_road.copy(),\n        \"commuters to Albert\": df_commuters_albert_road.copy(),\n    }, \n    config=config_map_4, \n    height=800)  # kepler knows what to do when fed with a geodataframe\ndisplay(map_4)\n\n\nprint(f\"Commuters to St Luke office {len(df_commuters_st_luke_office)} ({100 * len(df_commuters_st_luke_office) / len(df_commuter)} %)\" )\nprint(f\"Commuters to Albert Road office {len(df_commuters_albert_road)} ({100 *  len(df_commuters_albert_road) / len(df_commuter)} %)\")"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#compute-bearing-and-distance-of-all-the-commuters-to-the-selected-office",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#compute-bearing-and-distance-of-all-the-commuters-to-the-selected-office",
+    "title": "How well positioned is your office?",
+    "section": "Compute bearing and distance of all the commuters to the selected office",
+    "text": "Compute bearing and distance of all the commuters to the selected office\nGiven two points \\((\\text{lng1}, \\text{lat1})\\) and \\((\\text{lng2}, \\text{lat2})\\) the Haversine formula (geodesic distance on the sphere) is: \\[\n\\mathcal{H} = 2 * R * \\arcsin\\left(\\sqrt{d}~\\right)~,\n\\] where \\[\nd = \\sin^2 \\left(\\frac{\\Delta \\text{lat}}{2} \\right) + \\cos(\\text{lat1}) \\cos(\\text{lat2})  \\sin^2\\left(\\frac{\\Delta \\text{lon}}{2}\\right)~,\n\\] and \\(\\Delta \\text{lat} = \\text{lat1} - \\text{lat2}\\), \\(\\Delta \\text{lon} = \\text{lon1} - \\text{lon2}\\), and \\(R\\) is the hearth’s radius.\nThe formula for the bearing, as the angle formed by the geodesics between the north pole and \\((\\text{lng1}, \\text{lat1})\\), and the geodesic between \\((\\text{lng1}, \\text{lat1})\\) and \\((\\text{lng2}, \\text{lat2})\\) is (in radiants): \\[\n\\mathcal{B} = \\arctan\\left(\n    \\frac{\n        \\sin(\\Delta \\text{lon}) \\cos(\\text{lat2})\n    }{\n        \\cos(\\text{lat1}) \\sin(\\text{lat2}) - \\sin(\\text{lat1}) \\cos(\\text{lat2}) \\cos\\left( \\Delta \\text{lon} \\right)\n    }\n\\right)\n\\]\nBoth formulae are based on the spherical model, not on the geospatial data science the standard model is the ellipsoid model World Geodesic System 1984 (WGS84). Exposing the reason why these formulae above are correct, and generalising them for the WGS84 model (the Vincenty’s formulae), would entail expanding the blog post beyond reason. This topic is therefore left as future work.\n\nfrom typing import Tuple\n\nfrom math import radians\n\ndef haversine(lng1: float, lat1: float, lng2: float, lat2: float) -> Tuple[float, float]:\n    \"\"\" returns (haversine distance in km, bearing in degrees from point 1 to point 2), vectorised \"\"\"\n\n    avg_earth_radius_km = 6371.0072\n   \n    lng1, lat1, lng2, lat2 = map(np.deg2rad, [lng1, lat1, lng2, lat2])\n    d_lat, d_lng = lat2 - lat1, lng2 - lng1\n    d = np.sin((d_lat)/2)**2 + np.cos(lat1)*np.cos(lat2) * np.sin((d_lng)/2)**2\n    hav_dist = 2 * avg_earth_radius_km * np.arcsin(np.sqrt(d))\n   \n    y = np.sin(d_lng) * np.cos(lat2)\n    x = np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(d_lng)\n    bearing = (np.arctan2(y, x) + 2 * np.pi) % (2 * np.pi)\n    \n    return hav_dist, np.rad2deg(bearing)\n\n\ndef add_bearing_deg_and_distance_km(df: pd.DataFrame) -> pd.DataFrame:\n    \"\"\"bearing between A and B is the angle between the geodesics connecting A and the north pole, and the geodesics connecting A and B.\n    Both the bearing and distance are computed on the Spherical model.\n    \"\"\"\n    df = df.copy()\n    \n    lng_work, lat_work = df.workplace_lng.to_numpy(), df.workplace_lat.to_numpy()\n    lng_home, lat_home = df.residence_lng.to_numpy(), df.residence_lat.to_numpy()\n    \n    df[\"distance_km\"], df[\"bearing_deg\"] = haversine(lng_work, lat_work, lng_home, lat_home)\n    \n    return df\n\n\ndf_commuters_st_luke_office = add_bearing_deg_and_distance_km(df_commuters_st_luke_office)\ndf_commuters_albert_road = add_bearing_deg_and_distance_km(df_commuters_albert_road)\n\n\ndf_commuters_st_luke_office.head()"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#visualise-the-results-in-a-radar-histogram-plot",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#visualise-the-results-in-a-radar-histogram-plot",
+    "title": "How well positioned is your office?",
+    "section": "Visualise the results in a radar-histogram plot",
+    "text": "Visualise the results in a radar-histogram plot\nFor an distance and bearing effective visualisation, a circular histogram would do what we need. The polar visualisation of matplotlib will do this for us.\nWe group the dataset into three categories, according to their radial distance from the office: - Within a radius of 10 Km - Between 10Km and 20 Km - Above 20 Km\n\nimport seaborn as sns\n\nsns.set_style(\"darkgrid\", {\"grid.color\": \".6\", \"grid.linestyle\": \":\"})\n\n\ndef radar_histogram(ax, df):\n    \"\"\"\n    Input: \n        df with at least 2 columns distance_km and bearing_deg.\n    Output: radar histogram plot.\n    \"\"\"\n    # Figures parameter\n    directions = 40\n    \n    bottom = 4\n    height_scale = 8\n    \n    # bearing: degrees from nort pole clockwise\n    bearing_bins = np.linspace(0, 360, directions+1, endpoint=False)\n    # angle visualisation: rad from east counterclockwise\n    theta = - 1 * np.linspace(0, 2 * np.pi, directions, endpoint=False) + np.pi/2\n    width = (2*np.pi) / directions\n    \n    # data binning\n    se_bins = pd.cut(df[\"bearing_deg\"].to_numpy(), bearing_bins)\n    np_bins = se_bins.value_counts().to_numpy()\n    bins =  height_scale * np.array(np_bins) / np.max(np_bins)\n    \n    # Uncomment to debug figure:\n    # bins = range(directions)\n    \n    # plotting    \n    ax_bars = ax.bar(theta, bins, width=width, bottom=bottom, color=\"blue\")\n\n    ax.set_yticklabels([])\n    ax.set_xticks(np.linspace(0, 2 * np.pi, 8, endpoint=False))\n    ax.set_xticklabels(['E', '', 'N', '', 'W', '', 'S', ''])\n    ax.grid(False)\n\n    return ax\n\ndef radar_histogram_3_levels(ax, df):\n    \"\"\"\n    Input: \n        df with at least 2 columns distance_km and bearing_deg.\n    Output: radar histogram plot.\n    \"\"\"\n    # Figures parameter\n    directions = 40\n    height_scale = 2\n\n    bottom_inner = 2\n    bottom_betw = 5\n    bottom_outer = 8\n    \n    # bearing: degrees from nort pole clockwise\n    bearing_bins = np.linspace(0, 360, directions+1, endpoint=False)\n    # angle visualisation: rad from east counterclockwise\n    theta = - 1 * np.linspace(0, 2 * np.pi, directions, endpoint=False) + np.pi/2\n    width = (2*np.pi) / directions\n    \n    # data binning\n    \n    df_inner = df[df[\"distance_km\"] <= 10]\n    se_bins_inner = pd.cut(df_inner[\"bearing_deg\"].to_numpy(), bearing_bins)\n    np_bins_inner = se_bins_inner.value_counts().to_numpy()\n    bins_inner =  height_scale * np.array(np_bins_inner) / np.max(np_bins_inner)\n    \n    df_betw = df[(df[\"distance_km\"] > 10) & (df[\"distance_km\"] <= 20)]\n    se_bins_betw = pd.cut(df_betw[\"bearing_deg\"].to_numpy(), bearing_bins)\n    np_bins_betw = se_bins_betw.value_counts().to_numpy()\n    bins_betw =  height_scale * np.array(np_bins_betw) / np.max(np_bins_betw)\n    \n    df_outer = df[df[\"distance_km\"] > 20]\n    se_bins_outer = pd.cut(df_outer[\"bearing_deg\"].to_numpy(), bearing_bins)\n    np_bins_outer = se_bins_outer.value_counts().to_numpy()\n    bins_outer =  height_scale * np.array(np_bins_outer) / np.max(np_bins_outer)\n    \n    # plotting\n    \n    ax_bars_inner = ax.bar(theta, bins_inner, width=width, bottom=bottom_inner, color=\"blue\")\n    ax_bars_betw = ax.bar(theta, bins_betw, width=width, bottom=bottom_betw, color=\"blue\")\n    ax_bars_outer = ax.bar(theta, bins_outer, width=width, bottom=bottom_outer, color=\"blue\")\n\n    \n    ax.set_yticklabels([])\n    # uncomment to add values on radius axis\n    # ax.set_yticks(np.arange(0,10,1.0))\n    # ax.set_yticklabels(['', '', '', '<=10Km ', '', '', '>10Km\\n <=20Km', '', '', '>20Km'])\n\n    ax.set_xticks(np.linspace(0, 2 * np.pi, 8, endpoint=False))\n    ax.set_xticklabels(['E', '', 'N', '', 'W', '', 'S', ''])\n    ax.grid(False)\n\n    return ax\n\n\nfig = plt.figure(figsize=(12, 12))\n\nax11 = fig.add_subplot(221, polar=True)\nax11 = radar_histogram(ax11, df_commuters_st_luke_office)\nax11.set_title(\"Saint Luke Office\", y=1.08, x=1.1)\n\nax12 = fig.add_subplot(222, polar=True)\nax12 = radar_histogram_3_levels(ax12, df_commuters_st_luke_office)\n\n\nax21 = fig.add_subplot(223, polar=True)\nax21 = radar_histogram(ax21, df_commuters_albert_road)\nax21.set_title(\"Albert Road Office\", y=1.08, x=1.1)\n\nax22 = fig.add_subplot(224, polar=True)\nax22 = radar_histogram_3_levels(ax22, df_commuters_albert_road)\n\n\nplt.plot()\n\nFrom the graphs above we can see that the office in Saint Luke is reasonably well balance across the location of the employees, overall, and splitting the commuters into three categories based on radial distance.\nThe same can not be said for the office located in Albert road office, whose employees should consider to relocate to an office further North-East."
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#can-we-do-better",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#can-we-do-better",
+    "title": "How well positioned is your office?",
+    "section": "Can we do better?",
+    "text": "Can we do better?\nFrom the question “Is your company office optimally located in respect to the position of its employees?”, we developed a small example of the geospatial data science capabilities to visualise the employees distribution around in respect to the position of their office, via the computation of bearing and distance, to see how off-center it can be, and in which direction it should be relocated to reduce the commuting distance for each employee. In doing so we showed how to download city boundaries from the OSM python API, how to intersect points in polygons, and how visualise geospatial data with Keplerl GL.\nThere are several limitations that are worth mentioning. The first and most obvious one is that the bearing and distance between office and residence is not a the single metric to justify an office relocation. From the point of view of the employee, there are other factors that have not been considered, such as commuting time, cost, frequency of commute, as well as the employee position in the company hierarchy and its “can’t bother” factor. This last metric, is an empirical one of the will (or lack thereof) to make a change, it is entirely based upon the individual opinion, taking into account for example possible facilities in the new office, traffic, proximity to children’s schools and so on. All these parameters has to be considered for the current office location and the potential new office location.\nFrom the point of view of the employer, there is of course the cost of the new office, as well as the cost of the move, as well as prestige of location in respect to possible investors.\nThe last limitation is obviously the dataset. The whole post was written around the toy dataset downloaded from the of Kepler GL examples page. Is it realistic enough or reliable? Can we for example make further analysis on the dataset and obtain some statistics and insights about commuters’ habits? We already noticed that some, if not all commuting locations coincided with the location of the offices. Can we do some further analysis to know how little we should trust the data? To answer this question, we can end up with some minimal data analysis to the dataset to see if the ratio of number of offices in respect to the number of employees is convincing.\n\nnumber_of_offices = len(df_commuter.groupby([\"workplace_lng\", \"workplace_lat\"]).count())\nnumber_of_residences = len(df_commuter.groupby([\"residence_lng\", \"residence_lat\"]).count())\n\nnumber_of_offices_in_london_and_city = len(df_commuter_london_office.groupby([\"workplace_lng\", \"workplace_lat\"]).count())\nnumber_of_residences_commuting_to_london_and_city = len(df_commuter_london_office.groupby([\"residence_lng\", \"residence_lat\"]).count())\n\ncommuters_office_ratio = number_of_residences / number_of_offices\ncommuters_office_ratio_in_london_and_city = number_of_residences_commuting_to_london_and_city / number_of_offices_in_london_and_city\n\nprint(f\"Number of offices in london and the city {number_of_offices_in_london_and_city} ({number_of_offices_in_london_and_city / number_of_offices} %)\")\nprint(f\"Number of residences commuting to london and the city {number_of_residences_commuting_to_london_and_city} ({number_of_residences_commuting_to_london_and_city / number_of_residences} %)\")\nprint(f\"Number of commuters residences per office {commuters_office_ratio}\")\nprint(f\"Number of commuters residences per office in london and the city {commuters_office_ratio_in_london_and_city}\")\n\nCertainly the ratio of commuter’s residences per office can tell us that there is something wrong with the dataset. We could speculated about the fact that the dataset is synthetically generated, or that the arrows direction was swapped when generating the dataset, or both. With no further information, we can only say that no analysis on this dataset can provide us with any reasonable answers or statistics to questions related to commuters in the UK. Nonetheless it is a useful dataset for visualistaion and toy exercises such as the one just presented."
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#resources",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#resources",
+    "title": "How well positioned is your office?",
+    "section": "Resources:",
+    "text": "Resources:\n\nhttps://geopandas.org/en/stable/index.html\nhttps://stackoverflow.com/questions/65064351/python-osmnx-how-to-download-a-city-district-map-from-openstreetmap-based-on-t\nhttps://gis.stackexchange.com/questions/343725/convert-geojson-to-geopandas-geodataframe\nhttps://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points\nhttps://anitagraser.github.io/movingpandas/#:~:text=MovingPandas%20is%20a%20Python%20library,movement%20data%20exploration%20and%20analysis\nhttps://stackoverflow.com/questions/17624310/geopy-calculating-gps-heading-bearing\nhttps://geodesy.noaa.gov/CORS/\nhttps://stackoverflow.com/questions/22562364/circular-polar-histogram-in-python\nhttps://stackoverflow.com/questions/12750355/python-matplotlib-figure-title-overlaps-axes-label-when-using-twiny\nhttps://www.dexplo.org/jupyter_to_medium/"
+  },
+  {
+    "objectID": "posts/2022-07-29-office-pos/geods/index.html#also-source-of-inspiration-for-writing-this-blog-post",
+    "href": "posts/2022-07-29-office-pos/geods/index.html#also-source-of-inspiration-for-writing-this-blog-post",
+    "title": "How well positioned is your office?",
+    "section": "Also source of inspiration for writing this blog post:",
+    "text": "Also source of inspiration for writing this blog post:\n\nMaxime Labonne\nKhuyen Tran\nAbdishakur\nHerbert Lui"
+  }
+]
