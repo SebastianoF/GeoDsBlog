@@ -42,7 +42,7 @@ website:
       # - text: Resume
       #   href: https://beatrizmilz.github.io/resume/index.pdf
       # - icon: github
-      #   href: https://github.com/SebastianoF/AlgoCorner
+      #   href: https://github.com/SebastianoF/GeoDsBlog
 
 format:
   html:
