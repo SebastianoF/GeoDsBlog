@@ -126,6 +126,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -229,9 +232,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#how-well-positioned-is-your-office" id="toc-how-well-positioned-is-your-office" class="nav-link active" data-scroll-target="#how-well-positioned-is-your-office">How well positioned is your office?</a>
   <ul class="collapse">
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a></li>
   <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem statement</a></li>
-  <li><a href="#setup-and-requirements" id="toc-setup-and-requirements" class="nav-link" data-scroll-target="#setup-and-requirements">Setup and Requirements</a></li>
+  <li><a href="#setup-and-requirements" id="toc-setup-and-requirements" class="nav-link" data-scroll-target="#setup-and-requirements">Setup and requirements</a></li>
   <li><a href="#download-and-visualise-the-dataset" id="toc-download-and-visualise-the-dataset" class="nav-link" data-scroll-target="#download-and-visualise-the-dataset">Download and visualise the dataset</a></li>
   <li><a href="#narrow-the-dataset-to-the-city-of-london" id="toc-narrow-the-dataset-to-the-city-of-london" class="nav-link" data-scroll-target="#narrow-the-dataset-to-the-city-of-london">Narrow the dataset to the city of London</a></li>
   <li><a href="#select-the-office-location" id="toc-select-the-office-location" class="nav-link" data-scroll-target="#select-the-office-location">Select the office location</a></li>
@@ -252,201 +254,538 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<figure class="figure">
-<img src="images/cover.png" title="Employees location respect to their office - Kepler and seaborn" class="img-fluid figure-img">
-</figure>
-<p></p><figcaption class="figure-caption">Employees location respect to their office</figcaption><p></p>
+<p><img src="images/cover.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Employees location respect to their office - Kepler and seaborn</figcaption><p></p>
 </figure>
 </div>
+<p><em>This article was first published: 24 April 2022 on <a href="https://medium.com/@sebastianof/how-well-positioned-is-your-office-8517256c497e">medium</a>. A second attempt to render both LaTeX and code was tried over <a href="https://geods.hashnode.dev">geods.hashnode.dev</a>. The current attempt on quarto is the maintained one.</em></p>
 <section id="how-well-positioned-is-your-office" class="level1">
 <h1>How well positioned is your office?</h1>
-<section id="content" class="level3">
-<h3 class="anchored" data-anchor-id="content">Content</h3>
-<ol type="1">
-<li>Problem statement</li>
-<li>Setup and requirements</li>
-<li>Download and visualise the dataset</li>
-<li>Narrow the dataset to the city of London</li>
-<li>Select the office location</li>
-<li>Compute bearing and distance from the selected office to all the commuters residences</li>
-<li>Visualise the results in a radar-histogram plot</li>
-<li>Can we do better?</li>
-</ol>
-</section>
+<p>Have you ever wondered if your office has the ideal location in respect to your house and your colleagues’ houses? Imagine to discover that not only you, but also all your colleagues are located South of your office. How much time and money would all you and your colleague save if the office were to be relocated closer to where everyone lives?</p>
+<p>In this blog post we explore some simple techniques from geospatial data science to investigate an instance of this problem and to visualise the situation on an interactive map.</p>
+<p>You can setup your own Jupyter Notebook and python environment, and copy paste the code, or directly clone the repository from https://github.com/SebastianoF/GeoDsBlog.</p>
 <section id="problem-statement" class="level2">
 <h2 class="anchored" data-anchor-id="problem-statement">Problem statement</h2>
+<p><a href="https://geographicdata.science/book/intro.html">Geospatial data science</a> is the branch of data science transforming geospatial data into valuable insights through the application of the scientific method. In this tutorial we use its principles to find the answer to a very simple question:</p>
 <blockquote class="blockquote">
 <p>Is your company office optimally located in respect to the position of its employees?</p>
 </blockquote>
+<p>Discovering that all the employees are located South in respect to the position of the office, would inform the decision of saving everyone time and money.</p>
+<p>I will provide a methodology to answer this question in the specific case of the city of <strong>London</strong>.</p>
+<p>You will be using the following components:</p>
+<ul>
+<li>A python interpreter with the required libraries pre-installed — virtualenv or conda environment.</li>
+<li>Kepler GL, for results visualisation and user queries</li>
+<li>The ukcommute dataset from Keper Gl website.</li>
+<li>osmnx to narrow down the dataset’s offices located within the borders of London.</li>
+<li>A handful of Python functions to compute distances and angles on the surface of a sphere and to visualise some results.</li>
+</ul>
 </section>
 <section id="setup-and-requirements" class="level2">
-<h2 class="anchored" data-anchor-id="setup-and-requirements">Setup and Requirements</h2>
-<p>Conda environment:</p>
-<pre><code>conda create -n geods python=3.9
-conda activate geods</code></pre>
-<p>Requirements:</p>
-<pre><code># requirements.txt
-geopandas==0.10.2
-jupyter==1.0.0
-keplergl==0.3.2
-matplotlib==3.5.1
-osmnx==1.1.2
-pandas==1.4.2
-seaborn==0.11.2</code></pre>
+<h2 class="anchored" data-anchor-id="setup-and-requirements">Setup and requirements</h2>
+<p>There are several options to create a python 3.9 environment, the code below uses conda:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> geods python=3.9</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate geods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With the environment activated, install the requirements listed below:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># requirements.txt</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">geopandas</span><span class="op">=</span>=0.10.2</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">jupyter</span><span class="op">=</span>=1.0.0</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">keplergl</span><span class="op">=</span>=0.3.2</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">matplotlib</span><span class="op">=</span>=3.5.1</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="va">osmnx</span><span class="op">=</span>=1.1.2</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="va">pandas</span><span class="op">=</span>=1.4.2</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">seaborn</span><span class="op">=</span>=0.11.2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can install each library individually with the pip command <code>pip install &lt;copy paste each line here&gt;</code>, or you can copy paste all the <a href="https://note.nkmk.me/en/python-pip-install-requirements/">requirements</a> in a file in the root of your project <code>requirements.txt</code> and install them all in one go via:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now all should be ready and set up to go!</p>
+<p>Before starting, as the interactive maps of Kepler can not be embedded in the static webpage of quarto (yet!) we set a notebook variable to suppress the kepler outputs and return a screenshots instead.</p>
+<p>This is to improve the appearance of the article published on the blog. You can turn the variable to <code>True</code> when running the code from the notebook.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># Render kepler output if True. A screenshot otherwise</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="download-and-visualise-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="download-and-visualise-the-dataset">Download and visualise the dataset</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> contextily <span class="im">as</span> cx</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After importing the required library with…</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> contextily <span class="im">as</span> cx</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># About 10 seconds</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_commuter <span class="op">=</span> pd.read_csv(<span class="st">"https://github.com/uber-web/kepler.gl-data/raw/master/ukcommute/data.csv"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_commuter.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>…we can download the chosen dataset using pandas read_csv method:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># About 10 seconds</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df_commuter <span class="op">=</span> pd.read_csv(<span class="st">"https://github.com/uber-web/kepler.gl-data/raw/master/ukcommute/data.csv"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df_commuter.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>workplace_lng</th>
+      <th>workplace_lat</th>
+      <th>residence_lng</th>
+      <th>all_flows</th>
+      <th>residence_lat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-2.992287</td>
+      <td>53.410907</td>
+      <td>-3.016558</td>
+      <td>256</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-3.016558</td>
+      <td>53.487704</td>
+      <td>-3.016558</td>
+      <td>236</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-2.993589</td>
+      <td>53.450009</td>
+      <td>-3.016558</td>
+      <td>209</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-3.026089</td>
+      <td>53.478898</td>
+      <td>-3.016558</td>
+      <td>188</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-2.977089</td>
+      <td>53.406397</td>
+      <td>-3.016558</td>
+      <td>142</td>
+      <td>53.487704</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'version'</span>: <span class="st">'v1'</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'config'</span>: {</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mapState'</span>: {</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">'latitude'</span>: <span class="fl">51.536265</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">'longitude'</span>: <span class="op">-</span><span class="fl">0.039740</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">'zoom'</span>: <span class="dv">10</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>map_1 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'commuters'</span>: df_commuter}, config<span class="op">=</span>config, height<span class="op">=</span><span class="dv">800</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>display(map_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_commuter.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>workplace_lng</th>
+      <th>workplace_lat</th>
+      <th>residence_lng</th>
+      <th>all_flows</th>
+      <th>residence_lat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-2.992287</td>
+      <td>53.410907</td>
+      <td>-3.016558</td>
+      <td>256</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-3.016558</td>
+      <td>53.487704</td>
+      <td>-3.016558</td>
+      <td>236</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-2.993589</td>
+      <td>53.450009</td>
+      <td>-3.016558</td>
+      <td>209</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-3.026089</td>
+      <td>53.478898</td>
+      <td>-3.016558</td>
+      <td>188</td>
+      <td>53.487704</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-2.977089</td>
+      <td>53.406397</td>
+      <td>-3.016558</td>
+      <td>142</td>
+      <td>53.487704</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'version'</span>: <span class="st">'v1'</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'config'</span>: {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mapState'</span>: {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">'latitude'</span>: <span class="fl">51.536265</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">'longitude'</span>: <span class="op">-</span><span class="fl">0.039740</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">'zoom'</span>: <span class="dv">10</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    map_1 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'commuters'</span>: df_commuter}, config<span class="op">=</span>config, height<span class="op">=</span><span class="dv">800</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    display(map_1)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/map1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>At this point, you are invited to <strong>create the map on your own Jupyter notebook</strong>, to look into Kepler GL. This tool is developed by Uber, and if you have not used it before it is worth spending some time playing around with layers, colours and filters, and changing the map tiles (dark, light, satellite, etc…).</p>
+<p>Kepler automatically recognises and formats the input DataFrame into independent layers, whose colour and features can be toggled and modified in the sidebar. The input DataFrame is passed as a value of the input dictionary with key <code>commuters</code>.</p>
+<p>For each row the dataset has two sets of points, <code>workplace</code> and <code>residence</code>, and each edge between two points on the same row is weighted by the integer column <code>all_flows</code>, that we can interpret as the number of times the commuter walked through the path over the period of the data collection. Note that this dataset has no timestamp, and from the dataset alone we can not tell the period the data was collected for.</p>
+<p>Also, by observing the precision in the locations for multiple travels, and by the fact that <strong>there are workplaces in impossible locations</strong>, such as the centre of Richmond Park, we may suspect this is not real data (browse around the dataset to find more). Or if it is real data, some heavy pre-processing have happened beforehand, such as outlier detection, complete case analysis, and clustering or averaging of sets of nearby locations.</p>
+<section id="a-note-on-kepler-settings" class="level4">
+<h4 class="anchored" data-anchor-id="a-note-on-kepler-settings">A note on Kepler settings</h4>
+<p>After changing the settings in the Kepler map, you can export them as a json <code>config</code> file with <code>map_1.config</code>, and re-import it when creating a new map. To limit the length of this post we have omitted the config used to re-create the images appearing across the post, but you can retrieve them from the <code>config</code> folder on the linked repo at:</p>
+<p><a href="https://github.com/SebastianoF/GeoDsBlog/tree/master/posts/gds-2022-07-29-office-pos">https://github.com/SebastianoF/GeoDsBlog/tree/master/posts/gds-2022-07-29-office-pos</a></p>
+<p>If you are not following the code from the repo, or the configs from the <code>kepler_config.py</code> module are not imported, then the cells below will be loading the previous config file as its default.</p>
+</section>
 </section>
 <section id="narrow-the-dataset-to-the-city-of-london" class="level2">
 <h2 class="anchored" data-anchor-id="narrow-the-dataset-to-the-city-of-london">Narrow the dataset to the city of London</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>osmnx.config(use_cache<span class="op">=</span><span class="va">True</span>, log_console<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gdf_concat(list_gdf: <span class="bu">list</span>):</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame( pd.concat(list_gdf, ignore_index<span class="op">=</span><span class="va">True</span>)) </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>query_city <span class="op">=</span> {<span class="st">'city'</span>: <span class="st">'City of London'</span>}</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>query_london <span class="op">=</span> {<span class="st">'city'</span>: <span class="st">'London'</span>}</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf_concat([osmnx.geocode_to_gdf(query_city), osmnx.geocode_to_gdf(query_london)])</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>gdf.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Early stage explorations indicate that the dataset covers the whole of England and Wales. Also toggling the layers, or making the workplace radii smaller and selecting a different colorscale than the residences, we can see that in many cases some <strong>some workplaces are coincident with the residences</strong>. For the moment, and for the goals of this post, this problem is of no concern.</p>
+<p>As what we want to do is to assess the <strong>optimality of a location within the boundaries of London</strong>, the first thing to do is to download the city boundaries and then reduce the dataset to the offices located within these boundaries.</p>
+<p>The geometry of a boundary can be encoded as a shapely polygon, and embedded into a <em>geopandas dataframe</em>: a pandas dataframe equipped with a column named <code>geometry</code> containing a shapely object. We can download the polygon from *Open Street Map**, the open source initiative providing the users with a free editable geographic database of the world.</p>
+<p>Fear not, you are not asked to open a new tab on the browser and download the maps from the osm website! The maps can be downloaded programmatically via the very handy <code>osmnx</code> python library, and via its method <code>osmnx.geocode_to_gdf</code>.</p>
+<p>Note that we will query both <strong>London</strong> and the <strong>City of London</strong> geometries, in order to filter the workplace points in our dataset appearing in the union of these two regions.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>osmnx.config(use_cache<span class="op">=</span><span class="va">True</span>, log_console<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gdf_concat(list_gdf: <span class="bu">list</span>):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame( pd.concat(list_gdf, ignore_index<span class="op">=</span><span class="va">True</span>)) </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>query_city <span class="op">=</span> {<span class="st">'city'</span>: <span class="st">'City of London'</span>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>query_london <span class="op">=</span> {<span class="st">'city'</span>: <span class="st">'London'</span>}</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf_concat([osmnx.geocode_to_gdf(query_city), osmnx.geocode_to_gdf(query_london)])</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>gdf.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>geometry</th>
+      <th>bbox_north</th>
+      <th>bbox_south</th>
+      <th>bbox_east</th>
+      <th>bbox_west</th>
+      <th>place_id</th>
+      <th>osm_type</th>
+      <th>osm_id</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>display_name</th>
+      <th>class</th>
+      <th>type</th>
+      <th>importance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>POLYGON ((-0.11383 51.51826, -0.11380 51.51812...</td>
+      <td>51.523312</td>
+      <td>51.50687</td>
+      <td>-0.072747</td>
+      <td>-0.113830</td>
+      <td>297653298</td>
+      <td>relation</td>
+      <td>51800</td>
+      <td>51.515618</td>
+      <td>-0.091998</td>
+      <td>City of London, Greater London, England, Unite...</td>
+      <td>boundary</td>
+      <td>administrative</td>
+      <td>0.886511</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>POLYGON ((-0.51038 51.46809, -0.51036 51.46795...</td>
+      <td>51.691874</td>
+      <td>51.28676</td>
+      <td>0.334016</td>
+      <td>-0.510375</td>
+      <td>344385499</td>
+      <td>relation</td>
+      <td>65606</td>
+      <td>51.507322</td>
+      <td>-0.127647</td>
+      <td>London, Greater London, England, United Kingdom</td>
+      <td>place</td>
+      <td>city</td>
+      <td>0.940783</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gdf_epsg <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> gdf_epsg.plot(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>), alpha<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cx.add_basemap(ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_2</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span> config_map_2</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>map_2 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'london'</span> :gdf_epsg}, config<span class="op">=</span>config, height<span class="op">=</span><span class="dv">800</span>)  <span class="co"># kepler knows what to do when fed with a geodataframe</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>display(map_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -- about 17 seconds --</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gdf_commuters_workplace <span class="op">=</span> gpd.GeoDataFrame(df_commuter.copy(), geometry<span class="op">=</span>gpd.points_from_xy(df_commuter.workplace_lng, df_commuter.workplace_lat))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># -- about 120 seconds: points in polygon </span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>mask_points_in_city <span class="op">=</span> gdf_commuters_workplace.intersects(gdf.geometry.iloc[<span class="dv">0</span>])</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>mask_points_in_london <span class="op">=</span> gdf_commuters_workplace.intersects(gdf.geometry.iloc[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Before continuing, it would be good to visualise the polygons we just downloaded. There are multiple ways to do this. For example we can use <em>contextility</em> as a basemap and use the embedded method plot of a geopandas dataframe.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gdf_epsg <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> gdf_epsg.plot(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>), alpha<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cx.add_basemap(ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>num_total_rows <span class="op">=</span> <span class="bu">len</span>(gdf_commuters_workplace)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>num_rows_in_city <span class="op">=</span> <span class="bu">len</span>(mask_points_in_city[mask_points_in_city <span class="op">==</span> <span class="va">True</span>])</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>num_rows_in_london <span class="op">=</span> <span class="bu">len</span>(mask_points_in_london[mask_points_in_london <span class="op">==</span> <span class="va">True</span>])</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of rows for offices in the city </span><span class="sc">{</span>num_rows_in_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_city <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of rows for offices in london </span><span class="sc">{</span>num_rows_in_london<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_london <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>mask_union <span class="op">=</span> mask_points_in_city <span class="op">|</span> mask_points_in_london</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>num_rows_in_union <span class="op">=</span> mask_union.<span class="bu">sum</span>()</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of offices in the union of London and the City </span><span class="sc">{</span>num_rows_in_union<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_union <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> num_rows_in_union <span class="op">==</span> num_rows_in_city <span class="op">+</span> num_rows_in_london</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>df_commuter_london_office <span class="op">=</span> df_commuter[mask_union]</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>df_commuter_london_office.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_3</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_2</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    config_map_3 <span class="op">=</span> config</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span> config_map_2</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the config_3 in kepler_config.py in the repo to reproduce the same image</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>map_3 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'london'</span>:gdf_epsg.copy(),  <span class="st">"commuters"</span>: df_commuter_london_office.copy()}, config<span class="op">=</span>config_map_3, height<span class="op">=</span><span class="dv">800</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>display(map_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    map_2 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'london'</span> :gdf_epsg}, config<span class="op">=</span>config, height<span class="op">=</span><span class="dv">800</span>)  <span class="co"># kepler knows what to do when fed with a geodataframe</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    display(map_2)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/map2.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
+</div>
+<p>To narrow the commuter dataset to only the offices within the boundary of London, first we cast <code>df_commuter</code> into a geopandas DataFrame with the geometry column having for each entry the shapely point of the workplace coordinate.</p>
+<p>Then we use this new geodataframe to obtain the mask of the point within the boundaries, and finally we apply the mask to the initial <code>df_commuter</code> dataset. Since we are here, we also take a look at the percentage of the offices that are in London over the full dataset (you are of course invited to look into other statistics).</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -- about 17 seconds --</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf_commuters_workplace <span class="op">=</span> gpd.GeoDataFrame(df_commuter.copy(), geometry<span class="op">=</span>gpd.points_from_xy(df_commuter.workplace_lng, df_commuter.workplace_lat))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># -- about 120 seconds: points in polygon </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>mask_points_in_city <span class="op">=</span> gdf_commuters_workplace.intersects(gdf.geometry.iloc[<span class="dv">0</span>])</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>mask_points_in_london <span class="op">=</span> gdf_commuters_workplace.intersects(gdf.geometry.iloc[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>num_total_rows <span class="op">=</span> <span class="bu">len</span>(gdf_commuters_workplace)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>num_rows_in_city <span class="op">=</span> <span class="bu">len</span>(mask_points_in_city[mask_points_in_city <span class="op">==</span> <span class="va">True</span>])</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>num_rows_in_london <span class="op">=</span> <span class="bu">len</span>(mask_points_in_london[mask_points_in_london <span class="op">==</span> <span class="va">True</span>])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of rows for offices in the city </span><span class="sc">{</span>num_rows_in_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_city <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of rows for offices in london </span><span class="sc">{</span>num_rows_in_london<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_london <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mask_union <span class="op">=</span> mask_points_in_city <span class="op">|</span> mask_points_in_london</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>num_rows_in_union <span class="op">=</span> mask_union.<span class="bu">sum</span>()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of offices in the union of London and the City </span><span class="sc">{</span>num_rows_in_union<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> num_rows_in_union <span class="op">/</span> num_total_rows<span class="sc">}</span><span class="ss"> %)"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> num_rows_in_union <span class="op">==</span> num_rows_in_city <span class="op">+</span> num_rows_in_london</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>df_commuter_london_office <span class="op">=</span> df_commuter[mask_union]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>df_commuter_london_office.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df_commuter_london_office.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of rows for offices in the city 4507 (0.663142267337411 %)
+Number of rows for offices in london 139512 (20.52724739311668 %)
+Number of offices in the union of London and the City 144019 (21.19038966045409 %)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>workplace_lng</th>
+      <th>workplace_lat</th>
+      <th>residence_lng</th>
+      <th>all_flows</th>
+      <th>residence_lat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.096124</td>
+      <td>51.502618</td>
+      <td>-2.258075</td>
+      <td>14</td>
+      <td>53.406096</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.064385</td>
+      <td>51.490614</td>
+      <td>-1.633650</td>
+      <td>11</td>
+      <td>54.380373</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.064385</td>
+      <td>51.490614</td>
+      <td>-1.731036</td>
+      <td>27</td>
+      <td>54.408769</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.094986</td>
+      <td>51.519522</td>
+      <td>-1.818510</td>
+      <td>14</td>
+      <td>53.925985</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.094986</td>
+      <td>51.519522</td>
+      <td>-1.081245</td>
+      <td>14</td>
+      <td>53.958359</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_3</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    config_map_3 <span class="op">=</span> config</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the config_3 in kepler_config.py in the repo to reproduce the same image</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    map_3 <span class="op">=</span> KeplerGl(data<span class="op">=</span>{<span class="st">'london'</span>:gdf_epsg.copy(),  <span class="st">"commuters"</span>: df_commuter_london_office.copy()}, config<span class="op">=</span>config_map_3, height<span class="op">=</span><span class="dv">800</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    display(map_3)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/map3.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>As noted before, many of the workplaces and residences have the same coordinates and are overlapping on the map. Also in the dataset reduced to the boundaries of London residences and offices are overlapping, but outside the boundary, as expected, there are only residences.</p>
 </section>
 <section id="select-the-office-location" class="level2">
 <h2 class="anchored" data-anchor-id="select-the-office-location">Select the office location</h2>
-<p>Geometry drawn by hand on Kepler GL and copy-pasted below</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>polygon_st_luke_office <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="op">-</span><span class="fl">0.0930210043528368</span>,<span class="fl">51.52553386809767</span>],[<span class="op">-</span><span class="fl">0.09362754938510826</span>,<span class="fl">51.5257442611004</span>],[<span class="op">-</span><span class="fl">0.09398505401347826</span>,<span class="fl">51.52546150215205</span>],[<span class="op">-</span><span class="fl">0.09363181940230854</span>,<span class="fl">51.525218817282784</span>],[<span class="op">-</span><span class="fl">0.09313761642997592</span>,<span class="fl">51.52527679524477</span>],[<span class="op">-</span><span class="fl">0.0930210043528368</span>,<span class="fl">51.52553386809767</span>]]]}</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>polygon_albert_road <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">0.05074120549614755</span>,<span class="fl">51.503014231092195</span>],[<span class="fl">0.04882522609357891</span>,<span class="fl">51.50189434877025</span>],[<span class="fl">0.051410997081145014</span>,<span class="fl">51.49996117091324</span>],[<span class="fl">0.05337913172491038</span>,<span class="fl">51.501678115383754</span>],[<span class="fl">0.05074120549614755</span>,<span class="fl">51.503014231092195</span>]]]}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the goal is to select a single office of interest (or a group of nearby offices), and to examine its location in respect to the location of the employees. The functionality of drawing polygons provided by Kepler Gl comes in handy for this purpose.</p>
+<p>On the top right menu, selecting the “draw on map” button we can narrow down a region and copy its geometry to clipboard right-clicking on the completed polygon. We can then paste the geometry in the cell of our Jupyter notebook.</p>
+<p>The geometry, encoded in a json, can be then parsed into a <strong>shapely polygon</strong>.</p>
+<p>As an example we copy pasted two polygons in the cell below (you are invited to continue the tutorial with your own regions though!). The first one encompasses an office in St Luke’s Close, the closest office to the silicon roundabout, Old Street, and the second one in Albert Road, just between the London city airport and the river Thames.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>polygon_st_luke_office <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="op">-</span><span class="fl">0.0930210043528368</span>,<span class="fl">51.52553386809767</span>],[<span class="op">-</span><span class="fl">0.09362754938510826</span>,<span class="fl">51.5257442611004</span>],[<span class="op">-</span><span class="fl">0.09398505401347826</span>,<span class="fl">51.52546150215205</span>],[<span class="op">-</span><span class="fl">0.09363181940230854</span>,<span class="fl">51.525218817282784</span>],[<span class="op">-</span><span class="fl">0.09313761642997592</span>,<span class="fl">51.52527679524477</span>],[<span class="op">-</span><span class="fl">0.0930210043528368</span>,<span class="fl">51.52553386809767</span>]]]}</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>polygon_albert_road <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">0.05074120549614755</span>,<span class="fl">51.503014231092195</span>],[<span class="fl">0.04882522609357891</span>,<span class="fl">51.50189434877025</span>],[<span class="fl">0.051410997081145014</span>,<span class="fl">51.49996117091324</span>],[<span class="fl">0.05337913172491038</span>,<span class="fl">51.501678115383754</span>],[<span class="fl">0.05074120549614755</span>,<span class="fl">51.503014231092195</span>]]]}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># narrow dataset to the geometry</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mask_st_luke_office <span class="op">=</span> gdf_commuters_workplace.intersects(shape(polygon_st_luke_office))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>df_commuters_st_luke_office <span class="op">=</span> df_commuter[mask_st_luke_office]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># embed shape into a geopandas to visualise in kepler</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>gdf_st_luke_geometry <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>:[shape(polygon_st_luke_office)], <span class="st">"display_name"</span>: [<span class="st">"St Luke's Close Office"</span>]})</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Same for Albert Road office</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>mask_albert_road <span class="op">=</span> gdf_commuters_workplace.intersects(shape(polygon_albert_road))</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>df_commuters_albert_road <span class="op">=</span> df_commuter[mask_albert_road]</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>gdf_albert_road <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>:[shape(polygon_albert_road)], <span class="st">"display_name"</span>: [<span class="st">"St Luke's Close Office"</span>]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next we narrow the office locations to the selected geometry, embed the geometry in a geopandas DataFrame, and feed the result to a Kepler map to visualise where we are at.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># narrow dataset to the geometry</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mask_st_luke_office <span class="op">=</span> gdf_commuters_workplace.intersects(shape(polygon_st_luke_office))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df_commuters_st_luke_office <span class="op">=</span> df_commuter[mask_st_luke_office]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># embed shape into a geopandas to visualise in kepler</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>gdf_st_luke_geometry <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>:[shape(polygon_st_luke_office)], <span class="st">"display_name"</span>: [<span class="st">"St Luke's Close Office"</span>]})</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Same for Albert Road office</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>mask_albert_road <span class="op">=</span> gdf_commuters_workplace.intersects(shape(polygon_albert_road))</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>df_commuters_albert_road <span class="op">=</span> df_commuter[mask_albert_road]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>gdf_albert_road <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>:[shape(polygon_albert_road)], <span class="st">"display_name"</span>: [<span class="st">"St Luke's Close Office"</span>]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_4</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    config_map_4 <span class="op">=</span> config</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>map_4 <span class="op">=</span> KeplerGl(</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>{</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"St Luke's Close Office"</span>: gdf_st_luke_geometry.copy(),  </span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"commuters to St Luke"</span>: df_commuters_st_luke_office.copy(),</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Albert Road Office"</span>: gdf_albert_road.copy(),</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"commuters to Albert"</span>: df_commuters_albert_road.copy(),</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    }, </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>config_map_4, </span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>)  <span class="co"># kepler knows what to do when fed with a geodataframe</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>display(map_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> kepler_config <span class="im">import</span> config_map_4</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    config_map_4 <span class="op">=</span> config</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    map_4 <span class="op">=</span> KeplerGl(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>{</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"St Luke's Close Office"</span>: gdf_st_luke_geometry.copy(),  </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"commuters to St Luke"</span>: df_commuters_st_luke_office.copy(),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Albert Road Office"</span>: gdf_albert_road.copy(),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"commuters to Albert"</span>: df_commuters_albert_road.copy(),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        }, </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_4, </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>)  <span class="co"># kepler knows what to do when fed with a geodataframe</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    display(map_4)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/map4.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Commuters to St Luke office </span><span class="sc">{</span><span class="bu">len</span>(df_commuters_st_luke_office)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_commuters_st_luke_office) <span class="op">/</span> <span class="bu">len</span>(df_commuter)<span class="sc">}</span><span class="ss"> %)"</span> )</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Commuters to Albert Road office </span><span class="sc">{</span><span class="bu">len</span>(df_commuters_albert_road)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span>  <span class="bu">len</span>(df_commuters_albert_road) <span class="op">/</span> <span class="bu">len</span>(df_commuter)<span class="sc">}</span><span class="ss"> %)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Commuters to St Luke office </span><span class="sc">{</span><span class="bu">len</span>(df_commuters_st_luke_office)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_commuters_st_luke_office) <span class="op">/</span> <span class="bu">len</span>(df_commuter), <span class="dv">4</span>)<span class="sc">}</span><span class="ss"> %)"</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Commuters to Albert Road office </span><span class="sc">{</span><span class="bu">len</span>(df_commuters_albert_road)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span>  <span class="bu">len</span>(df_commuters_albert_road) <span class="op">/</span> <span class="bu">len</span>(df_commuter), <span class="dv">4</span>)<span class="sc">}</span><span class="ss"> %)"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Commuters to St Luke office 2197 (0.3233 %)
+Commuters to Albert Road office 225 (0.0331 %)</code></pre>
+</div>
 </div>
 </section>
 <section id="compute-bearing-and-distance-of-all-the-commuters-to-the-selected-office" class="level2">
 <h2 class="anchored" data-anchor-id="compute-bearing-and-distance-of-all-the-commuters-to-the-selected-office">Compute bearing and distance of all the commuters to the selected office</h2>
-<p>Given two points <span class="math inline">\((\text{lng1}, \text{lat1})\)</span> and <span class="math inline">\((\text{lng2}, \text{lat2})\)</span> the Haversine formula (geodesic distance on the sphere) is: <span class="math display">\[
-\mathcal{H} = 2 * R * \arcsin\left(\sqrt{d}~\right)~,
-\]</span> where <span class="math display">\[
-d = \sin^2 \left(\frac{\Delta \text{lat}}{2} \right) + \cos(\text{lat1}) \cos(\text{lat2})  \sin^2\left(\frac{\Delta \text{lon}}{2}\right)~,
-\]</span> and <span class="math inline">\(\Delta \text{lat} = \text{lat1} - \text{lat2}\)</span>, <span class="math inline">\(\Delta \text{lon} = \text{lon1} - \text{lon2}\)</span>, and <span class="math inline">\(R\)</span> is the hearth’s radius.</p>
-<p>The formula for the bearing, as the angle formed by the geodesics between the north pole and <span class="math inline">\((\text{lng1}, \text{lat1})\)</span>, and the geodesic between <span class="math inline">\((\text{lng1}, \text{lat1})\)</span> and <span class="math inline">\((\text{lng2}, \text{lat2})\)</span> is (in radiants): <span class="math display">\[
+<p>Now that we have the dataset of commuters to two custom selected offices in London, we want to compute the bearing and distance from the office to each employees residence.</p>
+<p>There are multiple ways to achieve this result, such as using one of the many python libraries, as haversine, geopy, geographiclib… As our goal is to learn some tools from geodata science, we will try to implement the formulae from scratch.</p>
+<p>Given two points (lng1, lat1) and (lng2, lat2), the Haversine formula (geodesic distance on the sphere) is given by:</p>
+<p><span class="math display">\[
+\mathcal{H} = 2 * R * \arcsin\left(\sqrt{d}\right)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+d = \sin^2 \left(\frac{\Delta \text{lat}}{2} \right) + \cos(\text{lat1}) \cos(\text{lat2})  \sin^2\left(\frac{\Delta \text{lon}}{2}\right)
+\]</span></p>
+<p>and <span class="math inline">\(\Delta \text{lat} = \text{lat1} - \text{lat2}\)</span>, <span class="math inline">\(\Delta \text{lon} = \text{lon1} - \text{lon2}\)</span>, and <span class="math inline">\(R\)</span> is the hearth’s radius.</p>
+<p>The formula for the bearing, as the angle formed by the geodesics between the north pole and (lng1, lat1), and the geodesic between (lng1, lat1) and (lng2, lat2) is, in radiants:</p>
+<p><span class="math display">\[
 \mathcal{B} = \arctan\left(
     \frac{
         \sin(\Delta \text{lon}) \cos(\text{lat2})
@@ -455,172 +794,323 @@ d = \sin^2 \left(\frac{\Delta \text{lat}}{2} \right) + \cos(\text{lat1}) \cos(\t
     }
 \right)
 \]</span></p>
-<p>Both formulae are based on the spherical model, not on the geospatial data science the standard model is the ellipsoid model <code>World Geodesic System 1984 (WGS84)</code>. Exposing the reason why these formulae above are correct, and generalising them for the WGS84 model (the Vincenty’s formulae), would entail expanding the blog post beyond reason. This topic is therefore left as future work.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> radians</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine(lng1: <span class="bu">float</span>, lat1: <span class="bu">float</span>, lng2: <span class="bu">float</span>, lat2: <span class="bu">float</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">float</span>, <span class="bu">float</span>]:</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" returns (haversine distance in km, bearing in degrees from point 1 to point 2), vectorised """</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    avg_earth_radius_km <span class="op">=</span> <span class="fl">6371.0072</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    lng1, lat1, lng2, lat2 <span class="op">=</span> <span class="bu">map</span>(np.deg2rad, [lng1, lat1, lng2, lat2])</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    d_lat, d_lng <span class="op">=</span> lat2 <span class="op">-</span> lat1, lng2 <span class="op">-</span> lng1</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> np.sin((d_lat)<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.cos(lat1)<span class="op">*</span>np.cos(lat2) <span class="op">*</span> np.sin((d_lng)<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    hav_dist <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> avg_earth_radius_km <span class="op">*</span> np.arcsin(np.sqrt(d))</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.sin(d_lng) <span class="op">*</span> np.cos(lat2)</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.cos(lat1) <span class="op">*</span> np.sin(lat2) <span class="op">-</span> np.sin(lat1) <span class="op">*</span> np.cos(lat2) <span class="op">*</span> np.cos(d_lng)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    bearing <span class="op">=</span> (np.arctan2(y, x) <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.pi) <span class="op">%</span> (<span class="dv">2</span> <span class="op">*</span> np.pi)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_dist, np.rad2deg(bearing)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_bearing_deg_and_distance_km(df: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""bearing between A and B is the angle between the geodesics connecting A and the north pole, and the geodesics connecting A and B.</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">    Both the bearing and distance are computed on the Spherical model.</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.copy()</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    lng_work, lat_work <span class="op">=</span> df.workplace_lng.to_numpy(), df.workplace_lat.to_numpy()</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    lng_home, lat_home <span class="op">=</span> df.residence_lng.to_numpy(), df.residence_lat.to_numpy()</span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"distance_km"</span>], df[<span class="st">"bearing_deg"</span>] <span class="op">=</span> haversine(lng_work, lat_work, lng_home, lat_home)</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both formulae are based on the spherical model, which is a reasonable approximation, though in geospatial data science the standard model is the ellipsoid model <strong>World Geodesics System 1984 (WGS84)</strong>, where the distance between the centre and the equator is higher than the distance between the centre and the poles by about 31 Km.</p>
+<p>Exposing the reason why these formulae above are correct, and generalising them for the WGS84 model (the Vincenty’s formulae), would entail expanding the blog post beyond reason. This topic is therefore left as future work, or to the reader.</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> radians</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine(lng1: <span class="bu">float</span>, lat1: <span class="bu">float</span>, lng2: <span class="bu">float</span>, lat2: <span class="bu">float</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">float</span>, <span class="bu">float</span>]:</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" returns (haversine distance in km, bearing in degrees from point 1 to point 2), vectorised """</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    avg_earth_radius_km <span class="op">=</span> <span class="fl">6371.0072</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    lng1, lat1, lng2, lat2 <span class="op">=</span> <span class="bu">map</span>(np.deg2rad, [lng1, lat1, lng2, lat2])</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    d_lat, d_lng <span class="op">=</span> lat2 <span class="op">-</span> lat1, lng2 <span class="op">-</span> lng1</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> np.sin((d_lat)<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.cos(lat1)<span class="op">*</span>np.cos(lat2) <span class="op">*</span> np.sin((d_lng)<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    hav_dist <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> avg_earth_radius_km <span class="op">*</span> np.arcsin(np.sqrt(d))</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.sin(d_lng) <span class="op">*</span> np.cos(lat2)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.cos(lat1) <span class="op">*</span> np.sin(lat2) <span class="op">-</span> np.sin(lat1) <span class="op">*</span> np.cos(lat2) <span class="op">*</span> np.cos(d_lng)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    bearing <span class="op">=</span> (np.arctan2(y, x) <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.pi) <span class="op">%</span> (<span class="dv">2</span> <span class="op">*</span> np.pi)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_dist, np.rad2deg(bearing)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_bearing_deg_and_distance_km(df: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""bearing between A and B is the angle between the geodesics connecting A and the north pole, and the geodesics connecting A and B.</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">    Both the bearing and distance are computed on the Spherical model.</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.copy()</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    lng_work, lat_work <span class="op">=</span> df.workplace_lng.to_numpy(), df.workplace_lat.to_numpy()</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    lng_home, lat_home <span class="op">=</span> df.residence_lng.to_numpy(), df.residence_lat.to_numpy()</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"distance_km"</span>], df[<span class="st">"bearing_deg"</span>] <span class="op">=</span> haversine(lng_work, lat_work, lng_home, lat_home)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_commuters_st_luke_office <span class="op">=</span> add_bearing_deg_and_distance_km(df_commuters_st_luke_office)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_commuters_albert_road <span class="op">=</span> add_bearing_deg_and_distance_km(df_commuters_albert_road)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_commuters_st_luke_office <span class="op">=</span> add_bearing_deg_and_distance_km(df_commuters_st_luke_office)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_commuters_albert_road <span class="op">=</span> add_bearing_deg_and_distance_km(df_commuters_albert_road)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>display(df_commuters_st_luke_office.head())</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>display(df_commuters_albert_road.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>workplace_lng</th>
+      <th>workplace_lat</th>
+      <th>residence_lng</th>
+      <th>all_flows</th>
+      <th>residence_lat</th>
+      <th>distance_km</th>
+      <th>bearing_deg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>122746</th>
+      <td>-0.093427</td>
+      <td>51.525514</td>
+      <td>0.100309</td>
+      <td>14</td>
+      <td>51.669006</td>
+      <td>20.824387</td>
+      <td>39.910497</td>
+    </tr>
+    <tr>
+      <th>122840</th>
+      <td>-0.093427</td>
+      <td>51.525514</td>
+      <td>0.081235</td>
+      <td>16</td>
+      <td>51.654781</td>
+      <td>18.767046</td>
+      <td>39.943704</td>
+    </tr>
+    <tr>
+      <th>122960</th>
+      <td>-0.093427</td>
+      <td>51.525514</td>
+      <td>0.013113</td>
+      <td>15</td>
+      <td>51.683825</td>
+      <td>19.079225</td>
+      <td>22.642044</td>
+    </tr>
+    <tr>
+      <th>123150</th>
+      <td>-0.093427</td>
+      <td>51.525514</td>
+      <td>0.112969</td>
+      <td>21</td>
+      <td>51.694097</td>
+      <td>23.548401</td>
+      <td>37.165113</td>
+    </tr>
+    <tr>
+      <th>123277</th>
+      <td>-0.093427</td>
+      <td>51.525514</td>
+      <td>0.243324</td>
+      <td>13</td>
+      <td>51.708458</td>
+      <td>30.893113</td>
+      <td>48.684224</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_commuters_st_luke_office.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>workplace_lng</th>
+      <th>workplace_lat</th>
+      <th>residence_lng</th>
+      <th>all_flows</th>
+      <th>residence_lat</th>
+      <th>distance_km</th>
+      <th>bearing_deg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>123573</th>
+      <td>0.05024</td>
+      <td>51.502045</td>
+      <td>0.069103</td>
+      <td>10</td>
+      <td>51.642368</td>
+      <td>15.657587</td>
+      <td>4.768539</td>
+    </tr>
+    <tr>
+      <th>127534</th>
+      <td>0.05024</td>
+      <td>51.502045</td>
+      <td>0.321880</td>
+      <td>12</td>
+      <td>51.474405</td>
+      <td>19.057378</td>
+      <td>99.174466</td>
+    </tr>
+    <tr>
+      <th>127640</th>
+      <td>0.05024</td>
+      <td>51.502045</td>
+      <td>0.365564</td>
+      <td>13</td>
+      <td>51.464030</td>
+      <td>22.240404</td>
+      <td>100.833071</td>
+    </tr>
+    <tr>
+      <th>127928</th>
+      <td>0.05024</td>
+      <td>51.502045</td>
+      <td>0.252849</td>
+      <td>15</td>
+      <td>51.482116</td>
+      <td>14.201101</td>
+      <td>98.898103</td>
+    </tr>
+    <tr>
+      <th>128083</th>
+      <td>0.05024</td>
+      <td>51.502045</td>
+      <td>0.327369</td>
+      <td>12</td>
+      <td>51.479152</td>
+      <td>19.355094</td>
+      <td>97.449008</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 </div>
 </section>
 <section id="visualise-the-results-in-a-radar-histogram-plot" class="level2">
 <h2 class="anchored" data-anchor-id="visualise-the-results-in-a-radar-histogram-plot">Visualise the results in a radar-histogram plot</h2>
 <p>For an distance and bearing effective visualisation, a circular histogram would do what we need. The polar visualisation of matplotlib will do this for us.</p>
 <p>We group the dataset into three categories, according to their radial distance from the office: - Within a radius of 10 Km - Between 10Km and 20 Km - Above 20 Km</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"darkgrid"</span>, {<span class="st">"grid.color"</span>: <span class="st">".6"</span>, <span class="st">"grid.linestyle"</span>: <span class="st">":"</span>})</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radar_histogram(ax, df):</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Input: </span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">        df with at least 2 columns distance_km and bearing_deg.</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: radar histogram plot.</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figures parameter</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    directions <span class="op">=</span> <span class="dv">40</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    bottom <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    height_scale <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bearing: degrees from nort pole clockwise</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    bearing_bins <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">360</span>, directions<span class="op">+</span><span class="dv">1</span>, endpoint<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angle visualisation: rad from east counterclockwise</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">*</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, directions, endpoint<span class="op">=</span><span class="va">False</span>) <span class="op">+</span> np.pi<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">/</span> directions</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data binning</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    se_bins <span class="op">=</span> pd.cut(df[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    np_bins <span class="op">=</span> se_bins.value_counts().to_numpy()</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    bins <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins) <span class="op">/</span> np.<span class="bu">max</span>(np_bins)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Uncomment to debug figure:</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bins = range(directions)</span></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plotting    </span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    ax_bars <span class="op">=</span> ax.bar(theta, bins, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom, color<span class="op">=</span><span class="st">"blue"</span>)</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    ax.set_yticklabels([])</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">8</span>, endpoint<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">'E'</span>, <span class="st">''</span>, <span class="st">'N'</span>, <span class="st">''</span>, <span class="st">'W'</span>, <span class="st">''</span>, <span class="st">'S'</span>, <span class="st">''</span>])</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">False</span>)</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ax</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radar_histogram_3_levels(ax, df):</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Input: </span></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co">        df with at least 2 columns distance_km and bearing_deg.</span></span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: radar histogram plot.</span></span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figures parameter</span></span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>    directions <span class="op">=</span> <span class="dv">40</span></span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>    height_scale <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    bottom_inner <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    bottom_betw <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>    bottom_outer <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bearing: degrees from nort pole clockwise</span></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>    bearing_bins <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">360</span>, directions<span class="op">+</span><span class="dv">1</span>, endpoint<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angle visualisation: rad from east counterclockwise</span></span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">*</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, directions, endpoint<span class="op">=</span><span class="va">False</span>) <span class="op">+</span> np.pi<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">/</span> directions</span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data binning</span></span>
-<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>    df_inner <span class="op">=</span> df[df[<span class="st">"distance_km"</span>] <span class="op">&lt;=</span> <span class="dv">10</span>]</span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>    se_bins_inner <span class="op">=</span> pd.cut(df_inner[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>    np_bins_inner <span class="op">=</span> se_bins_inner.value_counts().to_numpy()</span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>    bins_inner <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_inner) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_inner)</span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>    df_betw <span class="op">=</span> df[(df[<span class="st">"distance_km"</span>] <span class="op">&gt;</span> <span class="dv">10</span>) <span class="op">&amp;</span> (df[<span class="st">"distance_km"</span>] <span class="op">&lt;=</span> <span class="dv">20</span>)]</span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>    se_bins_betw <span class="op">=</span> pd.cut(df_betw[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>    np_bins_betw <span class="op">=</span> se_bins_betw.value_counts().to_numpy()</span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a>    bins_betw <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_betw) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_betw)</span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>    df_outer <span class="op">=</span> df[df[<span class="st">"distance_km"</span>] <span class="op">&gt;</span> <span class="dv">20</span>]</span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a>    se_bins_outer <span class="op">=</span> pd.cut(df_outer[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
-<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>    np_bins_outer <span class="op">=</span> se_bins_outer.value_counts().to_numpy()</span>
-<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a>    bins_outer <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_outer) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_outer)</span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plotting</span></span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>    ax_bars_inner <span class="op">=</span> ax.bar(theta, bins_inner, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_inner, color<span class="op">=</span><span class="st">"blue"</span>)</span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>    ax_bars_betw <span class="op">=</span> ax.bar(theta, bins_betw, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_betw, color<span class="op">=</span><span class="st">"blue"</span>)</span>
-<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>    ax_bars_outer <span class="op">=</span> ax.bar(theta, bins_outer, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_outer, color<span class="op">=</span><span class="st">"blue"</span>)</span>
-<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>    ax.set_yticklabels([])</span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>    <span class="co"># uncomment to add values on radius axis</span></span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_yticks(np.arange(0,10,1.0))</span></span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_yticklabels(['', '', '', '&lt;=10Km ', '', '', '&gt;10Km\n &lt;=20Km', '', '', '&gt;20Km'])</span></span>
-<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">8</span>, endpoint<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">'E'</span>, <span class="st">''</span>, <span class="st">'N'</span>, <span class="st">''</span>, <span class="st">'W'</span>, <span class="st">''</span>, <span class="st">'S'</span>, <span class="st">''</span>])</span>
-<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">False</span>)</span>
-<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we compute the histograms in <strong>polar coordinates</strong>. As we have to do it for two different dataset, instead of repeating the same code twice, we embed the transformation and visualisation in a single function.</p>
+<p>Within the same function there is some repeated code for each radius. It is left to you to embed the repeated code in a <code>for</code> cycle for the <code>inner</code>, <code>between</code> and <code>outer</code> histogram, and to generalise it to any number of radii and distances.</p>
+<p>As a further exercise, separating the data pre-processing and the visualisation part in two different function would be better practice than keeping both steps in the same function.</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"darkgrid"</span>, {<span class="st">"grid.color"</span>: <span class="st">".6"</span>, <span class="st">"grid.linestyle"</span>: <span class="st">":"</span>})</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radar_histogram(ax, df):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Input: </span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">        df with at least 2 columns distance_km and bearing_deg.</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: radar histogram plot.</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figures parameter</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    directions <span class="op">=</span> <span class="dv">40</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    bottom <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    height_scale <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bearing: degrees from nort pole clockwise</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    bearing_bins <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">360</span>, directions<span class="op">+</span><span class="dv">1</span>, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angle visualisation: rad from east counterclockwise</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">*</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, directions, endpoint<span class="op">=</span><span class="va">False</span>) <span class="op">+</span> np.pi<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">/</span> directions</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data binning</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    se_bins <span class="op">=</span> pd.cut(df[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    np_bins <span class="op">=</span> se_bins.value_counts().to_numpy()</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    bins <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins) <span class="op">/</span> np.<span class="bu">max</span>(np_bins)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Uncomment to debug figure:</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bins = range(directions)</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plotting    </span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    ax_bars <span class="op">=</span> ax.bar(theta, bins, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    ax.set_yticklabels([])</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">8</span>, endpoint<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">'E'</span>, <span class="st">''</span>, <span class="st">'N'</span>, <span class="st">''</span>, <span class="st">'W'</span>, <span class="st">''</span>, <span class="st">'S'</span>, <span class="st">''</span>])</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">False</span>)</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ax</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> radar_histogram_3_levels(ax, df):</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="co">    Input: </span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a><span class="co">        df with at least 2 columns distance_km and bearing_deg.</span></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: radar histogram plot.</span></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figures parameter</span></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>    directions <span class="op">=</span> <span class="dv">40</span></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>    height_scale <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    bottom_inner <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>    bottom_betw <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>    bottom_outer <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bearing: degrees from nort pole clockwise</span></span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>    bearing_bins <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">360</span>, directions<span class="op">+</span><span class="dv">1</span>, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angle visualisation: rad from east counterclockwise</span></span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">*</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, directions, endpoint<span class="op">=</span><span class="va">False</span>) <span class="op">+</span> np.pi<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">/</span> directions</span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data binning</span></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>    df_inner <span class="op">=</span> df[df[<span class="st">"distance_km"</span>] <span class="op">&lt;=</span> <span class="dv">10</span>]</span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>    se_bins_inner <span class="op">=</span> pd.cut(df_inner[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>    np_bins_inner <span class="op">=</span> se_bins_inner.value_counts().to_numpy()</span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>    bins_inner <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_inner) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_inner)</span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>    df_betw <span class="op">=</span> df[(df[<span class="st">"distance_km"</span>] <span class="op">&gt;</span> <span class="dv">10</span>) <span class="op">&amp;</span> (df[<span class="st">"distance_km"</span>] <span class="op">&lt;=</span> <span class="dv">20</span>)]</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>    se_bins_betw <span class="op">=</span> pd.cut(df_betw[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>    np_bins_betw <span class="op">=</span> se_bins_betw.value_counts().to_numpy()</span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>    bins_betw <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_betw) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_betw)</span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a>    df_outer <span class="op">=</span> df[df[<span class="st">"distance_km"</span>] <span class="op">&gt;</span> <span class="dv">20</span>]</span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a>    se_bins_outer <span class="op">=</span> pd.cut(df_outer[<span class="st">"bearing_deg"</span>].to_numpy(), bearing_bins)</span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a>    np_bins_outer <span class="op">=</span> se_bins_outer.value_counts().to_numpy()</span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a>    bins_outer <span class="op">=</span>  height_scale <span class="op">*</span> np.array(np_bins_outer) <span class="op">/</span> np.<span class="bu">max</span>(np_bins_outer)</span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plotting</span></span>
+<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a>    ax_bars_inner <span class="op">=</span> ax.bar(theta, bins_inner, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_inner, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a>    ax_bars_betw <span class="op">=</span> ax.bar(theta, bins_betw, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_betw, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a>    ax_bars_outer <span class="op">=</span> ax.bar(theta, bins_outer, width<span class="op">=</span>width, bottom<span class="op">=</span>bottom_outer, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a>    ax.set_yticklabels([])</span>
+<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a>    <span class="co"># uncomment to add values on radius axis</span></span>
+<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_yticks(np.arange(0,10,1.0))</span></span>
+<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_yticklabels(['', '', '', '&lt;=10Km ', '', '', '&gt;10Km\n &lt;=20Km', '', '', '&gt;20Km'])</span></span>
+<span id="cb23-87"><a href="#cb23-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">8</span>, endpoint<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb23-89"><a href="#cb23-89" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">'E'</span>, <span class="st">''</span>, <span class="st">'N'</span>, <span class="st">''</span>, <span class="st">'W'</span>, <span class="st">''</span>, <span class="st">'S'</span>, <span class="st">''</span>])</span>
+<span id="cb23-90"><a href="#cb23-90" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">False</span>)</span>
+<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ax11 <span class="op">=</span> fig.add_subplot(<span class="dv">221</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>ax11 <span class="op">=</span> radar_histogram(ax11, df_commuters_st_luke_office)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ax11.set_title(<span class="st">"Saint Luke Office"</span>, y<span class="op">=</span><span class="fl">1.08</span>, x<span class="op">=</span><span class="fl">1.1</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>ax12 <span class="op">=</span> fig.add_subplot(<span class="dv">222</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ax12 <span class="op">=</span> radar_histogram_3_levels(ax12, df_commuters_st_luke_office)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>ax21 <span class="op">=</span> fig.add_subplot(<span class="dv">223</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>ax21 <span class="op">=</span> radar_histogram(ax21, df_commuters_albert_road)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax21.set_title(<span class="st">"Albert Road Office"</span>, y<span class="op">=</span><span class="fl">1.08</span>, x<span class="op">=</span><span class="fl">1.1</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>ax22 <span class="op">=</span> fig.add_subplot(<span class="dv">224</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>ax22 <span class="op">=</span> radar_histogram_3_levels(ax22, df_commuters_albert_road)</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>ax11 <span class="op">=</span> fig.add_subplot(<span class="dv">221</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>ax11 <span class="op">=</span> radar_histogram(ax11, df_commuters_st_luke_office)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>ax11.set_title(<span class="st">"Saint Luke Office"</span>, y<span class="op">=</span><span class="fl">1.08</span>, x<span class="op">=</span><span class="fl">1.1</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>ax12 <span class="op">=</span> fig.add_subplot(<span class="dv">222</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>ax12 <span class="op">=</span> radar_histogram_3_levels(ax12, df_commuters_st_luke_office)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>ax21 <span class="op">=</span> fig.add_subplot(<span class="dv">223</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>ax21 <span class="op">=</span> radar_histogram(ax21, df_commuters_albert_road)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>ax21.set_title(<span class="st">"Albert Road Office"</span>, y<span class="op">=</span><span class="fl">1.08</span>, x<span class="op">=</span><span class="fl">1.1</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>ax22 <span class="op">=</span> fig.add_subplot(<span class="dv">224</span>, polar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>ax22 <span class="op">=</span> radar_histogram_3_levels(ax22, df_commuters_albert_road)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[]</code></pre>
 </div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-20-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Radar histogram plot with the distribution of the location of the employees respect to the office, at the centre of the diagram. In the first column all the residences are shown regardless of the distance from the centre. In the second column the residences are split by distance from the centre: inner circle &lt; 10Km, mid circle between 10 and 20 Km, outer circle &gt; 20 Km.</p>
 <p>From the graphs above we can see that the office in Saint Luke is reasonably well balance across the location of the employees, overall, and splitting the commuters into three categories based on radial distance.</p>
 <p>The same can not be said for the office located in Albert road office, whose employees should consider to relocate to an office further North-East.</p>
 </section>
@@ -630,20 +1120,34 @@ d = \sin^2 \left(\frac{\Delta \text{lat}}{2} \right) + \cos(\text{lat1}) \cos(\t
 <p>There are several limitations that are worth mentioning. The first and most obvious one is that the bearing and distance between office and residence is not a the single metric to justify an office relocation. From the point of view of the employee, there are other factors that have not been considered, such as commuting time, cost, frequency of commute, as well as the employee position in the company hierarchy and its “can’t bother” factor. This last metric, is an empirical one of the will (or lack thereof) to make a change, it is entirely based upon the individual opinion, taking into account for example possible facilities in the new office, traffic, proximity to children’s schools and so on. All these parameters has to be considered for the current office location and the potential new office location.</p>
 <p>From the point of view of the employer, there is of course the cost of the new office, as well as the cost of the move, as well as prestige of location in respect to possible investors.</p>
 <p>The last limitation is obviously the dataset. The whole post was written around the toy dataset downloaded from the of Kepler GL examples page. Is it realistic enough or reliable? Can we for example make further analysis on the dataset and obtain some statistics and insights about commuters’ habits? We already noticed that some, if not all commuting locations coincided with the location of the offices. Can we do some further analysis to know how little we should trust the data? To answer this question, we can end up with some minimal data analysis to the dataset to see if the ratio of number of offices in respect to the number of employees is convincing.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>number_of_offices <span class="op">=</span> <span class="bu">len</span>(df_commuter.groupby([<span class="st">"workplace_lng"</span>, <span class="st">"workplace_lat"</span>]).count())</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>number_of_residences <span class="op">=</span> <span class="bu">len</span>(df_commuter.groupby([<span class="st">"residence_lng"</span>, <span class="st">"residence_lat"</span>]).count())</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>number_of_offices_in_london_and_city <span class="op">=</span> <span class="bu">len</span>(df_commuter_london_office.groupby([<span class="st">"workplace_lng"</span>, <span class="st">"workplace_lat"</span>]).count())</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>number_of_residences_commuting_to_london_and_city <span class="op">=</span> <span class="bu">len</span>(df_commuter_london_office.groupby([<span class="st">"residence_lng"</span>, <span class="st">"residence_lat"</span>]).count())</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>commuters_office_ratio <span class="op">=</span> number_of_residences <span class="op">/</span> number_of_offices</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>commuters_office_ratio_in_london_and_city <span class="op">=</span> number_of_residences_commuting_to_london_and_city <span class="op">/</span> number_of_offices_in_london_and_city</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of offices in london and the city </span><span class="sc">{</span>number_of_offices_in_london_and_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>number_of_offices_in_london_and_city <span class="op">/</span> number_of_offices<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of residences commuting to london and the city </span><span class="sc">{</span>number_of_residences_commuting_to_london_and_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>number_of_residences_commuting_to_london_and_city <span class="op">/</span> number_of_residences<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of commuters residences per office </span><span class="sc">{</span>commuters_office_ratio<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of commuters residences per office in london and the city </span><span class="sc">{</span>commuters_office_ratio_in_london_and_city<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>number_of_offices <span class="op">=</span> <span class="bu">len</span>(df_commuter.groupby([<span class="st">"workplace_lng"</span>, <span class="st">"workplace_lat"</span>]).count())</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>number_of_residences <span class="op">=</span> <span class="bu">len</span>(df_commuter.groupby([<span class="st">"residence_lng"</span>, <span class="st">"residence_lat"</span>]).count())</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>number_of_offices_in_london_and_city <span class="op">=</span> <span class="bu">len</span>(df_commuter_london_office.groupby([<span class="st">"workplace_lng"</span>, <span class="st">"workplace_lat"</span>]).count())</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>number_of_residences_commuting_to_london_and_city <span class="op">=</span> <span class="bu">len</span>(df_commuter_london_office.groupby([<span class="st">"residence_lng"</span>, <span class="st">"residence_lat"</span>]).count())</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>commuters_office_ratio <span class="op">=</span> number_of_residences <span class="op">/</span> number_of_offices</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>commuters_office_ratio_in_london_and_city <span class="op">=</span> number_of_residences_commuting_to_london_and_city <span class="op">/</span> number_of_offices_in_london_and_city</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Number of offices in london and the city </span><span class="sc">{</span>number_of_offices_in_london_and_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(number_of_offices_in_london_and_city <span class="op">/</span> number_of_offices, <span class="dv">4</span>)<span class="sc">}</span><span class="ss"> %)"</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Number of residences commuting to london and the city </span><span class="sc">{</span>number_of_residences_commuting_to_london_and_city<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(number_of_residences_commuting_to_london_and_city <span class="op">/</span> number_of_residences, <span class="dv">4</span>)<span class="sc">}</span><span class="ss"> %)"</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Number of commuters residences per office </span><span class="sc">{</span>commuters_office_ratio<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Number of commuters residences per office in london and the city </span><span class="sc">{</span><span class="bu">round</span>(commuters_office_ratio_in_london_and_city, <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of offices in london and the city 983 (0.1365 %)
+Number of residences commuting to london and the city 2678 (0.3719 %)
+Number of commuters residences per office 1.0
+Number of commuters residences per office in london and the city 2.7243</code></pre>
+</div>
 </div>
 <p>Certainly the ratio of commuter’s residences per office can tell us that there is something wrong with the dataset. We could speculated about the fact that the dataset is synthetically generated, or that the arrows direction was swapped when generating the dataset, or both. With no further information, we can only say that no analysis on this dataset can provide us with any reasonable answers or statistics to questions related to commuters in the UK. Nonetheless it is a useful dataset for visualistaion and toy exercises such as the one just presented.</p>
 </section>
@@ -654,7 +1158,7 @@ d = \sin^2 \left(\frac{\Delta \text{lat}}{2} \right) + \cos(\text{lat1}) \cos(\t
 <li>https://stackoverflow.com/questions/65064351/python-osmnx-how-to-download-a-city-district-map-from-openstreetmap-based-on-t</li>
 <li>https://gis.stackexchange.com/questions/343725/convert-geojson-to-geopandas-geodataframe</li>
 <li>https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points</li>
-<li>https://anitagraser.github.io/movingpandas/#:~:text=MovingPandas%20is%20a%20Python%20library,movement%20data%20exploration%20and%20analysis</li>
+<li>https://anitagraser.github.io/movingpandas/</li>
 <li>https://stackoverflow.com/questions/17624310/geopy-calculating-gps-heading-bearing</li>
 <li>https://geodesy.noaa.gov/CORS/</li>
 <li>https://stackoverflow.com/questions/22562364/circular-polar-histogram-in-python</li>

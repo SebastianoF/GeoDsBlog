@@ -5,3 +5,4 @@ keplergl==0.3.2
 matplotlib==3.5.1
 osmnx==1.1.2
 pandas==1.4.2
+seaborn==0.12.1
