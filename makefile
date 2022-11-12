@@ -1,3 +1,3 @@
 quarto:
-	quarto preview geods/ --no-browser --no-watch-inputs
+	quarto preview . --no-browser --no-watch-inputs
 

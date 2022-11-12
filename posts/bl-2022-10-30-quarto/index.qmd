@@ -1,0 +1,70 @@
+---
+title: Create your blog with Quarto
+subtitle: What I whish I knew when I started my blog
+author: Sebastiano Ferraris
+date: 2022-10-30
+categories: [blogging]
+image: images/cover.png
+toc: true
+draft: false
+twitter-card:
+  image: images/cover.png
+include-in-header: meta.html  
+---
+
+A couple of months ago I transitioned my newly clreated blog from medium to Hashnode and I thought there was no better option!
+
+Then, after talking about some issues in LaTeX formatting and jupyter notebook conversion to markdown with [Maxime Labonne](https://mlabonne.github.io/blog/) (also documented [here](https://geods.hashnode.dev/medium-to-hasgnode)), Maxime suggested me to give [quarto](https://quarto.org/) a try.
+
+In this post you will find some tips about how to create your blog with [quarto](https://quarto.org/) and why of the three options that I have tried so far, quarto is by far the best one.
+
+## Credits and further resources
+
+- [Bea Milz](https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/)
+- [Albert Rapp](https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide.html)
+- [Learn enough git to be dangerous](https://www.learnenough.com/git-tutorial) by [Michael Hartl](https://www.learnenough.com/about)
+- [Learn enough command line to be dangerous](https://www.learnenough.com/command-line-tutorial) by [Michael Hartl](https://www.learnenough.com/about)
+- [Quarto guide and documentation](https://quarto.org/docs/guide/)
+- [Maxime Labonne](https://mlabonne.github.io/blog/)
+- [Learn $\LaTeX$ in 30 minutes](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
+
+
+## Pre-requisites
+
+Unlike with medium where it is not needed, and with hashnode where you can not know, it is not possible to start a blog with quarto without any familiarity with command line and git. 
+
+If you are here and  are new to you then it may be too early to start using with quarto.
+
+If you have any 
+
+My favourite learning resources, and the one I recommend most often to friends, family and students are from the [Learn enough](https://www.learnenough.com/) series, - [Learn enough git to be dangerous](https://www.learnenough.com/git-tutorial) and [Learn enough command line to be dangerous](https://www.learnenough.com/command-line-tutorial).
+
+
+## Why another blog?
+
+
+## Install and setup quarto
+
+
+## Create your thematic blog posts
+
+
+## Create your about page 
+
+
+## Create your CV
+
+
+## Finally, publish your work
+
+
+
+## Appendix: write mathematical formulas
+
+
+## Appendix: my workflow with Quarto and how it improved over Medium and Hashnode
+
+
+## Appendix: what else you can do with quarto
+
+

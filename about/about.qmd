@@ -1,19 +1,29 @@
 ---
 title: "About"
-image: profile.jpg
+image: images/profile.jpeg
 about:
-  template: jolla
+  template: marquee
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/SebastianoF
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/ibis-redibis/
 
 ---
 
-About this blog
+Hello, I'm Seb, data scientist at [General System](https://generalsystem.com/), and this is my blog about Geospatial Data Science.
+
+Here I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and best (in a very relative sense) coding practices.
+
+
+All my posts aim to be as practical and hands-on as possible, so to give you the possibility of reproduce all what is shown.
+
+I've been working in algorithms development and data analysis for more then 10 years in a range of industries, from automotive, to medical imaging to hospitality industry. 
+Now at General System I work and learn with a great team of scientists and engineers how to tackle the challenges posed by geospatial sensor data processing.
+
+
+You can find more about me on [linkedin](https://www.linkedin.com/in/ibis-redibis/) and my open source projects on [github](https://github.com/SebastianoF). You will certainly not find me on twitter!
+
+This blog started on Medium, then moved to [hashnode](https://geods.hashnode.dev/) to finally land to quarto. The source code is available on [github](https://github.com/SebastianoF/GeoDsBlog), where you can find the code resources, images, jupyter notebooks and more.

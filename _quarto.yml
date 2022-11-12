@@ -2,10 +2,9 @@ project:
   type: website
 
 website:
-  title: "Geospatial Data Science"
+  title: "Geospatial data science blog"
   # site-url: ""
   # google-analytics: ""
-  image: figures/bruno.jpg
 
   page-footer:
     left: "Blog made with [Quarto](https://quarto.org/), by Sebastiano Ferraris. License: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
@@ -21,18 +20,18 @@ website:
         menu:
           - text: All posts
             href: posts/index.qmd
-          - text: Code development best practices
+          - text: Geospatial Data Science
+            href: posts/index_gds.qmd
+          - text: Code development
             href: posts/index_bp.qmd
-          # - text: Geospatial Data Science
-          #   href: posts/index_git.qmd
-          # - text: Reading and writing
-          #   href: posts/index_art_science.qmd
-          # - text: Between art and Science
-          #   href: posts/index_art_science.qmd
+          - text: Blogging
+            href: posts/index_bl.qmd
+          # - text: Algorithms
+          #   href: posts/index_al.qmd
       # - text: About
       #   menu:
-      #     - text: About the blog
-      #       href: series-gha.qmd
+      - text: About
+        href: about/about.qmd
       #     - text: My CV
       #       href: series-gha.qmd
       #     - text: Publications
@@ -43,7 +42,7 @@ website:
       # - text: Resume
       #   href: https://beatrizmilz.github.io/resume/index.pdf
       # - icon: github
-      #   href: https://github.com/sebastianof/geoblog
+      #   href: https://github.com/SebastianoF/AlgoCorner
 
 format:
   html:

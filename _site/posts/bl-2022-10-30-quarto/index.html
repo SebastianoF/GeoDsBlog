@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Sebastiano Ferraris">
+<meta name="dcterms.date" content="2022-10-30">
 
-<title>Geospatial data science blog - Geospatial Data Science</title>
+<title>Geospatial data science blog - Create your blog with Quarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +25,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -62,40 +62,19 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-subtitle',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<!-- Primary Meta Tags -->
+<title>Sebastiano Ferraris - Medium to Hashnode - Pros, cons and workflows</title>
+<meta name="title" content="Sebastiano Ferraris - Create your blog with Quarto">
+<meta name="description" content="What I whish I knew when I started my blog.">
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Geospatial data science blog - Create your blog with Quarto">
+<meta name="twitter:description" content="What I whish I knew when I started my blog">
+<meta name="twitter:image" content="images/cover.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -105,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Geospatial data science blog</span>
     </a>
   </div>
@@ -118,25 +97,25 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">Posts</a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
         <li>
-    <a class="dropdown-item" href="../posts/index.html">
+    <a class="dropdown-item" href="../../posts/index.html">
  <span class="dropdown-text">All posts</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../posts/index_gds.html">
+    <a class="dropdown-item" href="../../posts/index_gds.html">
  <span class="dropdown-text">Geospatial Data Science</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../posts/index_bp.html">
+    <a class="dropdown-item" href="../../posts/index_bp.html">
  <span class="dropdown-text">Code development</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../posts/index_bl.html">
+    <a class="dropdown-item" href="../../posts/index_bl.html">
  <span class="dropdown-text">Blogging</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../about/about.html">About</a>
+    <a class="nav-link" href="../../about/about.html">About</a>
   </li>  
 </ul>
               <div class="quarto-toggle-container">
@@ -150,89 +129,116 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Geospatial Data Science</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Create your blog with Quarto</h1>
+            <p class="subtitle lead">What I whish I knew when I started my blog</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">blogging</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Sebastiano Ferraris </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 30, 2022</p>
+      </div>
+    </div>
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data-science">data-science <span class="quarto-category-count">(2)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(2)</span></div><div class="category" data-category="tutorial">tutorial <span class="quarto-category-count">(2)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#credits-and-further-resources" id="toc-credits-and-further-resources" class="nav-link active" data-scroll-target="#credits-and-further-resources">Credits and further resources</a></li>
+  <li><a href="#pre-requisites" id="toc-pre-requisites" class="nav-link" data-scroll-target="#pre-requisites">Pre-requisites</a></li>
+  <li><a href="#why-another-blog" id="toc-why-another-blog" class="nav-link" data-scroll-target="#why-another-blog">Why another blog?</a></li>
+  <li><a href="#install-and-setup-quarto" id="toc-install-and-setup-quarto" class="nav-link" data-scroll-target="#install-and-setup-quarto">Install and setup quarto</a></li>
+  <li><a href="#create-your-thematic-blog-posts" id="toc-create-your-thematic-blog-posts" class="nav-link" data-scroll-target="#create-your-thematic-blog-posts">Create your thematic blog posts</a></li>
+  <li><a href="#create-your-about-page" id="toc-create-your-about-page" class="nav-link" data-scroll-target="#create-your-about-page">Create your about page</a></li>
+  <li><a href="#create-your-cv" id="toc-create-your-cv" class="nav-link" data-scroll-target="#create-your-cv">Create your CV</a></li>
+  <li><a href="#finally-publish-your-work" id="toc-finally-publish-your-work" class="nav-link" data-scroll-target="#finally-publish-your-work">Finally, publish your work</a></li>
+  <li><a href="#appendix-write-mathematical-formulas" id="toc-appendix-write-mathematical-formulas" class="nav-link" data-scroll-target="#appendix-write-mathematical-formulas">Appendix: write mathematical formulas</a></li>
+  <li><a href="#appendix-my-workflow-with-quarto-and-how-it-improved-over-medium-and-hashnode" id="toc-appendix-my-workflow-with-quarto-and-how-it-improved-over-medium-and-hashnode" class="nav-link" data-scroll-target="#appendix-my-workflow-with-quarto-and-how-it-improved-over-medium-and-hashnode">Appendix: my workflow with Quarto and how it improved over Medium and Hashnode</a></li>
+  <li><a href="#appendix-what-else-you-can-do-with-quarto" id="toc-appendix-what-else-you-can-do-with-quarto" class="nav-link" data-scroll-target="#appendix-what-else-you-can-do-with-quarto">Appendix: what else you can do with quarto</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<div id="posts">
+<p>A couple of months ago I transitioned my newly clreated blog from medium to Hashnode and I thought there was no better option!</p>
+<p>Then, after talking about some issues in LaTeX formatting and jupyter notebook conversion to markdown with <a href="https://mlabonne.github.io/blog/">Maxime Labonne</a> (also documented <a href="https://geods.hashnode.dev/medium-to-hasgnode">here</a>), Maxime suggested me to give <a href="https://quarto.org/">quarto</a> a try.</p>
+<p>In this post you will find some tips about how to create your blog with <a href="https://quarto.org/">quarto</a> and why of the three options that I have tried so far, quarto is by far the best one.</p>
+<section id="credits-and-further-resources" class="level2">
+<h2 class="anchored" data-anchor-id="credits-and-further-resources">Credits and further resources</h2>
+<ul>
+<li><a href="https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/">Bea Milz</a></li>
+<li><a href="https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide.html">Albert Rapp</a></li>
+<li><a href="https://www.learnenough.com/git-tutorial">Learn enough git to be dangerous</a> by <a href="https://www.learnenough.com/about">Michael Hartl</a></li>
+<li><a href="https://www.learnenough.com/command-line-tutorial">Learn enough command line to be dangerous</a> by <a href="https://www.learnenough.com/about">Michael Hartl</a></li>
+<li><a href="https://quarto.org/docs/guide/">Quarto guide and documentation</a></li>
+<li><a href="https://mlabonne.github.io/blog/">Maxime Labonne</a></li>
+<li><a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes">Learn <span class="math inline">\(\LaTeX\)</span> in 30 minutes</a></li>
+</ul>
+</section>
+<section id="pre-requisites" class="level2">
+<h2 class="anchored" data-anchor-id="pre-requisites">Pre-requisites</h2>
+<p>Unlike with medium where it is not needed, and with hashnode where you can not know, it is not possible to start a blog with quarto without any familiarity with command line and git.</p>
+<p>If you are here and are new to you then it may be too early to start using with quarto.</p>
+<p>If you have any</p>
+<p>My favourite learning resources, and the one I recommend most often to friends, family and students are from the <a href="https://www.learnenough.com/">Learn enough</a> series, - <a href="https://www.learnenough.com/git-tutorial">Learn enough git to be dangerous</a> and <a href="https://www.learnenough.com/command-line-tutorial">Learn enough command line to be dangerous</a>.</p>
+</section>
+<section id="why-another-blog" class="level2">
+<h2 class="anchored" data-anchor-id="why-another-blog">Why another blog?</h2>
+</section>
+<section id="install-and-setup-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="install-and-setup-quarto">Install and setup quarto</h2>
+</section>
+<section id="create-your-thematic-blog-posts" class="level2">
+<h2 class="anchored" data-anchor-id="create-your-thematic-blog-posts">Create your thematic blog posts</h2>
+</section>
+<section id="create-your-about-page" class="level2">
+<h2 class="anchored" data-anchor-id="create-your-about-page">Create your about page</h2>
+</section>
+<section id="create-your-cv" class="level2">
+<h2 class="anchored" data-anchor-id="create-your-cv">Create your CV</h2>
+</section>
+<section id="finally-publish-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="finally-publish-your-work">Finally, publish your work</h2>
+</section>
+<section id="appendix-write-mathematical-formulas" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-write-mathematical-formulas">Appendix: write mathematical formulas</h2>
+</section>
+<section id="appendix-my-workflow-with-quarto-and-how-it-improved-over-medium-and-hashnode" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-my-workflow-with-quarto-and-how-it-improved-over-medium-and-hashnode">Appendix: my workflow with Quarto and how it improved over Medium and Hashnode</h2>
+</section>
+<section id="appendix-what-else-you-can-do-with-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-what-else-you-can-do-with-quarto">Appendix: what else you can do with quarto</h2>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1664751600000" data-listing-file-modified-sort="1667205609572" data-listing-reading-time-sort="15.095">
-<div class="thumbnail">
-<p><a href="../posts/gds-2022-10-03-polygons-part-1/index.html"> <img src="../posts/gds-2022-10-03-polygons-part-1/images/polygons_1_cover.png" class="thumnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="../posts/gds-2022-10-03-polygons-part-1/index.html">
-<h3 class="no-anchor listing-title">
-Using polygons - part 1
-</h3>
-<div class="listing-subtitle">
-Geospatial data science basic operations and measurements
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="../posts/gds-2022-10-03-polygons-part-1/index.html">
-<div class="listing-date">
-Oct 3, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1659049200000" data-listing-file-modified-sort="1666686129151" data-listing-reading-time-sort="4.71">
-<div class="thumbnail">
-<p><a href="../posts/gds-2022-07-29-office-pos/index.html"> <img src="../posts/gds-2022-07-29-office-pos/images/cover_office_positioning.png" class="thumnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="../posts/gds-2022-07-29-office-pos/index.html">
-<h3 class="no-anchor listing-title">
-How well positioned is your office?
-</h3>
-<div class="listing-subtitle">
-Time to question your workplace location
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="../posts/gds-2022-07-29-office-pos/index.html">
-<div class="listing-date">
-Jul 29, 2022
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -469,5 +475,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

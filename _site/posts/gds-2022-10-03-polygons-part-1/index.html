@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sebastiano Ferraris">
+<meta name="dcterms.date" content="2022-10-03">
+
+<title>Geospatial data science blog - Using polygons - part 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Geospatial data science blog - Using polygons - part 1">
+<meta name="twitter:description" content="Geospatial data science basic operations and measurements">
+<meta name="twitter:image" content="images/polygons_1_cover.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Geospatial data science blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">Posts</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
+        <li>
+    <a class="dropdown-item" href="../../posts/index.html">
+ <span class="dropdown-text">All posts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../posts/index_gds.html">
+ <span class="dropdown-text">Geospatial Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../posts/index_bp.html">
+ <span class="dropdown-text">Code development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../posts/index_bl.html">
+ <span class="dropdown-text">Blogging</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/about.html">About</a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Using polygons - part 1</h1>
+            <p class="subtitle lead">Geospatial data science basic operations and measurements</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">tutorial</div>
+                <div class="quarto-category">data-science</div>
+                <div class="quarto-category">geospatial</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Sebastiano Ferraris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 3, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#using-polygons-in-geospatial-data-science-basic-operations-and-measurements" id="toc-using-polygons-in-geospatial-data-science-basic-operations-and-measurements" class="nav-link active" data-scroll-target="#using-polygons-in-geospatial-data-science-basic-operations-and-measurements">Using polygons in geospatial data science: basic operations and measurements</a></li>
+  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a>
+  <ul class="collapse">
+  <li><a href="#setting-up-the-environment" id="toc-setting-up-the-environment" class="nav-link" data-scroll-target="#setting-up-the-environment">0. Setting up the environment</a></li>
+  <li><a href="#polygons-intersecting-water-and-land." id="toc-polygons-intersecting-water-and-land." class="nav-link" data-scroll-target="#polygons-intersecting-water-and-land.">1.1 Polygons intersecting water and land.</a></li>
+  <li><a href="#polygons-intersecting-water-and-land-nearby" id="toc-polygons-intersecting-water-and-land-nearby" class="nav-link" data-scroll-target="#polygons-intersecting-water-and-land-nearby">1.2 Polygons intersecting water and land… nearby!</a></li>
+  <li><a href="#which-country-intersects-this-polygon" id="toc-which-country-intersects-this-polygon" class="nav-link" data-scroll-target="#which-country-intersects-this-polygon">1.3 Which country intersects this polygon?</a></li>
+  <li><a href="#distances-between-countries" id="toc-distances-between-countries" class="nav-link" data-scroll-target="#distances-between-countries">1.3 Distances between countries</a></li>
+  <li><a href="#same-country-different-borders-how-different-are-they" id="toc-same-country-different-borders-how-different-are-they" class="nav-link" data-scroll-target="#same-country-different-borders-how-different-are-they">Same country, different borders: how different are they?</a>
+  <ul class="collapse">
+  <li><a href="#dices-score" id="toc-dices-score" class="nav-link" data-scroll-target="#dices-score">Dice’s Score</a></li>
+  <li><a href="#dices-distance" id="toc-dices-distance" class="nav-link" data-scroll-target="#dices-distance">Dice’s Distance</a></li>
+  <li><a href="#covariance-distance" id="toc-covariance-distance" class="nav-link" data-scroll-target="#covariance-distance">Covariance Distance</a></li>
+  <li><a href="#hausdoroff-distance" id="toc-hausdoroff-distance" class="nav-link" data-scroll-target="#hausdoroff-distance">Hausdoroff Distance</a></li>
+  <li><a href="#normalised-symmetric-contour-distance" id="toc-normalised-symmetric-contour-distance" class="nav-link" data-scroll-target="#normalised-symmetric-contour-distance">Normalised Symmetric Contour distance</a></li>
+  </ul></li>
+  <li><a href="#appendix-list-of-topics-and-further-theoretical-ideas" id="toc-appendix-list-of-topics-and-further-theoretical-ideas" class="nav-link" data-scroll-target="#appendix-list-of-topics-and-further-theoretical-ideas">Appendix: list of topics and further theoretical ideas</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  <li><a href="#inspired-by" id="toc-inspired-by" class="nav-link" data-scroll-target="#inspired-by">Inspired by</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="using-polygons-in-geospatial-data-science-basic-operations-and-measurements" class="level1">
+<h1>Using polygons in geospatial data science: basic operations and measurements</h1>
+<p>In this article, the first of a series of three, you will find a few facts and examples about an ubiquitous object lying at the very foundation of geospatial data science: nothing less than the polygon!</p>
+<p>Wether used to segment raster data, such as satellite images or regular point grids, or in conjunction with other vectorial objects, such as points and lines, polygons are geometrical figures omnipresent in almost every operations and measurements involving maps. Knowing how to manipulate polygons quickly is one of the things telling apart the pro data scientist from the rest.</p>
+<p>In their simplicity, the power of polygons lies in being a general purpose model for anything that has a surface, and in their extensibility, via associating meta-data or features, as a lists of attributes with collected data in relation to the modelled surface. For example to know where to place a bus stop, roads become segments, existing bus stops become points, and neighborhoods become polygons; to each of these entities we can associate the collected data, that can be static such as lengths, average traveling time, population density, building typology, such as offices, residential or shops, with their capacity, as well as dynamics such as temporal series of traffic, flow of people, opening and closing time etc… We can even consider moving polygons, to model for example icebergs, or shrinking and expanding polygons to model rivers and lakes.</p>
+<p>Simplifying the model and selecting the optimal attributes to the geometries involved, is the step that would make most of the subsequent analysis straightforward, pending the ability to manipulate and measure the objects involved.</p>
+<p>There are in fact a series of experimental or at least intuitive facts about polygons, and some slightly less intuitive, such as how to measure the distance between two polygons on a surface (and on a curved surface), or how to measure the overlap of two polygons, or the difference between two polygons aimed at modelling the same object. In wanting to keep a pragmatic approach to the matter, we will omit the even less intuitive measures entailing the pathological cases of polygons, such as fractals and limits of curves in general, that rarely arise in the practice of geospatial data science.</p>
+</section>
+<section id="content" class="level1">
+<h1>Content</h1>
+<ol start="0" type="1">
+<li><p><strong>Setting up the environment</strong></p></li>
+<li><p><strong>Definitions: intersections, operations and measurements of polygons</strong></p></li>
+</ol>
+<ul>
+<li><strong>Polygons intersecting water and land.</strong></li>
+<li><strong>…and with water and land nearby.</strong></li>
+<li><strong>Which country intersect this polygon?</strong></li>
+<li><strong>Distances between countries.</strong></li>
+<li><strong>Same country, different borders: how different are they?</strong></li>
+</ul>
+<ol start="2" type="1">
+<li>Reference systems for polygons</li>
+</ol>
+<ul>
+<li>Changing reference system</li>
+<li>Polygons crossing the antimeridian</li>
+<li>What at the poles.</li>
+</ul>
+<ol start="3" type="1">
+<li>Random polygons and wandering polygons</li>
+</ol>
+<ul>
+<li>Creating random polygons</li>
+<li>Floating polygons</li>
+<li>Polygons deformed by a vector field</li>
+</ul>
+<section id="setting-up-the-environment" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-environment">0. Setting up the environment</h2>
+<p>Create a python 3.9 environment called <code>venv</code> and activate it. There are several options, the code below is to create an environment via virtualenv, as quicker than conda, and more than enough for these small experiments:</p>
+<pre><code>virtualenv venv -p python3.9
+source venv/bin/activate</code></pre>
+<p>With the environment activated, install the requirements below. You can install each library individually with pip <code>pip install &lt;copy paste each line here&gt;</code>, or you can copy paste all the requirements in a file in the root of your project <code>requirements.txt</code> and install them all in one go via <code>pip install -r requirements.txt</code>.</p>
+<pre><code># requirements.txt
+geopandas==0.11.1
+jupyter==1.0.0
+keplergl==0.3.2
+matplotlib==3.6.0
+osmnx==1.2.2
+shapely==1.8.4</code></pre>
+</section>
+<section id="polygons-intersecting-water-and-land." class="level2">
+<h2 class="anchored" data-anchor-id="polygons-intersecting-water-and-land.">1.1 Polygons intersecting water and land.</h2>
+<p>Land and water on a map are typically modelled by polygons through the segmentation of the underlying geographical features. Given a polygon or a bounding box drawn on a map as input, the goal is to know want to know what are the polygons of land and water this polygon intersects, and, after trimming them to the given geometry, we want to measure the percentage of land respect to the percentage of water. For the example below we will use a polygon drawn around the city of Genova, Italy, (44.405551, 8.904023).</p>
+<p>You are invited to reproduce the results using a different city.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shapely</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy <span class="im">import</span> distance</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Polygon, Point, shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># creates an empty map where to draw the polygon</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>map_0 <span class="op">=</span> KeplerGl(height<span class="op">=</span><span class="dv">800</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>display(map_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can create a different polygon with kepler, using the drawing pencil (top right), then right click on it to copy the values and paste it in a dictionary.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dict_roi <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">8.987382009236233</span>,<span class="fl">44.54680601507832</span>],[<span class="fl">8.841126105836173</span>,<span class="fl">44.550231465826634</span>],[<span class="fl">8.723022747221052</span>,<span class="fl">44.53065474626796</span>],[<span class="fl">8.621398927017932</span>,<span class="fl">44.48511343018655</span>],[<span class="fl">8.591873087363503</span>,<span class="fl">44.3865638718846</span>],[<span class="fl">8.64817817693631</span>,<span class="fl">44.307506289856086</span>],[<span class="fl">8.75666847147733</span>,<span class="fl">44.33796344890003</span>],[<span class="fl">8.83906616353428</span>,<span class="fl">44.35613196160054</span>],[<span class="fl">8.950989695244745</span>,<span class="fl">44.3531860988552</span>],[<span class="fl">9.023087675794352</span>,<span class="fl">44.30554076888227</span>],[<span class="fl">9.079392765366244</span>,<span class="fl">44.274083482671955</span>],[<span class="fl">9.120591611394707</span>,<span class="fl">44.288339652995674</span>],[<span class="fl">9.143937624144632</span>,<span class="fl">44.33108740800724</span>],[<span class="fl">9.141877681842741</span>,<span class="fl">44.39784910785984</span>],[<span class="fl">9.090379124307875</span>,<span class="fl">44.49344084451141</span>],[<span class="fl">8.987382009236233</span>,<span class="fl">44.54680601507832</span>]]]}</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sh_roi <span class="op">=</span> shape(dict_roi)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>config_map1 <span class="op">=</span> {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'version'</span>: <span class="st">'v1'</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'config'</span>: {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mapState'</span>: {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"bearing"</span>: <span class="dv">0</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"dragRotate"</span>: <span class="va">False</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"latitude"</span>: <span class="fl">44.41404004333898</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"longitude"</span>: <span class="fl">8.871549089955757</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pitch"</span>: <span class="dv">0</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">"zoom"</span>: <span class="fl">10.347869665266995</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">"isSplit"</span>: <span class="va">False</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>gdf_roi <span class="op">=</span>  gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"ROI"</span>], <span class="st">"geometry"</span>: [sh_roi]})</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>gdf_roi <span class="op">=</span> gdf_roi.set_crs(<span class="st">'4326'</span>)  <span class="co"># reproject to WGS84 (the only one supported by kepler)</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># To reproduce exactly the same images shown in the article you will have to copy the config</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># file from the linked repo and save it in the save it in a configs.py file.</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># You can still follow the tutorial and run all the lines of code without the config.</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map1</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    config_map1 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>map_1 <span class="op">=</span> KeplerGl(data<span class="op">=</span>deepcopy({<span class="st">"roi"</span>: gdf_roi}), config<span class="op">=</span>config_map1, height<span class="op">=</span><span class="dv">800</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>display(map_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The copy pasted geometry from the kepler app is a dictionary with a type and a list of coordinates following a conventional GeoJSON object. GeoJSON is a format for encoding data about geographic features using JavaScript Object Notation (json), established in 2015.</p>
+<p>A <a href="https://geojson.org/">geojson</a> to model a single point appears as:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Feature"</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"geometry"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Point"</span><span class="fu">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coordinates"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">125.6</span><span class="ot">,</span> <span class="fl">10.1</span><span class="ot">]</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Dinagat Islands"</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where <code>"type"</code> can be <code>Feature</code> for single objects, or <code>FeatureCollections</code> for multiple objects, and where the <code>geometry.type</code> can be a <code>Point</code>, <code>LineString</code>, <code>Polygon</code>, <code>MultiPoint</code>, <code>MultiLineString</code>, and <code>MultiPolygon</code>.</p>
+<p>To get the “water” within the selected geometry, we will use the <code>osmnx</code> library.</p>
+<p>There are a few options to obtain land and water intersecting a region. It is possible to get the rivers, the sea (or bay), and the administrative regions and then consider to subtract the rivers to the administrative regions, and their intersection with the selected ROI. This option may leave some empty spaces, as in OSM there may be multiple annotators and the boundaries may not collimate. A different approach is to assume that all what is not water is land. So we query the rivers and the sea, we consider their union and their intersection with the ROI, and we call this new region “water”. The land will be the set difference between water and the ROI.</p>
+<p><span class="math display">\[
+\text{water}_{\text{roi}} = (\text{sea} \cup \text{river}) \cap \text{roi}\\
+\text{land}_{\text{roi}} = \text{roi} \setminus \text{water}_{\text{roi}}
+\]</span></p>
+<p>So we need to perform the binary polygon operations of union, intersection and subtraction of polygons, as well as to get the polygons of sea and rivers involved in the selected roi.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how to get tags:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://wiki.openstreetmap.org/wiki/Map_features#Water_related</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># First run would take ~5 mins (2 seconds after the first run, as results are stored in the local folder `cache`).</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>gdf_rivers <span class="op">=</span> osmnx.geometries_from_polygon(sh_roi, tags<span class="op">=</span>{<span class="st">'natural'</span>: <span class="st">'water'</span>})</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gdf_sea <span class="op">=</span> osmnx.geometries_from_polygon(sh_roi, tags<span class="op">=</span>{<span class="st">'natural'</span>: <span class="st">'bay'</span>})</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># check crs is already set to WGS84</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> gdf_rivers.crs <span class="op">==</span> <span class="dv">4326</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> gdf_sea.crs <span class="op">==</span> <span class="dv">4326</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve the "geodataframe" so that all of its rows are conflated into a single observation</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>gdf_rivers <span class="op">=</span> gdf_rivers.dissolve()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>gdf_sea <span class="op">=</span> gdf_sea.dissolve()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute water_roi and land_roi</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>gse_sea_union_river <span class="op">=</span> gdf_rivers.union(gdf_sea)  <span class="co"># The union of two geodataframes is a geoseries (the union is only on the geometries)</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>gse_water_roi <span class="op">=</span> gse_sea_union_river.intersection(gdf_roi)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>gse_land_roi <span class="op">=</span> gdf_roi.difference(gse_water_roi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>you can also explore the administrative boundaries for an alternative route to find the polygons segmenting land.</p>
+<pre><code>gdf_region = ox.geometries_from_polygon(sh_poly, tags={'boundary': 'administrative'})</code></pre>
+<p>But this route is not explored here, and it is left for the reader to investigate and plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Call deepcopy when passing an object prevents issue "AttributeError: 'str' object has no attribute '_geom'".</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/keplergl/kepler.gl/issues/1240</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>gdf_genova <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"name"</span>: [<span class="st">"roi"</span>, <span class="st">"water"</span>, <span class="st">"land"</span>], </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"geometry"</span>:[deepcopy(gdf_roi.geometry.iloc[<span class="dv">0</span>]), deepcopy(gse_water_roi.iloc[<span class="dv">0</span>]), deepcopy(gse_land_roi.iloc[<span class="dv">0</span>])]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>gdf_genova <span class="op">=</span> gdf_genova.set_crs(<span class="st">'4326'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> {}</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> gdf_genova.iterrows():</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    kepler_data.update({row[<span class="st">"name"</span>]: gdf_genova[gdf_genova[<span class="st">"name"</span>] <span class="op">==</span> row[<span class="st">"name"</span>]].copy()})</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map2</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    config_map2 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>map_2 <span class="op">=</span> KeplerGl(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>deepcopy(kepler_data), </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>config_map2,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>map_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to cylindrical equal area projectcion</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gdf_genova[<span class="st">"areas (Km2)"</span>] <span class="op">=</span> gdf_genova.to_crs({<span class="st">'proj'</span>:<span class="st">'cea'</span>}).area<span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>gdf_genova[[<span class="st">"name"</span>, <span class="st">"areas (Km2)"</span>]]  <span class="co"># Table 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="polygons-intersecting-water-and-land-nearby" class="level2">
+<h2 class="anchored" data-anchor-id="polygons-intersecting-water-and-land-nearby">1.2 Polygons intersecting water and land… nearby!</h2>
+<p>There are situations when the manually delineated region may not be as accurate as it is required. It may be required to get some information of the areas “nearby” as well. “Nearby” can have different definitions, and here we get three of them: 1. Convex hull 2. Bounding Box 3. Buffer</p>
+<p>The convex hull of the polygon <span class="math inline">\(\Omega\)</span> is the smallest convex polygon containing <span class="math inline">\(\Omega\)</span>. The bounding box is the smallest rectangle containing <span class="math inline">\(\Omega\)</span> with edges parallel to the axis of the reference system. The buffer consists of enlarging the boundaries of <span class="math inline">\(\Omega\)</span> in a direction perpendicular to its sides. The analogous operation for raster objects is called <em>dilation</em> and it is one of the two most common morphological operations along with <em>erosion</em>.</p>
+<p>But first we transform the operations we wrote so far into a function, taking <code>dict_roi</code> as input and returning the equivalent of <code>gdf_genova</code> for the selected area, which we can try for a different geometry. Then we test that the functions work for a different region. We chose the Viverone Lake, you are invited to select another one.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> water_and_land(roi: <span class="bu">dict</span>) <span class="op">-&gt;</span> gpd.GeoDataFrame:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""from a polygon embedded in a geojson dict to a geodataframe with water, land and respective areas"""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    sh_roi <span class="op">=</span> shape(roi)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    gdf_roi <span class="op">=</span>  gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"ROI"</span>], <span class="st">"geometry"</span>: [sh_roi]}).set_crs(<span class="st">'4326'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    gdf_rivers <span class="op">=</span> osmnx.geometries_from_polygon(sh_roi, tags<span class="op">=</span>{<span class="st">'natural'</span>: <span class="st">'water'</span>}).dissolve()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    gdf_sea <span class="op">=</span> osmnx.geometries_from_polygon(sh_roi, tags<span class="op">=</span>{<span class="st">'natural'</span>: <span class="st">'bay'</span>}).dissolve()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    gse_sea_union_river <span class="op">=</span> gdf_rivers.union(gdf_sea) <span class="cf">if</span> <span class="bu">len</span>(gdf_sea) <span class="cf">else</span> gdf_rivers</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    gse_water_roi <span class="op">=</span> gse_sea_union_river.intersection(gdf_roi)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    gse_land_roi <span class="op">=</span> gdf_roi.difference(gse_water_roi)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"name"</span>: [<span class="st">"roi"</span>, <span class="st">"water"</span>, <span class="st">"land"</span>], </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"geometry"</span>:[deepcopy(gdf_roi.geometry.iloc[<span class="dv">0</span>]), deepcopy(gse_water_roi.iloc[<span class="dv">0</span>]), deepcopy(gse_land_roi.iloc[<span class="dv">0</span>])]</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    ).set_crs(<span class="st">'4326'</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    gdf[<span class="st">"areas (Km2)"</span>] <span class="op">=</span> gdf.to_crs({<span class="st">'proj'</span>:<span class="st">'cea'</span>}).area<span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gdf</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_gdf_to_layers(gdf: gpd.GeoDataFrame, column_name: <span class="bu">str</span> <span class="op">=</span> <span class="st">"name"</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    kepler_data <span class="op">=</span> {}</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> gdf.iterrows():</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        kepler_data.update({row[column_name]: gdf[gdf[column_name] <span class="op">==</span> row[column_name]].copy()})</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> kepler_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map3</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    config_map3 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">True</span>:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    dict_viverone <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">8.098304589093475</span>,<span class="fl">45.44917237554611</span>],[<span class="fl">8.061826507846979</span>,<span class="fl">45.42337850571526</span>],[<span class="fl">8.086238762219843</span>,<span class="fl">45.3926467614535</span>],[<span class="fl">8.015246804101336</span>,<span class="fl">45.37550064157892</span>],[<span class="fl">7.985783738478874</span>,<span class="fl">45.42121207166915</span>],[<span class="fl">8.02282302097566</span>,<span class="fl">45.44838495097526</span>],[<span class="fl">8.098304589093475</span>,<span class="fl">45.44917237554611</span>]]]}</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ~ 5 minutes first run</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    map_3 <span class="op">=</span> KeplerGl(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>deepcopy(split_gdf_to_layers(water_and_land(dict_viverone))), </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        config <span class="op">=</span>config_map3,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>map_3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can consider the three “nearby” operations. For simplicity all the three operations we are interested in are embedded in a class.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GeoOperations:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _data_to_gdf(roi: <span class="bu">dict</span>) <span class="op">-&gt;</span> gpd.GeoDataFrame:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" input value `data` is a dumped geojson to a string format """</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        sh_roi <span class="op">=</span> shape(roi)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"ROI"</span>], <span class="st">"geometry"</span>: [sh_roi]}).set_crs(<span class="dv">4326</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _add_area_column(gdf: gpd.GeoDataFrame) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        gdf[<span class="st">"areas (Km2)"</span>] <span class="op">=</span> gdf.to_crs({<span class="st">'proj'</span>:<span class="st">'cea'</span>}).area<span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _get_polygon_box(row):</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        c_hull <span class="op">=</span> row.convex_hull  <span class="co"># make sure the input is a polygon </span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        x, y, X, Y <span class="op">=</span> c_hull.bounds</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> shapely.geometry.Polygon([(x, y), (X, y), (X, Y), (x, Y), (x, y)])</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">buffer</span>(<span class="va">self</span>, data: <span class="bu">str</span>, buffer_meters:<span class="bu">float</span> <span class="op">=</span> <span class="dv">10</span>) <span class="op">-&gt;</span> gpd.GeoDataFrame:</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        gdf <span class="op">=</span> <span class="va">self</span>._data_to_gdf(data)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        gdf.geometry <span class="op">=</span> gdf.to_crs(crs<span class="op">=</span><span class="dv">3857</span>)[<span class="st">'geometry'</span>].<span class="bu">buffer</span>(buffer_meters).to_crs(<span class="dv">4326</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._add_area_column(gdf)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gdf</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> convex_hull(<span class="va">self</span>, data: <span class="bu">str</span>) <span class="op">-&gt;</span> gpd.GeoDataFrame:</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        gdf <span class="op">=</span> <span class="va">self</span>._data_to_gdf(data)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        gdf.geometry <span class="op">=</span> gdf[<span class="st">'geometry'</span>].convex_hull</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._add_area_column(gdf)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gdf</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> bbox(<span class="va">self</span>, data: <span class="bu">str</span>) <span class="op">-&gt;</span> gpd.GeoDataFrame:</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        gdf <span class="op">=</span> <span class="va">self</span>._data_to_gdf(data)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        gdf[<span class="st">'geometry'</span>] <span class="op">=</span> gdf[<span class="st">'geometry'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="va">self</span>._get_polygon_box(x))</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._add_area_column(gdf)</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> split_gdf_to_layers(water_and_land(dict_roi))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ge_ops <span class="op">=</span> GeoOperations()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>kepler_data.update({<span class="st">"buffer"</span>: ge_ops.<span class="bu">buffer</span>(dict_roi, <span class="dv">5_000</span>), <span class="st">"convex hull"</span>: ge_ops.convex_hull(dict_roi), <span class="st">"bbox"</span>: ge_ops.bbox(dict_roi)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map4</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    config_map4 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>map_4 <span class="op">=</span> KeplerGl(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>deepcopy(kepler_data),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>deepcopy(config_map4),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>map_4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the picture above the bounding box, buffer and convex hull were added to the selected geometry, but the land and sea was not computed for these new polygons. This is left for the reader for practice. For example the water and land within the bounding box should look like the figure below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dict_bbox <span class="op">=</span> ge_ops.bbox(dict_roi)[<span class="st">"geometry"</span>].iloc[<span class="dv">0</span>].__geo_interface__</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>map_5 <span class="op">=</span> KeplerGl(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>split_gdf_to_layers(water_and_land(dict_bbox)), </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>deepcopy(config_map4), <span class="co"># we can re-use the same config as the previous map</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>map_5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="which-country-intersects-this-polygon" class="level2">
+<h2 class="anchored" data-anchor-id="which-country-intersects-this-polygon">1.3 Which country intersects this polygon?</h2>
+<p>Imagine now to draw a polygon on the map with the goal of wanting to know a list with the names of all the countries intersecting it.</p>
+<p>There are two options we can see think of to solve this problem with <code>osmnx</code>: 1. Create a GeoDataFrame in memory with all the countries in the world, and then compute the intersection between the dataframe and the given polygon. 2. Feed the given polygon to osmnx directly, and use the right tag to get all the countries intersecting it.</p>
+<p>The first one is very slow to initialise, though fast each time a new polygon is passed to the <code>intersect</code> method. The second one is relatively slow each time a new polygon is given.</p>
+<p>Here, out of laziness we will not use any of the methods above. The toy dataset provided <code>geopandas</code> contains already all the information that we need.</p>
+<p>As usual the first step is to draw a polygon on the first empty map of the notebook. Then copy paste the polygon geojson below, to be saved in the variable <code>dict_roi</code>. We selected a rectangular region around Myanmar, the reader is free to act according to preference.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dict_roi <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">95.27405518168942</span>,<span class="fl">28.464895473156595</span>],[<span class="fl">88.19328456832459</span>,<span class="fl">26.69900877882346</span>],[<span class="fl">87.15109322263424</span>,<span class="fl">21.154320639876016</span>],[<span class="fl">91.6876908450501</span>,<span class="fl">14.831845554981104</span>],[<span class="fl">98.52323996531177</span>,<span class="fl">13.52423467533735</span>],[<span class="fl">103.97941818686449</span>,<span class="fl">15.157545455928199</span>],[<span class="fl">104.43920848643478</span>,<span class="fl">20.868173454079436</span>],[<span class="fl">104.0713762467781</span>,<span class="fl">26.45228108415989</span>],[<span class="fl">95.27405518168942</span>,<span class="fl">28.464895473156595</span>]]]}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sh_roi <span class="op">=</span> shape(dict_roi)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>gdf_roi <span class="op">=</span>  gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"ROI"</span>], <span class="st">"geometry"</span>: [sh_roi]})</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>gdf_roi <span class="op">=</span> gdf_roi.set_crs(<span class="st">'4326'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map6</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    config_map6 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>map_6 <span class="op">=</span> KeplerGl(data<span class="op">=</span>deepcopy({<span class="st">"roi"</span>: gdf_roi}), height<span class="op">=</span><span class="dv">800</span>, config<span class="op">=</span>config_map6)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>display(map_6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>gdf_countries <span class="op">=</span> gpd.read_file(gpd.datasets.get_path(<span class="st">'naturalearth_lowres'</span>))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>gdf_countries[<span class="st">"areas (Km2)"</span>] <span class="op">=</span> gdf_countries.to_crs({<span class="st">'proj'</span>:<span class="st">'cea'</span>}).area<span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> gdf_countries.plot(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span>), column<span class="op">=</span><span class="st">'areas (Km2)'</span>, cmap<span class="op">=</span><span class="st">'Greens'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">'off'</span>)  <span class="co"># map_naturalearth</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dict_roi <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="fl">95.27405518168942</span>,<span class="fl">28.464895473156595</span>],[<span class="fl">88.19328456832459</span>,<span class="fl">26.69900877882346</span>],[<span class="fl">87.15109322263424</span>,<span class="fl">21.154320639876016</span>],[<span class="fl">91.6876908450501</span>,<span class="fl">14.831845554981104</span>],[<span class="fl">98.52323996531177</span>,<span class="fl">13.52423467533735</span>],[<span class="fl">103.97941818686449</span>,<span class="fl">15.157545455928199</span>],[<span class="fl">104.43920848643478</span>,<span class="fl">20.868173454079436</span>],[<span class="fl">104.0713762467781</span>,<span class="fl">26.45228108415989</span>],[<span class="fl">95.27405518168942</span>,<span class="fl">28.464895473156595</span>]]]}</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sh_roi <span class="op">=</span> shape(dict_roi)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># gdf_countries.intersects(sh_roi) returns a boolean series.</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>gdf_intersection_countries <span class="op">=</span> gdf_countries[gdf_countries.intersects(sh_roi)].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>gdf_intersection_countries[[<span class="st">"name"</span>, <span class="st">'areas (Km2)'</span>]].head(<span class="dv">10</span>)  <span class="co"># Table 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Left to the reader is to add a column with the information of the the percentage of the area covered by the selected roi over each country (e.g.&nbsp;Myanmar will be 100% covered by the ROI. What about China?).</p>
+</section>
+<section id="distances-between-countries" class="level2">
+<h2 class="anchored" data-anchor-id="distances-between-countries">1.3 Distances between countries</h2>
+<p>Now let’s say you have two polygons representing two countries. How to compute their distance in Km on the surface of the earth?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show list countries:</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>list_countries <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">list</span>(gdf_countries.name))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">['Afghanistan',</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Albania',</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Algeria',</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Angola',</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Antarctica',</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Argentina',</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Armenia',</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Australia',</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Austria',</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co"> 'Azerbaijan'</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"> ... ]</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>list_countries[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gdf_countries.to_crs(epsg<span class="op">=</span><span class="dv">27700</span>,inplace<span class="op">=</span><span class="va">True</span>) <span class="co"># more about this number on the next article! The impatient reader can look under https://epsg.io/27700</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sh_france <span class="op">=</span> gdf_countries[gdf_countries.name <span class="op">==</span> <span class="st">"France"</span>].geometry.iloc[<span class="dv">0</span>]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>sh_italy <span class="op">=</span> gdf_countries[gdf_countries.name <span class="op">==</span> <span class="st">'Italy'</span>].geometry.iloc[<span class="dv">0</span>]</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>sh_uk <span class="op">=</span> gdf_countries[gdf_countries.name <span class="op">==</span> <span class="st">'United Kingdom'</span>].geometry.iloc[<span class="dv">0</span>]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance between France and UK polygons: </span><span class="sc">{</span><span class="bu">round</span>(sh_france.distance(sh_uk) <span class="op">/</span> <span class="dv">1_000</span>, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance between France and UK polygons: 37.14 Km</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A quick investigation using google seems to not confirm this number. Google says the distance is approx 32Km. Did we do something wrong? Let’s use google maps and pick the two point that are visually the closest to each others on the coasts, copy paste them to the notebook and see what is their distance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy <span class="im">import</span> distance</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> (<span class="fl">51.108648</span>, <span class="fl">1.286524</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> (<span class="fl">50.869575</span>, <span class="fl">1.583608</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance between France and UK by naked eye: </span><span class="sc">{</span><span class="bu">round</span>(distance.distance(a, b).km, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance between France and UK by naked eye: 33.801 Km</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This number looks way closer to the one found with the shapely <code>distance</code> method. So Why the discrepancy? Is it a problem with the coordinates? Maybe the <code>27700</code> is not the optimal one in this case?</p>
+<p>Looking at the data we can find that the accuracy of the countries segmentation is way less that the actual underlying coast. The accuracy is so low that the distance between the polygon is actually wider!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map7</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    config_map7 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>map_7 <span class="op">=</span> KeplerGl(data<span class="op">=</span>deepcopy({<span class="st">"rois"</span>: gdf_countries.to_crs(<span class="st">'4326'</span>)}), height<span class="op">=</span><span class="dv">800</span>, config<span class="op">=</span>config_map7)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>display(map_7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>NOTE: the artefacts that you can see in the map above are caused by polygons crossing the antimeridian. This topic will be discussed in the next blog post of the polygon series “reference systems for polygons”.</p>
+<p>This section also confirmed numerically the importance of the quality of the segmentation in taking measurements, which lead us straight to the next (and last!) section of this first tutorial about polygons.</p>
+</section>
+<section id="same-country-different-borders-how-different-are-they" class="level2">
+<h2 class="anchored" data-anchor-id="same-country-different-borders-how-different-are-they">Same country, different borders: how different are they?</h2>
+<p>The problem we want to address in this section is to quantify the differences between segmentations of the same region. As often happens in geospatial data science (and not only there) a ground truth is not available. Also, as in the case of natural phenomena, the true segmentation varies over time, and an approximation is all what we can get. Quantifying the differences between two shapes consists of reducing the dimensionality of the problem, from 2D to 1D. The methods here presented can be generalised from ND to 1D, which can happen in case altitude and time are taken into account in the segmentation process.</p>
+<p>We will take three segmentations of a the Laguna Honda reservoir in San Francisco, CA: a most accurate, a less accurate, and an absurdly inaccurate one, then we measure their distances with a range of four metrics.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dict_lh_accurate <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="op">-</span><span class="fl">122.46336870734235</span>,<span class="fl">37.75382312075932</span>],[<span class="op">-</span><span class="fl">122.46361657885608</span>,<span class="fl">37.75373534452417</span>],[<span class="op">-</span><span class="fl">122.4635831171001</span>,<span class="fl">37.75365833165909</span>],[<span class="op">-</span><span class="fl">122.46316396885612</span>,<span class="fl">37.75301643279386</span>],[<span class="op">-</span><span class="fl">122.46300520664897</span>,<span class="fl">37.752840487963525</span>],[<span class="op">-</span><span class="fl">122.46230161881246</span>,<span class="fl">37.7522463019286</span>],[<span class="op">-</span><span class="fl">122.46211503445602</span>,<span class="fl">37.75203693263166</span>],[<span class="op">-</span><span class="fl">122.46178081988387</span>,<span class="fl">37.75186782984793</span>],[<span class="op">-</span><span class="fl">122.46148855443528</span>,<span class="fl">37.75184019740165</span>],[<span class="op">-</span><span class="fl">122.46133288449474</span>,<span class="fl">37.75201341062547</span>],[<span class="op">-</span><span class="fl">122.4612061599761</span>,<span class="fl">37.752084737992796</span>],[<span class="op">-</span><span class="fl">122.46103218224685</span>,<span class="fl">37.75214417741294</span>],[<span class="op">-</span><span class="fl">122.46077014171657</span>,<span class="fl">37.752179841041794</span>],[<span class="op">-</span><span class="fl">122.46037947391036</span>,<span class="fl">37.752188392148845</span>],[<span class="op">-</span><span class="fl">122.46021718629451</span>,<span class="fl">37.75217343769624</span>],[<span class="op">-</span><span class="fl">122.4600201930734</span>,<span class="fl">37.75211950941181</span>],[<span class="op">-</span><span class="fl">122.45991172291727</span>,<span class="fl">37.75207281219638</span>],[<span class="op">-</span><span class="fl">122.45983991818758</span>,<span class="fl">37.752077610017345</span>],[<span class="op">-</span><span class="fl">122.45994274713122</span>,<span class="fl">37.75230912513596</span>],[<span class="op">-</span><span class="fl">122.45996851594319</span>,<span class="fl">37.75240437677724</span>],[<span class="op">-</span><span class="fl">122.46006708164848</span>,<span class="fl">37.7524522572354</span>],[<span class="op">-</span><span class="fl">122.46084756619754</span>,<span class="fl">37.752511150412346</span>],[<span class="op">-</span><span class="fl">122.46122218790283</span>,<span class="fl">37.75259302382214</span>],[<span class="op">-</span><span class="fl">122.46131143485962</span>,<span class="fl">37.75262966326064</span>],[<span class="op">-</span><span class="fl">122.46167022567394</span>,<span class="fl">37.7526676568636</span>],[<span class="op">-</span><span class="fl">122.46188775902073</span>,<span class="fl">37.75272257149743</span>],[<span class="op">-</span><span class="fl">122.46205025380969</span>,<span class="fl">37.752816858793715</span>],[<span class="op">-</span><span class="fl">122.462376261119</span>,<span class="fl">37.75308710607375</span>],[<span class="op">-</span><span class="fl">122.46251137863547</span>,<span class="fl">37.753166819591506</span>],[<span class="op">-</span><span class="fl">122.46262051201403</span>,<span class="fl">37.75320708721178</span>],[<span class="op">-</span><span class="fl">122.46268905680037</span>,<span class="fl">37.75326534110075</span>],[<span class="op">-</span><span class="fl">122.46270650192626</span>,<span class="fl">37.75330849493771</span>],[<span class="op">-</span><span class="fl">122.46273109980764</span>,<span class="fl">37.753422092415555</span>],[<span class="op">-</span><span class="fl">122.46277517530947</span>,<span class="fl">37.75345753879545</span>],[<span class="op">-</span><span class="fl">122.4628296309809</span>,<span class="fl">37.7534771096768</span>],[<span class="op">-</span><span class="fl">122.46294915057157</span>,<span class="fl">37.75346704465253</span>],[<span class="op">-</span><span class="fl">122.4630682867433</span>,<span class="fl">37.753516920096686</span>],[<span class="op">-</span><span class="fl">122.46336870734235</span>,<span class="fl">37.75382312075932</span>]]]}</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dict_lh_less_accurate <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="op">-</span><span class="fl">122.46336953589098</span>,<span class="fl">37.753832862738975</span>],[<span class="op">-</span><span class="fl">122.4636233738959</span>,<span class="fl">37.75373251334907</span>],[<span class="op">-</span><span class="fl">122.4631072366194</span>,<span class="fl">37.75293640336153</span>],[<span class="op">-</span><span class="fl">122.46177458709447</span>,<span class="fl">37.75186264481159</span>],[<span class="op">-</span><span class="fl">122.46148267338904</span>,<span class="fl">37.75183922934248</span>],[<span class="op">-</span><span class="fl">122.4612246047509</span>,<span class="fl">37.752080073813296</span>],[<span class="op">-</span><span class="fl">122.46047155200345</span>,<span class="fl">37.75218711554916</span>],[<span class="op">-</span><span class="fl">122.4599004164929</span>,<span class="fl">37.752066693585995</span>],[<span class="op">-</span><span class="fl">122.45984118762517</span>,<span class="fl">37.752080073813296</span>],[<span class="op">-</span><span class="fl">122.45996387599406</span>,<span class="fl">37.752411233681165</span>],[<span class="op">-</span><span class="fl">122.46131767868594</span>,<span class="fl">37.752618625974755</span>],[<span class="op">-</span><span class="fl">122.46194804306447</span>,<span class="fl">37.75272232190355</span>],[<span class="op">-</span><span class="fl">122.46268840391157</span>,<span class="fl">37.75324748937671</span>],[<span class="op">-</span><span class="fl">122.46272647961233</span>,<span class="fl">37.753431464361086</span>],[<span class="op">-</span><span class="fl">122.46314954295359</span>,<span class="fl">37.75359536896148</span>],[<span class="op">-</span><span class="fl">122.46336953589098</span>,<span class="fl">37.753832862738975</span>]]]}</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>dict_lh_inaccurate <span class="op">=</span> {<span class="st">"type"</span>:<span class="st">"Polygon"</span>,<span class="st">"coordinates"</span>:[[[<span class="op">-</span><span class="fl">122.46176576455443</span>,<span class="fl">37.75368924488866</span>],[<span class="op">-</span><span class="fl">122.46242948841775</span>,<span class="fl">37.75334575268072</span>],[<span class="op">-</span><span class="fl">122.4631052799878</span>,<span class="fl">37.752296183276115</span>],[<span class="op">-</span><span class="fl">122.46372073302484</span>,<span class="fl">37.75144697531703</span>],[<span class="op">-</span><span class="fl">122.46259843631039</span>,<span class="fl">37.75127522420765</span>],[<span class="op">-</span><span class="fl">122.46204332180642</span>,<span class="fl">37.75167597617579</span>],[<span class="op">-</span><span class="fl">122.46192264474033</span>,<span class="fl">37.752410682480374</span>],[<span class="op">-</span><span class="fl">122.46095722821178</span>,<span class="fl">37.752954551279636</span>],[<span class="op">-</span><span class="fl">122.4605348584804</span>,<span class="fl">37.75364153773237</span>],[<span class="op">-</span><span class="fl">122.46176576455443</span>,<span class="fl">37.75368924488866</span>]]]}</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>sh_lh_accurate <span class="op">=</span> shape(dict_lh_accurate)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>sh_lh_less_accurate <span class="op">=</span> shape(dict_lh_less_accurate)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>sh_lh_inaccurate <span class="op">=</span> shape(dict_lh_inaccurate)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>gdf_lh_accurate <span class="op">=</span> gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"Accurate"</span>], <span class="st">"geometry"</span>: [sh_lh_accurate]}).set_crs(<span class="st">'4326'</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>gdf_lh_less_accurate <span class="op">=</span> gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"Less accurate"</span>], <span class="st">"geometry"</span>: [sh_lh_less_accurate]}).set_crs(<span class="st">'4326'</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>gdf_lh_inaccurate <span class="op">=</span> gpd.GeoDataFrame({<span class="st">"name"</span>:[<span class="st">"Inaccurate"</span>], <span class="st">"geometry"</span>: [sh_lh_inaccurate]}).set_crs(<span class="st">'4326'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> configs <span class="im">import</span> config_map8</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    config_map8 <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>map_8 <span class="op">=</span> KeplerGl(</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>{</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Laguna Honda accurate"</span>: deepcopy(gdf_lh_accurate),</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Laguna Honda less accurate"</span>: deepcopy(gdf_lh_less_accurate),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Laguna Honda inaccurate"</span>: deepcopy(gdf_lh_inaccurate),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    }, </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>config_map8</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>display(map_8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="dices-score" class="level3">
+<h3 class="anchored" data-anchor-id="dices-score">Dice’s Score</h3>
+<p>After Lee R. Dice, the Dice’s score measures the area of the overlap between two polygons normalised to the sum of the individual areas of the two polygons. Therefore if the polygon are perfectly congruent, then the dice equals 1, if there is no intersection between the two elements, the measure is zero.</p>
+<p>Formally: let <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> be two simple (i.e.&nbsp;where their area can be computed uniquely) polygons drawn on a map, <span class="math inline">\(\mathcal{A}(P_1)\)</span> and <span class="math inline">\(\mathcal{A}(P_2)\)</span> their area, and <span class="math inline">\(P_1 \cap P_2\)</span> their intersection. The Dice’s score of <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> is defined as: <span class="math display">\[
+\text{Dice}(P_1, P_2) = \frac{2 \mathcal{A}(P_1 \cap P_2) }{ \mathcal{A}(P_1) + \mathcal{A}(P_2)}~.
+\]</span></p>
+<p>This definition does not correspond to the intuitive definition of a distance that is zero when the measured object as as close to each others as possible.</p>
+</section>
+<section id="dices-distance" class="level3">
+<h3 class="anchored" data-anchor-id="dices-distance">Dice’s Distance</h3>
+<p>The Dice’s score can be turned into a distance simply modifying its formula as: <span class="math display">\[
+\text{DiceDist}(P_1, P_2) = 1 - \frac{2 \mathcal{A}(P_1 \cap P_2) }{ \mathcal{A}(P_1) + \mathcal{A}(P_2)}~,
+\]</span> so that the distance between two identical polygons is zero.</p>
+</section>
+<section id="covariance-distance" class="level3">
+<h3 class="anchored" data-anchor-id="covariance-distance">Covariance Distance</h3>
+<p>We can consider the polygon’s vertex as a cloud of points, and compare the principal components of their distribution encoded as a Symmetric Positive Definite matrix through the covariance matrix.</p>
+<p>The covariance distance is given by the sum of the 2 eigenvalues of the product of the covariance matrices, normalised by the sum of the products of squared eigenvalues of each covariance matrix. As done for the dice score, to have zero when the two shapes are identica, we take <span class="math inline">\(1\)</span> minus the value obtained.</p>
+<p>Formally: with the same notation as above the covariance distance is defined as <span class="math display">\[
+\text{CovDist}(P_1, P_2) = \alpha \left( 1 - \frac{ \text{Tr}( \text{c}(P_1) \text{c}(P_2) )  }{ \text{Fro}(P_1) + \text{Fro}(P_2)} \right) ~,
+\]</span> where <span class="math inline">\(\alpha\)</span> is a multiplicative factor to scale the data (it can be one if the points are normalised with standard deviation = 1, or computed as the reciprocal of the average standard deviations of the clouds distributions), and <span class="math inline">\(\text{Tr}\)</span> and <span class="math inline">\(\text{Fro}\)</span> are the trace and Frobenius norm respectively.</p>
+</section>
+<section id="hausdoroff-distance" class="level3">
+<h3 class="anchored" data-anchor-id="hausdoroff-distance">Hausdoroff Distance</h3>
+<p>The main feature of the covariance distance is that only the principal components of the two geometries are considered, and the noise is not taken into account. The Hausdoroff distance instead aims at being very sensitive to the misplacement of a single vertex between the two geometries.</p>
+<p>It’s definition is based on as maximal distance between the vertex of one polygon the distance between the <span class="math display">\[
+\text{HausDist}(P_1, P_2) = \text{max} \left\{ \text{max}_{p_i \in \partial P_1} d(p_i, \partial P_2) , \text{max}_{p_j \in \partial P_2} d(p_j, \partial P_1) \right\} ~,
+\]</span> where <span class="math inline">\(\partial P_1\)</span> is the contour, or perimeter of the polygon <span class="math inline">\(P_i\)</span> and <span class="math inline">\(d\)</span> is the Euclidean distance (or in the case of the curved surface, the geodesic distance).</p>
+</section>
+<section id="normalised-symmetric-contour-distance" class="level3">
+<h3 class="anchored" data-anchor-id="normalised-symmetric-contour-distance">Normalised Symmetric Contour distance</h3>
+<p>The contour distance between <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> is given by the the sum of the distances of all the vertex of <span class="math inline">\(P_1\)</span> to the contour of <span class="math inline">\(P_2\)</span>.</p>
+<p>As contour distance so defined is not symmetric (the contour distance between <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> is not the same of the contour distance between <span class="math inline">\(P_2\)</span> and <span class="math inline">\(P_1\)</span>), we can make it symmetric considering the sum of the contour distance between <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> with the contour distance between <span class="math inline">\(P_2\)</span> and <span class="math inline">\(P_1\)</span>.</p>
+<p>The distance can be normalised considering a distance factor encompassing both geometries in respect to their distances, which can be the lengths of both perimeters.</p>
+<p>Formally: <span class="math display">\[
+\text{NSCD}(P_1, P_2) = \frac{  S(P_1, P_2) + S(P_1, P_2) }{ \vert \partial P_1 \vert + \vert \partial P_2 \vert } ~,
+\]</span> where the length of the contour is indicated with <span class="math inline">\(\vert \partial P_i \vert\)</span>, and <span class="math inline">\(S(P_1, P_2)\)</span> is the contour distance, computed as: <span class="math display">\[
+S(P_2, P_1) = \sum_{p_i \in \partial P_1} d(p_i, \partial P_2)~.
+\]</span></p>
+<p>Below we implement the four distances in a class and then we use this tool to measure the distances between the polygon we created above: <code>sh_lh_accurate</code>, <code>sh_lh_less_accurate</code> and <code>sh_lh_inaccurate</code>.</p>
+<p>As usual you are invited to try it out on your own, on different geometries, to check the behaviours of the distances.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Dist:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, p1: Polygon, p2: Polygon):</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.p1 <span class="op">=</span> p1</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.p2 <span class="op">=</span> p2</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prec <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dice(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="va">self</span>.p1.area <span class="op">+</span> <span class="va">self</span>.p2.area <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">"Polygons must have positive areas."</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.<span class="bu">round</span>(<span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> <span class="va">self</span>.p1.intersection(<span class="va">self</span>.p2).area <span class="op">/</span> (<span class="va">self</span>.p1.area <span class="op">+</span> <span class="va">self</span>.p2.area), <span class="va">self</span>.prec)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cov(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        x1, y1 <span class="op">=</span> <span class="va">self</span>.p1.exterior.coords.xy[<span class="dv">0</span>], <span class="va">self</span>.p1.exterior.coords.xy[<span class="dv">1</span>]</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        x2, y2 <span class="op">=</span> <span class="va">self</span>.p2.exterior.coords.xy[<span class="dv">0</span>], <span class="va">self</span>.p2.exterior.coords.xy[<span class="dv">1</span>]</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        cov1 <span class="op">=</span> np.cov(np.array([(x1 <span class="op">-</span> np.mean(x1)) <span class="op">/</span>  np.std(x1), (y1 <span class="op">-</span> np.mean(y1)) <span class="op">/</span> np.std(y1) ]))</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        cov2 <span class="op">=</span> np.cov(np.array([(x2 <span class="op">-</span> np.mean(x2)) <span class="op">/</span>  np.std(x2), (y2 <span class="op">-</span> np.mean(y2)) <span class="op">/</span> np.std(y2) ]))</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.<span class="bu">round</span>((<span class="dv">1</span> <span class="op">-</span> (np.trace(cov1.dot(cov2)) <span class="op">/</span> (np.linalg.norm(cov1, <span class="bu">ord</span><span class="op">=</span><span class="st">'fro'</span>) <span class="op">*</span> np.linalg.norm(cov2, <span class="bu">ord</span><span class="op">=</span><span class="st">'fro'</span>)))), <span class="va">self</span>.prec)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> hau(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" measured in degrees !!"""</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.<span class="bu">round</span>(<span class="va">self</span>.p1.hausdorff_distance(<span class="va">self</span>.p2), <span class="va">self</span>.prec)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> nsc(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" measured in degrees !!"""</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> bd(p1, p2):</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.<span class="bu">round</span>(<span class="bu">sum</span>([p1.boundary.distance(Point(x, y)) <span class="cf">for</span> x,y <span class="kw">in</span> <span class="bu">zip</span>(p2.exterior.coords.xy[<span class="dv">0</span>], p2.exterior.coords.xy[<span class="dv">1</span>])]), <span class="va">self</span>.prec)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (bd(<span class="va">self</span>.p1, <span class="va">self</span>.p2) <span class="op">+</span> bd(<span class="va">self</span>.p2, <span class="va">self</span>.p1)) <span class="op">/</span> (<span class="va">self</span>.p1.length <span class="op">+</span> <span class="va">self</span>.p2.length)</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> d(<span class="va">self</span>, selected_measure: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>        map_measures <span class="op">=</span> {</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">"dice"</span>: <span class="va">self</span>.dice,</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"cov"</span>: <span class="va">self</span>.cov,</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"haus"</span>: <span class="va">self</span>.hau,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"nsc"</span>: <span class="va">self</span>.nsc,</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> map_measures[selected_measure]()</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simplify the name according to the polygons colour in the image above</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>green <span class="op">=</span> sh_lh_accurate</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>yellow <span class="op">=</span> sh_lh_less_accurate</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>red <span class="op">=</span> sh_lh_inaccurate</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>meas <span class="op">=</span> [ <span class="st">"dice"</span>, <span class="st">"cov"</span>, <span class="st">"haus"</span>, <span class="st">"nsc"</span>]</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"green - green"</span>: [Dist(green, green).d(m) <span class="cf">for</span> m <span class="kw">in</span> meas],</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"green - yellow"</span>: [Dist(green, yellow).d(m) <span class="cf">for</span> m <span class="kw">in</span> meas],</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"green - red"</span>: [Dist(green, red).d(m) <span class="cf">for</span> m <span class="kw">in</span> meas],</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"yellow - red"</span>: [Dist(yellow, red).d(m) <span class="cf">for</span> m <span class="kw">in</span> meas],    </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>meas</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Table 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="note-1" class="level4">
+<h4 class="anchored" data-anchor-id="note-1">Note 1:</h4>
+<p>The considered Hausdorff and nsc distances are in degrees and not in meters. As we want to have a measure of the differences for geometries (specifically geometries within comparable latitude intervals) this is not invalidating the results. Though there are cases when these metrics should return the results in meters. This is left as an exercise for the reader (you can leave a comment below for a discussion about possible solutions!).</p>
+</section>
+<section id="note-2" class="level4">
+<h4 class="anchored" data-anchor-id="note-2">Note 2:</h4>
+<p>The same methods can be used for comparing the differences in shape of two objects that are expected to be similar or two measure the variability of two shapes that are changing over time, assuming that their segmentation is accurate and unbiased.</p>
+<p>Also the same method can be used to measure the accuracy of a segmentation of two different people segmenting the same object (inter-rater variability) or the same person segmenting twice the same object (intra-rater variability). If the variability is assessed without the rater knowing he is segmenting twice the same shape (out of a stack of different shapes to undergo segmentation, one is repeated twice, re-labelled and re-shuffled in the stack), then this experiment is called test re-test.</p>
+</section>
+</section>
+</section>
+<section id="appendix-list-of-topics-and-further-theoretical-ideas" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-list-of-topics-and-further-theoretical-ideas">Appendix: list of topics and further theoretical ideas</h2>
+<p>To summarize this appendix reports the list of the topics of this post. It also provides some hints to dig further into some of the topics were not treated directly.</p>
+<ul>
+<li>Polygons and sets
+<ul>
+<li>polygon as a list of vectors</li>
+<li>polygon as a set on a surface</li>
+<li>operations between sets: union, intersection, difference, disjoint union.</li>
+<li>Can you express union and difference as combinations of intersection and disjoint union?</li>
+<li>De Morgan laws</li>
+<li>Mathematical concept of Algebra and sigma algebra. Are the polygons on the surface of a sphere with the operation of intersection and disjoint union a sigma algebra?</li>
+<li>Geojson format to represent a polygon</li>
+<li>Geojson to shapely, and shapely operations</li>
+<li>Adding metadata to a polygon with geopandas</li>
+<li>Osmnx library</li>
+<li>Visualisation with KeplerGl and WGS84</li>
+</ul></li>
+<li>Morphological operations in GIS
+<ul>
+<li>Dilation (or buffer) and erosion</li>
+<li>Bounding box</li>
+<li>Convex hull</li>
+<li>Class as a toolbox</li>
+</ul></li>
+<li>Distance between polygons and projections
+<ul>
+<li>“Optimal Algorithms for Computing the Minimum Distance Between Two Finite Planar Sets” Toussaint, Bhattacharya</li>
+<li>Minkovsky sum</li>
+<li>Haversine distance</li>
+<li>Vincentry distance</li>
+</ul></li>
+<li>Shape differences
+<ul>
+<li>Segmentation</li>
+<li>Difference quantification as a dimensionality reduction problem</li>
+<li>Intra-rater and inter-rater variability</li>
+<li>Dice’s score</li>
+<li>Covariance of a polygon (of a set of 2d points) and covariance distance</li>
+<li>Hausdoroff distance</li>
+<li>Normalized symmetric contour distance</li>
+</ul></li>
+</ul>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ul>
+<li>Geopandas and shapely basics <a href="https://www.learndatasci.com/tutorials/geospatial-data-python-geopandas-shapely/">https://www.learndatasci.com/tutorials/geospatial-data-python-geopandas-shapely/</a></li>
+<li>Shapely manual <a href="https://shapely.readthedocs.io/en/stable/manual.html">https://shapely.readthedocs.io/en/stable/manual.html</a></li>
+<li>Geopandas crs usage <a href="https://geopandas.org/en/stable/docs/user_guide/projections.html">https://geopandas.org/en/stable/docs/user_guide/projections.html</a></li>
+<li>intersection polygon algorithm <a href="https://www.swtestacademy.com/intersection-convex-polygons-algorithm/">https://www.swtestacademy.com/intersection-convex-polygons-algorithm/</a></li>
+<li>Buffer (dilation) to remove holes <a href="https://gis.stackexchange.com/questions/409340/removing-small-holes-from-the-polygon/409398">https://gis.stackexchange.com/questions/409340/removing-small-holes-from-the-polygon/409398</a></li>
+<li>maps projections <a href="https://automating-gis-processes.github.io/2017/lessons/L2/projections.html">https://automating-gis-processes.github.io/2017/lessons/L2/projections.html</a></li>
+<li>Trace and covariance <a href="https://online.stat.psu.edu/stat505/lesson/1/1.5">https://online.stat.psu.edu/stat505/lesson/1/1.5</a></li>
+</ul>
+</section>
+<section id="inspired-by" class="level2">
+<h2 class="anchored" data-anchor-id="inspired-by">Inspired by</h2>
+<ul>
+<li><a href="https://github.com/giswqs">Qiusheng Wu</a></li>
+<li><a href="https://mlabonne.github.io/blog/">Maxime Labonne</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Blog made with <a href="https://quarto.org/">Quarto</a>, by Sebastiano Ferraris. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>.</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sebastianof/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:sebastiano.ferraris@gmail.com">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

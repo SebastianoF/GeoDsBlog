@@ -1,7 +1,8 @@
 ---
-title: Code development
+title: "Blogging"
+# image: figures/bruno.jpg
 listing:
-  contents: "bp-*/index.*"
+  contents: "bl-*/index.*"
   sort: "date desc"
   fields: [image, date, title, subtitle]
   type: default

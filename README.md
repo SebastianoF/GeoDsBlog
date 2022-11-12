@@ -1,6 +1,6 @@
-# Algo Corner
+# Geo Data Science Blog
 
-A Blog about Algorithms and Data Science created with quarto. 
+A Blog about Algorithms and Data Science created with [Quarto](https://quarto.org/). 
 
 - Created on the ashes of my blog about geospatial data science on [hashnode](https://geods.hashnode.dev/) and my [medium blog](https://medium.com/@sebastianof/).
 
@@ -26,11 +26,12 @@ To start the server (from vscode)
 quarto preview . --no-browser --no-watch-inputs
 ```
 
-Otherwise omit the flags `--no-browser --no-watch-inputs` and open in browser
+Otherwise omit the flags `--no-browser --no-watch-inputs` and open the link provided in a browser
 
 
 ## License
 
+This blog is licensed under [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
 
 ## Acknowledgements
 
