@@ -1,12 +1,12 @@
 ---
-title: Create your blog with Quarto
-subtitle: What I whish I knew when I started my blog
+title: Create a blog with Quarto OR the things I whish I knew before I started blogging
+subtitle: A step by step guide to create your blog with quart and why you should be using it for blogging
 author: Sebastiano Ferraris
 date: 2022-10-30
 categories: [blogging]
 image: images/cover.png
 toc: true
-draft: false
+draft: true
 twitter-card:
   image: images/cover.png
 include-in-header: meta.html  

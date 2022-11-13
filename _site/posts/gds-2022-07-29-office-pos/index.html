@@ -258,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><figcaption class="figure-caption">Employees location respect to their office - Kepler and seaborn</figcaption><p></p>
 </figure>
 </div>
-<p><em>This article was first published: 24 April 2022 on <a href="https://medium.com/@sebastianof/how-well-positioned-is-your-office-8517256c497e">medium</a>. A second attempt to render both LaTeX and code was tried over <a href="https://geods.hashnode.dev">geods.hashnode.dev</a>. The current attempt on quarto is the maintained one.</em></p>
+<p><em>This article was first published on the 24 April 2022 on <a href="https://medium.com/@sebastianof/how-well-positioned-is-your-office-8517256c497e">medium</a>. A second attempt to render both LaTeX and code was tried over <a href="https://geods.hashnode.dev">geods.hashnode.dev</a>. The current attempt on quarto is the maintained one.</em></p>
 <section id="how-well-positioned-is-your-office" class="level1">
 <h1>How well positioned is your office?</h1>
 <p>Have you ever wondered if your office has the ideal location in respect to your house and your colleagues’ houses? Imagine to discover that not only you, but also all your colleagues are located South of your office. How much time and money would all you and your colleague save if the office were to be relocated closer to where everyone lives?</p>
@@ -298,10 +298,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can install each library individually with the pip command <code>pip install &lt;copy paste each line here&gt;</code>, or you can copy paste all the <a href="https://note.nkmk.me/en/python-pip-install-requirements/">requirements</a> in a file in the root of your project <code>requirements.txt</code> and install them all in one go via:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now all should be ready and set up to go!</p>
-<p>Before starting, as the interactive maps of Kepler can not be embedded in the static webpage of quarto (yet!) we set a notebook variable to suppress the kepler outputs and return a screenshots instead.</p>
+<p>Before starting, as the interactive maps of Kepler can not be embedded in the static webpage of quarto (yet!) we set a notebook variable to suppress the KeplerGl outputs and return a screenshots instead.</p>
 <p>This is to improve the appearance of the article published on the blog. You can turn the variable to <code>True</code> when running the code from the notebook.</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># Render kepler output if True. A screenshot otherwise</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># Render kepler output if True. Produces a screenshot otherwise</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="download-and-visualise-the-dataset" class="level2">
