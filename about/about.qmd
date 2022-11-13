@@ -1,6 +1,6 @@
 ---
-title: "About"
-image: images/profile.jpeg
+title: ""
+# image: images/apparition_chagall.jpg
 about:
   template: marquee
   links:
@@ -10,13 +10,15 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/ibis-redibis/
-
 ---
+
+![](images/apparition_chagall.jpg){fig-align="center"}
+
+# About
 
 Hello, I'm Seb, data scientist at [General System](https://generalsystem.com/), and this is my blog about Geospatial Data Science.
 
 Here I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and best (in a very relative sense) coding practices.
-
 
 All my posts aim to be as practical and hands-on as possible, so to give you the possibility of reproduce all what is shown.
 
@@ -27,3 +29,7 @@ Now at General System I work and learn with a great team of scientists and engin
 You can find more about me on [linkedin](https://www.linkedin.com/in/ibis-redibis/) and my open source projects on [github](https://github.com/SebastianoF). You will certainly not find me on twitter!
 
 This blog started on Medium, then moved to [hashnode](https://geods.hashnode.dev/) to finally land to quarto. The source code is available on [github](https://github.com/SebastianoF/GeoDsBlog), where you can find the code resources, images, jupyter notebooks and more.
+
+-----------
+
+Image profile: photo of the "appartiion" or "annunciazione" by Marc Chagall, 1918.

@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Geospatial data science blog"
+  favicon: about/images/favicon.png
   # site-url: ""
   # google-analytics: ""
 
@@ -38,11 +39,6 @@ website:
       #       href: series-gha.qmd
       #     - text: Open source projects
       #       href: series-gha.qmd
-
-      # - text: Resume
-      #   href: https://beatrizmilz.github.io/resume/index.pdf
-      # - icon: github
-      #   href: https://github.com/SebastianoF/GeoDsBlog
 
 format:
   html:

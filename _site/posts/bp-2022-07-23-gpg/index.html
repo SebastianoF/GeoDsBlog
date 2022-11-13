@@ -236,10 +236,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#create-and-add-a-pgp-key-signature-to-github-or-gitlab" id="toc-create-and-add-a-pgp-key-signature-to-github-or-gitlab" class="nav-link" data-scroll-target="#create-and-add-a-pgp-key-signature-to-github-or-gitlab">Create and add a PGP key signature to github or gitlab</a></li>
   <li><a href="#swap-between-work-and-personal-profile" id="toc-swap-between-work-and-personal-profile" class="nav-link" data-scroll-target="#swap-between-work-and-personal-profile">Swap between work and personal profile</a></li>
   <li><a href="#cache-the-passphrases" id="toc-cache-the-passphrases" class="nav-link" data-scroll-target="#cache-the-passphrases">Cache the passphrases</a></li>
-  <li><a href="#appendix-0-list-key-creation" id="toc-appendix-0-list-key-creation" class="nav-link" data-scroll-target="#appendix-0-list-key-creation">Appendix 0: list key creation</a></li>
-  <li><a href="#appendix-1-troubleshooting-on-mac" id="toc-appendix-1-troubleshooting-on-mac" class="nav-link" data-scroll-target="#appendix-1-troubleshooting-on-mac">Appendix 1: troubleshooting on mac</a></li>
-  <li><a href="#appendix-2-export-public-and-private-keys" id="toc-appendix-2-export-public-and-private-keys" class="nav-link" data-scroll-target="#appendix-2-export-public-and-private-keys">Appendix 2: export public and private keys</a></li>
-  <li><a href="#appendix-3-trigger-gpg-passphrase-linux" id="toc-appendix-3-trigger-gpg-passphrase-linux" class="nav-link" data-scroll-target="#appendix-3-trigger-gpg-passphrase-linux">Appendix 3: trigger gpg passphrase linux</a></li>
+  <li><a href="#appendix-0-list-created-keys-and-delete-some" id="toc-appendix-0-list-created-keys-and-delete-some" class="nav-link" data-scroll-target="#appendix-0-list-created-keys-and-delete-some">Appendix 0: List created keys and delete some</a></li>
+  <li><a href="#appendix-1-troubleshooting-on-mac" id="toc-appendix-1-troubleshooting-on-mac" class="nav-link" data-scroll-target="#appendix-1-troubleshooting-on-mac">Appendix 1: Troubleshooting on mac</a></li>
+  <li><a href="#appendix-2-export-public-and-private-keys" id="toc-appendix-2-export-public-and-private-keys" class="nav-link" data-scroll-target="#appendix-2-export-public-and-private-keys">Appendix 2: Export public and private keys</a></li>
+  <li><a href="#appendix-3-trigger-gpg-passphrase-linux" id="toc-appendix-3-trigger-gpg-passphrase-linux" class="nav-link" data-scroll-target="#appendix-3-trigger-gpg-passphrase-linux">Appendix 3: Trigger gpg passphrase linux</a></li>
   </ul>
 </nav>
     </div>
@@ -249,43 +249,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>This short blog post introduces the reader to the PGP key signatures, and suggests a way of creating a signature for a work user, for a private user and how to swap between them painlessly.</p>
+<p><img src="images/cover.png" class="img-fluid"></p>
+<p>This short blog post introduces the reader to the PGP key signatures, and suggests a way of signing commits with different accounts - e.g.&nbsp;personal and work settings - and to swap between them with a single CLI command.</p>
 <section id="pgp-minimal-intro" class="level3">
 <h3 class="anchored" data-anchor-id="pgp-minimal-intro">PGP minimal intro</h3>
-<p>A PGP key signature (Pretty Good Privacy) is a generic protocol that associates a signature to an encryption protocol, such as RSA, DSA or ElGamal. In this intro we will use RSA for git, but the method is generalisable for any.</p>
-<p>The signature consists of a fingerprint alongside with a username and user email. The fingerprint is a “mini” public key that authenticates the author of an exchange of keys.</p>
-<p>The owner of the signature will be able to sign files, documents, and in particular to sign commits via PGP protocol. In the normal workflow each time you are signing a document or git commit, the CLI will ask you for your passphrase to authenticate you. We will see at the end that it is possible to cache the passphrase, which is recommended only when you are the only person accessing the machine where the passphrase is cached.</p>
+<p>A PGP key signature (Pretty Good Privacy) is a generic protocol that associates a <em>signature</em> to an encryption protocol, such as RSA, DSA or ElGamal. In this intro we will use RSA for git, but the method is generalisable for any.</p>
+<p>A <em>signature</em> consists of a <em>fingerprint</em> alongside with a username and user email that becomes part of the encription protocol to uniquely authenticate the author’s encryption. The <em>fingerprint</em> is a “mini” public key that authenticates the author of an exchange of keys.</p>
+<p>The owner of the signature will be able to sign files, documents, and in particular to sign commits via PGP protocol. In the normal workflow each time you are signing a document or git commit, the CLI will ask you for your <em>passphrase</em> to authenticate the author. We will see at the end that it is possible to cache the passphrase, which is recommended only when you are the only person accessing the machine where the passphrase is cached.</p>
 </section>
 <section id="requirements" class="level2">
 <h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
 <ul>
 <li>you are familiar with git command line and gitlab / github interface.</li>
-<li>you installed the gpg command line interface (<a href="https://formulae.brew.sh/formula/gnupg">Mac</a>, <a href="https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/">Linux</a> or PowerShell - Windows). GPG stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880. It is easy to confuse it with PGP!</li>
+<li>you installed the gpg command line interface (<a href="https://formulae.brew.sh/formula/gnupg">Mac</a>, <a href="https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/">Linux</a> or <a href="https://gwood.dev/blog/2021/10/gpg-tutorial-command-line/">PowerShell - Windows</a>). Note that GPG stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880, it is not the PGP protocol though it is easy to confuse it!</li>
 </ul>
 </section>
 <section id="create-and-add-a-pgp-key-signature-to-github-or-gitlab" class="level2">
 <h2 class="anchored" data-anchor-id="create-and-add-a-pgp-key-signature-to-github-or-gitlab">Create and add a PGP key signature to github or gitlab</h2>
-<p>The procedure of creating and adding a PGP key signature is similar to the one you may have previously done to add an RSA key to your <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">github</a> or <a href="https://docs.gitlab.com/ee/ssh/">gitlab</a> account (no worries if you have not done it before). The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your</p>
+<p>The procedure of creating and adding a PGP key signature is similar to the one you may have previously done to add an RSA key to your <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">github</a> or <a href="https://docs.gitlab.com/ee/ssh/">gitlab</a> account (no worries if you have not done it before). The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.</p>
 <ol type="1">
 <li>create a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--full-generate-key</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will bring you to a prompt asking to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sing commits is <code>RSA (sign only)</code> followed by <code>4096</code> for the keysize (see the appendix if you need to undo the key creation).</p>
+<p>The command above will bring you to a prompt asking you to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sign commits is <code>RSA (sign only)</code> followed by <code>4096</code> for the keysize (in the appendix of this article you can find some instructions to undo the key creation).</p>
 <ol start="2" type="1">
 <li>If you are using gitlab add the pgp public key to the page <a href="https://gitlab.com/-/profile/gpg_keys">https://gitlab.com/-/profile/gpg_keys</a>, if you are using github use the page <a href="https://github.com/settings/keys">https://github.com/settings/keys</a>.</li>
 </ol>
 <p>You can see the list of created key pairs with <code>pgp -k</code>, and you can export the public key to a file with <code>gpg --export -a "email@address.com" &gt; public.key</code>, then copy the content of <code>public.key</code> to clipboard to export it to github/gitlab.</p>
 <ol start="3" type="1">
-<li>Now the missing step is to tell git that it has to start using the created key to sign the commits. Change the user setting on the local machine with</li>
+<li>Now you have created your RSA key pair, and the pgp public key. The missing step is to tell git that it has to start using the created key to sign the commits. To achive this goal, change the user setting on the local machine with</li>
 </ol>
 <pre><code>git config --global user.email &lt;same email used when creating the key-pair&gt;
 git config --global user.name &lt;same username used when creating the key-pair&gt;
-git config --global user.signingkey &lt;your fingerprint - copy paste from gitlab gpg page&gt;
+git config --global user.signingkey &lt;your fingerprint - copy paste from git(lab-hub) gpg page&gt;
 git config --global commit.gpgSign true</code></pre>
 </section>
 <section id="swap-between-work-and-personal-profile" class="level2">
 <h2 class="anchored" data-anchor-id="swap-between-work-and-personal-profile">Swap between work and personal profile</h2>
-<p>At this point I had the problem of swapping between multiple gitub/gitlab profiles, for work, personal project, etc. With the commands above I can create as many gpg keys with as many username and emails. To quickly tell git to swap between them I created a bash script for each profile in the sub-folder <code>~/.git-accounts-settings/</code>:</p>
+<p>At this point you may also have the problem that I had: swapping between multiple gitub/gitlab profiles, for work, personal project, etc. With the commands above I can create as many gpg keys with as many username and emails. To quickly tell git to swap between them, the solution that I suggest here is to create a bash script for each profile in the sub-folder <code>~/.git-accounts-settings/</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ~/.git-accounts-settings/company_A.sh</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="op">&lt;</span>same email used when creating the key-pair<span class="op">&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="op">&lt;</span>same username used when creating the key-pair<span class="op">&gt;</span></span>
@@ -300,8 +301,8 @@ git config --global commit.gpgSign true</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="op">&lt;</span>personal email<span class="op">&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="op">&lt;</span>personal user<span class="op">&gt;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> commit.gpgSign false</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Each time I want to swap across profiles, I can call the script with <code>bash ~/.git-accounts-settings/&lt;my profile&gt;.sh</code>.</p>
-<p>And to quickly swap between them, the commands can be aliased with shorter commands:</p>
+<p>Each time you want to swap across profiles, you can simply call the script with <code>bash ~/.git-accounts-settings/&lt;my profile&gt;.sh</code>.</p>
+<p>And to quickly swap between them, the commands can be aliased with shorter variable names:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># in the .bashrc</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> set_git_config_company_A=<span class="st">"bash ~/.git-accounts-settings/company_A.sh"</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> set_git_config_company_B=<span class="st">"bash ~/.git-accounts-settings/company_B.sh"</span></span>
@@ -315,13 +316,13 @@ git config --global commit.gpgSign true</code></pre>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">maximum-cache-ttl</span> 34560000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1658672213186/qmXG2rEgH.png?auto=compress" class="img-fluid figure-img"></p>
+<p><img src="images/key_and_nib.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">key-and-nib</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="appendix-0-list-key-creation" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-0-list-key-creation">Appendix 0: list key creation</h2>
+<section id="appendix-0-list-created-keys-and-delete-some" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-0-list-created-keys-and-delete-some">Appendix 0: List created keys and delete some</h2>
 <p>To undo the key creation of step 1 you can retrieve the list of existing keys with <code>gpg -k</code>, hen copy the key public id to clipboard, that is a string like this dummy <code>43525435HJJH5K2H3KJHK3452KJH65NBMBV</code> in the output</p>
 <pre><code>pub   ed25519 2022-02-18 [SC] [expires: 2024-02-18]
       43525435HJJH5K2H3KJHK3452KJH65NBMBV
@@ -332,14 +333,14 @@ sub   cv25519 2022-02-18 [E] [expires: 2024-02-18]</code></pre>
 gpg --delete-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV</code></pre>
 </section>
 <section id="appendix-1-troubleshooting-on-mac" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-1-troubleshooting-on-mac">Appendix 1: troubleshooting on mac</h2>
+<h2 class="anchored" data-anchor-id="appendix-1-troubleshooting-on-mac">Appendix 1: Troubleshooting on mac</h2>
 <p>If git commit fails to authenticate the git commit, with the following error message</p>
 <p>Then you have to redirect the <code>GPG_TTY</code> key to the local <code>tty</code> with:</p>
 <pre><code>export GPG_TTY=$(tty)</code></pre>
 <p>If this solves the problem, you will have to append it to your <code>.bashrc</code>.</p>
 </section>
 <section id="appendix-2-export-public-and-private-keys" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-2-export-public-and-private-keys">Appendix 2: export public and private keys</h2>
+<h2 class="anchored" data-anchor-id="appendix-2-export-public-and-private-keys">Appendix 2: Export public and private keys</h2>
 <p>How do I know my public key?</p>
 <p>This command will export an ascii armored version of the public key:</p>
 <pre><code>gpg --output public.pgp --armor --export username@email</code></pre>
@@ -347,9 +348,10 @@ gpg --delete-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV</code></pre>
 <pre><code>gpg --output private.pgp --armor --export-secret-key username@email</code></pre>
 </section>
 <section id="appendix-3-trigger-gpg-passphrase-linux" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-3-trigger-gpg-passphrase-linux">Appendix 3: trigger gpg passphrase linux</h2>
-<p>On some linux distributions, the prompt to insert the gpg passphrase <a href="https://stackoverflow.com/questions/37763170/git-signed-commits-how-to-suppress-you-need-a-passphrase-to-unlock-the-secret">does not pop up</a> when you create a new commit. Git simply refuses to add a new non-signed commit. So you will be in the situation where you have some code to commit, you know your passphrase, you have the gpg-agent on so you not need to retype the passphrase each time, but nobody is asking you for your passphrase.</p>
-<p>A workaround is to trigger gpg to ask you for your passphrase for another reason (e.g.&nbsp;signing a file), after which your passphrase is stored in the gpg-agent and you will be free to create signed commits, as the passphrase is automatically retrieved. The list of commands would be:</p>
+<h2 class="anchored" data-anchor-id="appendix-3-trigger-gpg-passphrase-linux">Appendix 3: Trigger gpg passphrase linux</h2>
+<p>On some linux distributions, the prompt to insert the gpg passphrase <a href="https://stackoverflow.com/questions/37763170/git-signed-commits-how-to-suppress-you-need-a-passphrase-to-unlock-the-secret">does not pop up</a> when you create a new commit. Git simply refuses to add a new non-signed commit.</p>
+<p>So you will be in the situation where you have some code to commit, you know your passphrase, you have the gpg-agent on so you not need to retype the passphrase each time, but nobody is asking you for your passphrase when you are committing a message.</p>
+<p>A workaround is to trigger gpg to ask you for your passphrase for another reason (e.g.&nbsp;signing a file), after which your passphrase is stored in the gpg-agent and you will be free to create signed commits, as the passphrase is automatically retrieved from cache. The list of commands would be:</p>
 <pre><code>git commit -am "new stuff"  # this commit is not added and does not trigger the passphrase prompt
 cd 
 touch z_tmp.txt  # creating a dummy file to authenticate
