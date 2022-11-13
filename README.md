@@ -21,7 +21,8 @@ This blog is licensed under [CC BY-SA 2.0](https://creativecommons.org/licenses/
 
 ## Acknowledgements
 
-To this blog have contributed with direct feedback or with inspirations. The author is the sole responsible for bugs, writing styles and occasional opinions.
+The following data scientist, colleagues, professionals and friends have contributed to this blog with direct feedback or with indirect inspirations. 
+The author is the sole responsible for bugs, writing styles and occasional opinions.
 
 - [Abdishakur](https://medium.com/@shakasom)
 - [Albert Rapp](https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide.html)
