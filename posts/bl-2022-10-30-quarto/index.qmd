@@ -14,7 +14,7 @@ include-in-header: meta.html
 
 A couple of months ago I transitioned my newly clreated blog from medium to Hashnode and I thought there was no better option!
 
-Then, after talking about some issues in LaTeX formatting and jupyter notebook conversion to markdown with [Maxime Labonne](https://mlabonne.github.io/blog/) (also documented [here](https://geods.hashnode.dev/medium-to-hasgnode)), Maxime suggested me to give [quarto](https://quarto.org/) a try.
+Then, after talking about some issues in LaTeX formatting and jupyter notebook conversion to markdown with [Maxime Labonne](https://mlabonne.github.io/blog/) (also documented [here](https://geods.hashnode.dev/medium-to-hashnode)), Maxime suggested me to give [quarto](https://quarto.org/) a try.
 
 In this post you will find some tips about how to create your blog with [quarto](https://quarto.org/) and why of the three options that I have tried so far, quarto is by far the best one.
 
