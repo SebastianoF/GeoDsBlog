@@ -15,6 +15,11 @@ quarto preview . --no-browser --no-watch-inputs
 ```
 Otherwise omit the flags `--no-browser --no-watch-inputs` and open the link provided in a browser
 
+To release, connect to netlify with the right credentials (which you should not have, unless you are me, so this line is totally useless here, except for me to remember where to find my dashboard):
+```
+https://app.netlify.com/sites/geospatial/overview
+```
+
 ## License
 
 This blog is licensed under [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
