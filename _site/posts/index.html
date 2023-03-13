@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -116,7 +116,9 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">Posts</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Posts</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
         <li>
     <a class="dropdown-item" href="../posts/index.html">
@@ -130,14 +132,11 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../posts/index_bp.html">
  <span class="dropdown-text">Code development</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../posts/index_bl.html">
- <span class="dropdown-text">Blogging</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../about/about.html">About</a>
+    <a class="nav-link" href="../about/about.html">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
               <div class="quarto-toggle-container">
@@ -160,6 +159,7 @@ ul.task-list li input[type="checkbox"] {
   <div class="quarto-title-meta">
 
       
+    
       
     </div>
     
@@ -182,9 +182,9 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1664751600000" data-listing-file-modified-sort="1668341503537" data-listing-reading-time-sort="15.76">
+<div class="quarto-post image-right" data-index="0" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1664751600000" data-listing-file-modified-sort="1678744192427" data-listing-reading-time-sort="15.76">
 <div class="thumbnail">
-<p><a href="../posts/gds-2022-10-03-polygons-part-1/index.html"> <img src="../posts/gds-2022-10-03-polygons-part-1/images/polygons_1_cover.png" class="thumnail-image"> </a></p>
+<p><a href="../posts/gds-2022-10-03-polygons-part-1/index.html"> <img src="../posts/gds-2022-10-03-polygons-part-1/images/cover.png" class="thumnail-image"> </a></p>
 </div>
 <div class="body">
 <a href="../posts/gds-2022-10-03-polygons-part-1/index.html">
@@ -204,7 +204,7 @@ Oct 3, 2022
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1659049200000" data-listing-file-modified-sort="1668343129454" data-listing-reading-time-sort="12.58">
+<div class="quarto-post image-right" data-index="1" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1659049200000" data-listing-file-modified-sort="1678744192378" data-listing-reading-time-sort="12.58">
 <div class="thumbnail">
 <p><a href="../posts/gds-2022-07-29-office-pos/index.html"> <img src="../posts/gds-2022-07-29-office-pos/images/cover_office_positioning.png" class="thumnail-image"> </a></p>
 </div>
@@ -226,7 +226,7 @@ Jul 29, 2022
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="hacks,tutorial,security,github" data-listing-date-sort="1658530800000" data-listing-file-modified-sort="1668341503436" data-listing-reading-time-sort="6.2">
+<div class="quarto-post image-right" data-index="2" data-categories="hacks,tutorial,security,github" data-listing-date-sort="1658530800000" data-listing-file-modified-sort="1678743292656" data-listing-reading-time-sort="6.2">
 <div class="thumbnail">
 <p><a href="../posts/bp-2022-07-23-gpg/index.html"> <img src="../posts/bp-2022-07-23-gpg/images/cover.png" class="thumnail-image"> </a></p>
 </div>
@@ -385,7 +385,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   // Switch to dark mode if need be
   if (hasAlternateSentinel()) {
     toggleColorMode(true);
-  } 
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -407,7 +409,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -443,24 +462,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
