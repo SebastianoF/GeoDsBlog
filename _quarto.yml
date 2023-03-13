@@ -25,8 +25,8 @@ website:
             href: posts/index_gds.qmd
           - text: Code development
             href: posts/index_bp.qmd
-          - text: Blogging
-            href: posts/index_bl.qmd
+          # - text: Blogging
+          #   href: posts/index_bl.qmd
           # - text: Algorithms
           #   href: posts/index_al.qmd
       # - text: About
@@ -46,7 +46,7 @@ format:
     citations-hover: true
     footnotes-hover: true
     theme:
-      light: simple
+      light: flatly
       dark: superhero
     css: styles.css
     mainfont: math
