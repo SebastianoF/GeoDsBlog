@@ -36,7 +36,7 @@ website:
           - text: Blog
             href: about/about.qmd
           - text: CV
-            href: about/CV/curriculum.pdf
+            href: about/CV_modern/curriculum.pdf
       #     - text: My CV
       #       href: series-gha.qmd
       #     - text: Publications
