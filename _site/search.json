@@ -81,7 +81,7 @@
     "href": "posts/index_bp.html",
     "title": "Code development",
     "section": "",
-    "text": "How to sign your commits\n\n\nSetting up gpg authentication while keeping separate work and personal projects\n\n\n\n\n\n\nJul 23, 2022\n\n\n\n\n\n\nNo matching items"
+    "text": "How to sign your commits\n\n\nSetting up gpg authentication while keeping separate work and personal projects\n\n\n\n\n\nJul 23, 2022\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/index.html",
@@ -247,7 +247,7 @@
   {
     "objectID": "about/about.html",
     "href": "about/about.html",
-    "title": "Geospatial data science blog",
+    "title": "About",
     "section": "",
     "text": "About\nWelcome, I’m Sebastiano Ferraris, data scientist at General System, and this is my blog about Geospatial Data Science.\nHere I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and best (in a very relative sense) coding practices.\nAll my posts aim to be as practical and hands-on as possible, so as to give you the possibility of reproducing all that is shown.\nI’ve been working in algorithms development and data analysis for more than 10 years in a range of industries, from automotive, to medical imaging to hospitality industry. Now at General System I work and learn with a great team of scientists and engineers how to tackle the challenges posed by geospatial sensor data processing.\nWhen not processing data or developing algorithms I can be found running somewhere possibly muddy, or playing an old classical guitar, or holding down the fort for my family.\nYou can find more on linkedin and my open source projects on github. You will certainly not find me on twitter!\nThis blog started on Medium, then moved to hashnode to finally land to Quarto. The source code is available on github, where you can find the code resources, images, jupyter notebooks and more."
   },
