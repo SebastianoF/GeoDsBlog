@@ -230,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#appendix-0-list-created-keys-and-delete-some" id="toc-appendix-0-list-created-keys-and-delete-some" class="nav-link" data-scroll-target="#appendix-0-list-created-keys-and-delete-some">Appendix 0: List created keys and delete some</a></li>
   <li><a href="#appendix-1-troubleshooting-on-mac" id="toc-appendix-1-troubleshooting-on-mac" class="nav-link" data-scroll-target="#appendix-1-troubleshooting-on-mac">Appendix 1: Troubleshooting on mac</a></li>
   <li><a href="#appendix-2-export-public-and-private-keys" id="toc-appendix-2-export-public-and-private-keys" class="nav-link" data-scroll-target="#appendix-2-export-public-and-private-keys">Appendix 2: Export public and private keys</a></li>
-  <li><a href="#appendix-3-trigger-gpg-passphrase-linux" id="toc-appendix-3-trigger-gpg-passphrase-linux" class="nav-link" data-scroll-target="#appendix-3-trigger-gpg-passphrase-linux">Appendix 3: Trigger gpg passphrase linux</a></li>
+  <li><a href="#appendix-3-trigger-gpg-passphrase-on-linux" id="toc-appendix-3-trigger-gpg-passphrase-on-linux" class="nav-link" data-scroll-target="#appendix-3-trigger-gpg-passphrase-on-linux">Appendix 3: Trigger gpg passphrase on linux</a></li>
   </ul>
 </nav>
     </div>
@@ -252,20 +252,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="requirements" class="level2">
 <h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
 <ul>
-<li>you are familiar with git command line and gitlab / github interface.</li>
-<li>you installed the gpg<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> command line interface (<a href="https://formulae.brew.sh/formula/gnupg">Mac</a>, <a href="https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/">Linux</a> or <a href="https://gwood.dev/blog/2021/10/gpg-tutorial-command-line/">PowerShell - Windows</a>).</li>
+<li>You are familiar with git command line and gitlab / github interface.</li>
+<li>You installed the gpg<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> command line interface (<a href="https://formulae.brew.sh/formula/gnupg">Mac</a>, <a href="https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/">Linux</a> or <a href="https://gwood.dev/blog/2021/10/gpg-tutorial-command-line/">PowerShell - Windows</a>).</li>
 </ul>
 </section>
 <section id="create-and-add-a-pgp-key-signature-to-github-or-gitlab" class="level2">
 <h2 class="anchored" data-anchor-id="create-and-add-a-pgp-key-signature-to-github-or-gitlab">Create and add a PGP key signature to github or gitlab</h2>
-<p>The procedure of creating and adding a PGP key signature is similar to the one you may have previously done to add an RSA key to your <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">github</a> or <a href="https://docs.gitlab.com/ee/ssh/">gitlab</a> account (no worries if you have not done it before). The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.</p>
+<p>The procedure of creating and adding a PGP key signature is similar to the one to add an RSA key to your <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">github</a> or <a href="https://docs.gitlab.com/ee/ssh/">gitlab</a> account. The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.</p>
 <ol type="1">
-<li>create a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command</li>
+<li>Create a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--full-generate-key</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command above will bring you to a prompt asking you to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sign commits is <code>RSA (sign only)</code> followed by <code>4096</code> for the keysize (in the appendix of this article you can find some instructions to undo the key creation).</p>
 <ol start="2" type="1">
-<li>If you are using gitlab add the pgp public key to the page <a href="https://gitlab.com/-/profile/gpg_keys">https://gitlab.com/-/profile/gpg_keys</a>, if you are using github use the page <a href="https://github.com/settings/keys">https://github.com/settings/keys</a>.</li>
+<li>If you are using gitlab, please add the pgp public key to the page <a href="https://gitlab.com/-/profile/gpg_keys">https://gitlab.com/-/profile/gpg_keys</a>. If you are using github, go instead to use the page <a href="https://github.com/settings/keys">https://github.com/settings/keys</a>.</li>
 </ol>
 <p>You can see the list of created key pairs with <code>pgp -k</code>, and you can export the public key to a file with <code>gpg --export -a "email@address.com" &gt; public.key</code>, then copy the content of <code>public.key</code> to clipboard to export it to github/gitlab.</p>
 <ol start="3" type="1">
@@ -339,8 +339,8 @@ gpg --delete-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV</code></pre>
 <p>Also to export the secret key, there is a similar command:</p>
 <pre><code>gpg --output private.pgp --armor --export-secret-key username@email</code></pre>
 </section>
-<section id="appendix-3-trigger-gpg-passphrase-linux" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-3-trigger-gpg-passphrase-linux">Appendix 3: Trigger gpg passphrase linux</h2>
+<section id="appendix-3-trigger-gpg-passphrase-on-linux" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-3-trigger-gpg-passphrase-on-linux">Appendix 3: Trigger gpg passphrase on linux</h2>
 <p>On some linux distributions, the prompt to insert the gpg passphrase <a href="https://stackoverflow.com/questions/37763170/git-signed-commits-how-to-suppress-you-need-a-passphrase-to-unlock-the-secret">does not pop up</a> when you create a new commit. Git simply refuses to add a new non-signed commit.</p>
 <p>So you will be in the situation where you have some code to commit, you know your passphrase, you have the gpg-agent on so you not need to retype the passphrase each time, but nobody is asking you for your passphrase when you are committing a message.</p>
 <p>A workaround is to trigger gpg to ask you for your passphrase for another reason (e.g.&nbsp;signing a file), after which your passphrase is stored in the gpg-agent and you will be free to create signed commits, as the passphrase is automatically retrieved from cache. The list of commands would be:</p>
