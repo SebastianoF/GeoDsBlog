@@ -19,31 +19,34 @@ This short blog post introduces the reader to the PGP key signatures, and sugges
 
 ### PGP minimal intro
 
-A PGP key signature (Pretty Good Privacy) is a generic protocol that associates a *signature* to an encryption protocol, such as RSA, DSA or ElGamal. In this intro we will use RSA for git, but the method is generalisable for any.
+A PGP key signature (Pretty Good Privacy) is a generic protocol that associates a *signature* to an encryption protocol, such as RSA, DSA or ElGamal. In this intro we will use RSA for git, but the method is generalisable for any protocol and remote git repository.
 
 A *signature* consists of a *fingerprint* alongside with a username and user email that becomes part of the encription protocol to uniquely authenticate the author's encryption. The *fingerprint* is a "mini" public key that authenticates the author of an exchange of keys.
 
-The owner of the signature will be able to sign files, documents, and in particular to sign commits via PGP protocol. In the normal workflow each time you are signing a document or git commit, the CLI will ask you for your *passphrase* to authenticate the author. We will see at the end that it is possible to cache the passphrase, which is recommended only when you are the only person accessing the machine where the passphrase is cached.
+The owner of the signature will be able to sign files, documents, and in particular to sign commits via PGP protocol. In the normal workflow each time you are signing a document or git commit, the CLI will ask you for your *passphrase* to authenticate the author. As usual the passphrase can also be cached.
 
 
 ## Requirements
 
-- you are familiar with git command line and gitlab / github interface.
-- you installed the gpg command line interface ([Mac](https://formulae.brew.sh/formula/gnupg), [Linux](https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/) or [PowerShell - Windows](https://gwood.dev/blog/2021/10/gpg-tutorial-command-line/)). Note that GPG stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880, it is not the PGP protocol though it is easy to confuse it!
+- You are familiar with git command line and gitlab / github interface.
+- You installed the gpg[^1] command line interface ([Mac](https://formulae.brew.sh/formula/gnupg), [Linux](https://www.poftut.com/install-use-gpg-encrytion-linux-order-encrypt-decrypt-files-folder/) or [PowerShell - Windows](https://gwood.dev/blog/2021/10/gpg-tutorial-command-line/)). 
+
+
+[^1]: Note that `gpg` stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880. It is not the PGP protocol.
 
 
 ## Create and add a PGP key signature to github or gitlab
 
-The procedure of creating and adding a PGP key signature is similar to the one you may have previously done to add an RSA key to your [github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [gitlab](https://docs.gitlab.com/ee/ssh/) account (no worries if you have not done it before). The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.
+The procedure of creating and adding a PGP key signature is similar to the one to add an RSA key to your [github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [gitlab](https://docs.gitlab.com/ee/ssh/) account. The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.
 
 
-1. create a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command
+1. Create a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command
 ```bash
 gpg --full-generate-key
 ```
 The command above will bring you to a prompt asking you to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sign commits is `RSA (sign only)` followed by `4096` for the keysize (in the appendix of this article you can find some instructions to undo the key creation). 
 
-2. If you are using gitlab add the pgp public key to the page [https://gitlab.com/-/profile/gpg_keys](https://gitlab.com/-/profile/gpg_keys), if you are using github use the page [https://github.com/settings/keys](https://github.com/settings/keys).
+2. If you are using gitlab, please add the pgp public key to the page [https://gitlab.com/-/profile/gpg_keys](https://gitlab.com/-/profile/gpg_keys). If you are using github, go instead to use the page [https://github.com/settings/keys](https://github.com/settings/keys).
 
 You can see the list of created key pairs with `pgp -k`, and you can export the public key to a file with `gpg --export -a "email@address.com" > public.key`, then copy the content of `public.key` to clipboard to export it to github/gitlab.
 
@@ -150,7 +153,7 @@ Also to export the secret key, there is a similar command:
 gpg --output private.pgp --armor --export-secret-key username@email
 ```
 
-## Appendix 3: Trigger gpg passphrase linux
+## Appendix 3: Trigger gpg passphrase on linux
 
 On some linux distributions, the prompt to insert the gpg passphrase [does not pop up](https://stackoverflow.com/questions/37763170/git-signed-commits-how-to-suppress-you-need-a-passphrase-to-unlock-the-secret) when you create a new commit. Git simply refuses to add a new non-signed commit.
 

@@ -9,7 +9,7 @@
 <meta name="author" content="Sebastiano Ferraris">
 <meta name="dcterms.date" content="2024-01-13">
 
-<title>Geospatial data science blog - Haversine’s Distance Mathematics</title>
+<title>A Geospatial Data Science Blog - Haversine’s Distance Mathematics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -138,7 +138,7 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="Geospatial data science blog - Haversine’s Distance Mathematics">
+<meta name="twitter:title" content="A Geospatial Data Science Blog - Haversine’s Distance Mathematics">
 <meta name="twitter:description" content="Computing the distance between two points on a sphere">
 <meta name="twitter:image" content="images/cover.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -152,7 +152,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Geospatial data science blog</span>
+    <span class="navbar-title">A Geospatial Data Science Blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -264,11 +264,12 @@ window.Quarto = {
 
 
 
-<p><img src="images/earth_models.png" class="img-fluid"></p>
+<p><img src="images/cover.png" class="img-fluid"></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>This blog post is for the reader interested in building an intuition for how distances on the sphere are computed (<a href="#sec-map-projection" class="quarto-xref">Section&nbsp;3</a>, <a href="#sec-two-points-distance" class="quarto-xref">Section&nbsp;4</a>), to understand the details of the maths behind the Haversine distance (<a href="#sec-haversine-distance" class="quarto-xref">Section&nbsp;5</a>), to have an implementation in python with some examples and details about the numerical stability (<a href="#sec-implementation" class="quarto-xref">Section&nbsp;6</a>, <a href="#sec-numerical-stability" class="quarto-xref">Section&nbsp;7</a>), and a conclusion about what to use in the python practice (<a href="#sec-vincentry-formula" class="quarto-xref">Section&nbsp;8</a>). This last one is the only section you should look at if you are here to compute the Haversine distance quickly and accurately.</p>
 <p>The article starts with the somehow pedantic though possibly important section about the motivations and formulas behind the spherical model.</p>
+<p><img src="images/earth_models.png" class="img-fluid"></p>
 </section>
 <section id="sec-spherical-model" class="level2">
 <h2 class="anchored" data-anchor-id="sec-spherical-model">Earth’s Spherical Model</h2>
