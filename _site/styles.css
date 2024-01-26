@@ -1,1 +1,17 @@
-/* css styles */
+.quarto-title-banner,
+.navbar-light,
+.navbar-dark {
+    background: linear-gradient(90deg, #2C3E50 0%, #2C3E50 100%);
+    /* background: linear-gradient(90deg, rgba(59,112,254,1) 0%, rgba(49,195,135,1) 100%); */
+}
+
+
+.metadata-value.listing-colab {
+    margin-top: 1em;
+    color: #ea9a4a;
+}
+
+
+.metadata-value.listing-github {
+    color: #75AADB;
+}

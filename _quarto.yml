@@ -3,7 +3,7 @@ project:
 
 website:
   title: "A Geospatial Data Science Blog"
-  favicon: about/images/favicon.png
+  favicon: images/favicon.png
   # site-url: ""
   # google-analytics: ""
 
@@ -33,7 +33,7 @@ website:
       #   menu:
       - text: About
         menu:
-          - text: Blog
+          - text: About the blog
             href: about/about.qmd
           - text: CV
             href: about/CV_modern/curriculum.pdf
@@ -49,8 +49,8 @@ format:
     smooth-scroll: true
     citations-hover: true
     footnotes-hover: true
-    theme:
-      light: flatly
-      dark: superhero
+    theme: [flatly, theme-light.scss]
+      # light: 
+      # dark: [flatly, theme-dark.scss]
     css: styles.css
     mainfont: math

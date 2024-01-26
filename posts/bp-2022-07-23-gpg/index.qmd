@@ -1,7 +1,6 @@
 ---
 title: How to sign your commits
 subtitle: Setting up gpg authentication while keeping separate work and personal projects
-author: Sebastiano Ferraris
 date: 2022-07-23
 categories: [hacks, tutorial, security, github]
 image: images/cover.png
@@ -9,7 +8,7 @@ toc: true
 draft: false
 twitter-card:
   image: images/cover.png
-include-in-header: meta.html  
+include-in-header: meta.html
 ---
 
 ![](images/cover.png)
