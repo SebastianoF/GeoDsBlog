@@ -245,9 +245,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="images/cover.png" class="img-fluid"></p>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This blog post is about converting datetime objects across types in python and pandas.</p>
-<p>All what you need for quickly know how to cast data between <code>datetime</code>, <code>int</code>, <code>str</code>, <code>pd.Timestamp</code> is in the code snippet below and the subsequent diagram.</p>
-<p>The remaining sections provide you with the details and the caveats of each method. The post concludes with a section about some snippets to manipulate <a href="https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/#timezones"><strong>timezones</strong></a> in all the examined formats.</p>
+<p>This blog post is collects all the methods for converting datetime objects across types in python and pandas in one place.</p>
+<p>The code snippet and the subsequent diagram summarise the data casting between <code>datetime</code>, <code>int</code>, <code>str</code>, <code>pd.Timestamp</code>.</p>
+<p>The remaining sections offers more details for each conversion with some additional details and caveats. The post concludes with a section about some snippets to manipulate <a href="https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/#timezones"><strong>timezones</strong></a> in all the examined formats.</p>
 <div id="cell-3" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
