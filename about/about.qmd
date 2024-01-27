@@ -1,6 +1,6 @@
 ---
-title: ""
-# image: images/apparition_chagall.jpg
+title: "Sebastiano Ferraris"
+image: images/apparition_chagall.jpg
 about:
   template: trestles
   links:
@@ -12,29 +12,20 @@ about:
       href: https://www.linkedin.com/in/ibis-redibis/
 ---
 
-[![](images/apparition_chagall.jpg){fig-align="center"}](https://www.marcchagallart.net/chagall-113.php)
+<!-- [![](images/apparition_chagall.jpg){fig-align="center"}](https://www.marcchagallart.net/chagall-113.php) -->
 
-<center>The apparition, Chagall, 1925 </center> 
+#### Welcome to my blog,
 
-# About
+I'm Sebastiano Ferraris, data scientist at [General System](https://generalsystem.com/), and this is my blog about Geospatial Data Science.
 
-Welcome, I'm Sebastiano Ferraris, data scientist at [General System](https://generalsystem.com/), and this is my blog about Geospatial Data Science.
+Here I am sharing some tutorials and small projects about [geospatial data science](https://carto.com/what-is-spatial-data-science) with particular focus on algorithms, mathematics and coding practices.
 
-Here I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and coding practices.
+All my posts are aimed at be as *practical* and *hands-on* as possible, so as to give you the possibility of reproducing all that is shown.
 
-All my posts are aimed at be as practical and hands-on as possible, so as to give you the possibility of reproducing all that is shown.
+The blog you are reading started on [Medium](https://medium.com/@sebastianof), then moved to [hashnode](https://geods.hashnode.dev/), to finally land to Quarto. The source code can be found [here](https://github.com/SebastianoF/GeoDsBlog).
 
-I've been working in algorithms development and data analysis for more than 10 years in a range of industries, from automotive, to medical imaging to hospitality industry. 
-Now at General System I work and learn with a great team of scientists and engineers how to tackle the challenges posed by geospatial sensor data processing at large scale.
-
-When not processing data or developing algorithms I can be found running somewhere possibly muddy, or playing an old classical guitar, or holding down the fort for my family.
-
-
-You can find more on [linkedin](https://www.linkedin.com/in/ibis-redibis/) and my open source projects on [github](https://github.com/SebastianoF). You will certainly not find me on twitter!
-
-This blog started on [Medium](https://medium.com/@sebastianof), then moved to [hashnode](https://geods.hashnode.dev/) to finally land to Quarto. 
-The source code is available on [github](https://github.com/SebastianoF/GeoDsBlog), where you can find the code resources, images, jupyter notebooks and more.
+If you want to get in touch, please [drop me an email](mailto:sebastiano.ferraris@gmail.com).
 
 -------
 
-Unless otherwise specified, all the images are created by the author.
+Unless otherwise specified, all the images are created by the author. In this page you can see *The Apparition*, painted by Chagall in 1925.

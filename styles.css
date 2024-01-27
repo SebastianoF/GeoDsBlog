@@ -8,10 +8,11 @@
 
 .metadata-value.listing-colab {
     margin-top: 1em;
-    color: #ea9a4a;
+    color: #2C3E50;
 }
 
 
 .metadata-value.listing-github {
-    color: #75AADB;
+    margin-top: 0.4em;
+    color: #425d79;
 }
