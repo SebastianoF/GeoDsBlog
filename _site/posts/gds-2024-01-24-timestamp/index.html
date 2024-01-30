@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="A Geospatial Data Science Blog - Python datetimes manipulations">
-<meta name="twitter:description" content="A primer on timestamps, datetimes and timezones">
+<meta name="twitter:description" content="Code fragments for timestamps and timezones manipulation">
 <meta name="twitter:image" content="images/cover.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Python datetimes manipulations</h1>
-            <p class="subtitle lead">A primer on timestamps, datetimes and timezones</p>
+            <p class="subtitle lead">Code fragments for timestamps and timezones manipulation</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">tutorial</div>
                 <div class="quarto-category">geospatial</div>
@@ -247,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>This blog post collects in one place a range of methods for converting datetime objects across types in python and pandas.</p>
 <p>The code snippet and the subsequent diagram summarise the data casting between <code>datetime</code>, <code>int</code>, <code>str</code>, <code>pd.Timestamp</code>.</p>
-<p>The remaining sections offers more details for each conversion with some additional details and caveats. The post concludes with a section about some snippets to manipulate <a href="https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/#timezones"><strong>timezones</strong></a> in all the examined formats.</p>
+<p>The remaining sections offer more details and examples about each of those methods. At the end of the post you will find a section about some snippets to manipulate <a href="https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/#timezones"><strong>timezones</strong></a> in all the examined formats.</p>
 <div id="cell-3" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
