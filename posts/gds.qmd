@@ -1,17 +1,15 @@
 ---
-title: Code development
+title: Geospatial Data Science
 listing:
-  contents: "bp-*/index.*"
+  contents: "gds-*/index.*"
   sort: "date desc"
-  fields: [image, date, title, subtitle]
-  type: default
+  fields: [image, date, title, subtitle, colab, github]
   categories: true
   sort-ui: false
   filter-ui: false
 page-layout: full
 title-block-banner: true
 ---
-
 
 ::: {#posts}
 :::
