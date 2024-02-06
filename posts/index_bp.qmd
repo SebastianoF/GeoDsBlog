@@ -3,15 +3,13 @@ title: Code development
 listing:
   contents: "bp-*/index.*"
   sort: "date desc"
-  fields: [image, date, title, subtitle]
-  type: default
+  fields: [image, date, title, subtitle, colab, github]
   categories: true
   sort-ui: false
   filter-ui: false
 page-layout: full
 title-block-banner: true
 ---
-
 
 ::: {#posts}
 :::

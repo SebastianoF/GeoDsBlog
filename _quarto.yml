@@ -4,7 +4,7 @@ project:
 website:
   title: "A Geospatial Data Science Blog"
   favicon: images/favicon.png
-  # site-url: ""
+  site-url: "https://geospatial.netlify.app/"
   # google-analytics: ""
 
   page-footer:
