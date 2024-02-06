@@ -6,7 +6,6 @@ website:
   favicon: images/favicon.png
   site-url: "https://geospatial.netlify.app/"
   # google-analytics: ""
-
   page-footer:
     left: "Blog made with [Quarto](https://quarto.org/), by Sebastiano Ferraris. License: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
     right:
@@ -14,17 +13,16 @@ website:
         href: https://github.com/sebastianof/
       - icon: envelope
         href: mailto:sebastiano.ferraris@gmail.com
-
   navbar:
     right:
       - text: Posts
         menu:
           - text: All posts
-            href: posts/index.qmd
+            href: posts/all.qmd
           - text: Geospatial Data Science
-            href: posts/index_gds.qmd
+            href: posts/gds.qmd
           - text: Code development
-            href: posts/index_bp.qmd
+            href: posts/bp.qmd
           # - text: Blogging
           #   href: posts/index_bl.qmd
           # - text: Algorithms
@@ -43,7 +41,10 @@ website:
       #       href: series-gha.qmd
       #     - text: Open source projects
       #       href: series-gha.qmd
-
+      - icon: github
+        href: https://github.com/sebastianof/
+      - icon: envelope
+        href: mailto:sebastiano.ferraris@gmail.com
 format:
   html:
     smooth-scroll: true
