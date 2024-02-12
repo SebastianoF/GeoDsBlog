@@ -138,7 +138,9 @@ window.Quarto = {
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="A Geospatial Data Science Blog - Haversine’s distance mathematics">
 <meta name="twitter:description" content="Computing the distance between two points on a sphere">
-<meta name="twitter:image" content="images/cover.png">
+<meta name="twitter:image" content="https://geospatial.netlify.app/posts/gds-2024-01-10-haversine-dist/images/cover.png">
+<meta name="twitter:image-height" content="932">
+<meta name="twitter:image-width" content="1662">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -165,15 +167,15 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
         <li>
-    <a class="dropdown-item" href="../../posts/index.html">
+    <a class="dropdown-item" href="../../posts/all.html">
  <span class="dropdown-text">All posts</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../posts/index_gds.html">
+    <a class="dropdown-item" href="../../posts/gds.html">
  <span class="dropdown-text">Geospatial Data Science</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../posts/index_bp.html">
+    <a class="dropdown-item" href="../../posts/bp.html">
  <span class="dropdown-text">Code development</span></a>
   </li>  
     </ul>
@@ -193,6 +195,16 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sebastianof/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:sebastiano.ferraris@gmail.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -606,24 +618,24 @@ B &amp;=(\cos\tilde{\theta}_B~\cos\varphi_B, \sin\tilde{\theta}_B~\cos\varphi_B,
 <section id="sec-implementation" class="level2">
 <h2 class="anchored" data-anchor-id="sec-implementation">Implementation and examples</h2>
 <p>From a computational point of view, as sadi before, we want to avoid computing <span class="math inline">\(\sin\)</span> when the angles are very small. So a stable implementation would use the last part of <a href="#eq-hav-0" class="quarto-xref">Equation&nbsp;2</a>.</p>
-<div id="cell-17" class="cell" data-execution_count="22">
+<div id="cell-17" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">""" Haversine function in python"""</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function(theta_A, phi_A, theta_B, phi_B):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function_sin(theta_A, phi_A, theta_B, phi_B):</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># haversine computed with the sin</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    hav_rad <span class="op">=</span> <span class="kw">lambda</span>  x: np.sin(x<span class="op">/</span><span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">-</span> hav_rad(phi_B <span class="op">+</span> phi_A) ) <span class="op">*</span> hav_rad(theta_B <span class="op">-</span> theta_A)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance(lon_1, lon_2, lat_1, lat_2):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_sin(lon_1, lon_2, lat_1, lat_2):</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lon_2, lat_1, lat_2])</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function_sin(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify that it looks correct:</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to London = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_london), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris  = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance Paris to London  = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_paris, <span class="op">*</span>lon_lat_london), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to London = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_london), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris  = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance Paris to London  = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_paris, <span class="op">*</span>lon_lat_london), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Distance London to London = 0.0 Km
 Distance London to Paris  = 334.563443 Km
@@ -632,12 +644,12 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 </div>
 <p>It seems to be working correctly. Let’s compare it with an out of the box function from the library <code>sklearn</code> (see also this <a href="https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points">stack overflow discussion</a> and <a href="https://stackoverflow.com/questions/19412462/getting-distance-between-two-points-based-on-latitude-longitude">this one</a>)</p>
 <div id="cell-20" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> haversine_distances</span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> haversine_distances <span class="im">as</span> haversine_distances_sklearn</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lon_B, lat_B <span class="op">=</span> lon_lat_paris</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [[np.radians(lat_A), np.radians(lon_A)], [np.radians(lat_B), np.radians(lon_B)]]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>distance_sklearn <span class="op">=</span> R_Km <span class="op">*</span> haversine_distances(vals)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>distance_sklearn <span class="op">=</span> R_Km <span class="op">*</span> haversine_distances_sklearn(vals)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris for sklearn  = </span><span class="sc">{</span><span class="bu">round</span>(distance_sklearn[<span class="dv">1</span>,<span class="dv">0</span>], PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -653,68 +665,75 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lon_lat_london_2 <span class="op">=</span> (<span class="fl">0.1276</span>, <span class="fl">51.50720001</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with cosine) = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with sin) = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Very small distance (hav with cosine) = 1.11194938401393e-06 Km</code></pre>
+<pre><code>Very small distance (hav with sin) = 1.11194938401393e-06 Km</code></pre>
 </div>
 </div>
 <p>We can see that our implementation with the haversine function, computed with the <code>sin</code> version, does not collapse to zero.</p>
 <p>What happens if we re-implement with function with the cosine?</p>
 <div id="cell-24" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeated code with a small change!</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeated code with a small change. Now the Haversine function is computed with the cosine</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function(theta_A, phi_A, theta_B, phi_B):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function_cos(theta_A, phi_A, theta_B, phi_B):</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Haversine computed with the cosine - Numerically unstable!</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    hav_rad <span class="op">=</span> <span class="kw">lambda</span>  x: (<span class="dv">1</span><span class="op">-</span>np.cos(x))<span class="op">/</span><span class="dv">2</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">-</span> hav_rad(phi_B <span class="op">+</span> phi_A) ) <span class="op">*</span> hav_rad(theta_B <span class="op">-</span> theta_A)</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance(lon_1, lon_2, lat_1, lat_2):</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lon_2, lat_1, lat_2])</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_cos(lon_1, lat_1, lon_2, lat_2):</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lat_1, lon_2, lat_2])</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function_cos(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-25" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris (hav with sine) = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with sine)      = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris (hav with cos) = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_cos(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with cos)      = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_cos(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with sin)      = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Distance London to Paris (hav with sine) = 334.5634431209046 Km
-Very small distance (hav with sine)      = 0.0 Km</code></pre>
+<pre><code>Distance London to Paris (hav with cos) = 334.5634431209046 Km
+Very small distance (hav with cos)      = 0.0 Km
+Very small distance (hav with sin)      = 1.11194938401393e-06 Km</code></pre>
 </div>
 </div>
-<p>The function works well for large angles, though for small angle the distance collapses.</p>
+<p>The function works well for large angles, though for small angle the Haversine distance computed with the cosine collapses.</p>
 <p>Had the developers of <code>sklearn</code> use the <code>sin</code> or the <code>cos</code>?</p>
 <div id="cell-27" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london_1</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lon_B, lat_B <span class="op">=</span> lon_lat_london_2</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [[np.radians(lat_A), np.radians(lon_A)], [np.radians(lat_B), np.radians(lon_B)]]</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>distance_sklearn <span class="op">=</span> R_Km <span class="op">*</span> haversine_distances(vals)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>dist_sklearn <span class="op">=</span> R_Km <span class="op">*</span> haversine_distances_sklearn(vals)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris for sklearn  = </span><span class="sc">{</span><span class="bu">round</span>(distance_sklearn[<span class="dv">1</span>,<span class="dv">0</span>], PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance for sklearn  = </span><span class="sc">{</span><span class="bu">round</span>(dist_sklearn[<span class="dv">1</span>,<span class="dv">0</span>], PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Distance London to Paris for sklearn  = 1.11194938401393e-06 Km</code></pre>
+<pre><code>Very small distance for sklearn  = 1.11194938401393e-06 Km</code></pre>
 </div>
 </div>
-<p>We can see that (at least for this case) our results and the <code>sklearn</code> implementation is the same!</p>
+<p>We can see that (at least for this case) our results and the <code>sklearn</code> implementation are the same! And we can assume that <code>sklearn</code> implemented the haversine distance</p>
 </section>
 <section id="sec-vincentry-formula" class="level2">
 <h2 class="anchored" data-anchor-id="sec-vincentry-formula">See also: Vincety’s formula</h2>
 <p>To compute the distance between two points on an ellipsoid model (which is more accurate than the spherical model on which the Haversine is based on) there is the Vincety formula.</p>
 <p>Its mathematical derivation may be the topic for another post, though if you want to have it computed with a tool out of the box, we recommend the library <code>geopy</code>.</p>
-<div id="cell-30" class="cell" data-execution_count="21">
+<div id="cell-30" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy <span class="im">import</span> distance</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>dist_haversine <span class="op">=</span> haversine_distance(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>dist_vincenty <span class="op">=</span> distance.distance(lon_lat_london[::<span class="op">-</span><span class="dv">1</span>], lon_lat_paris[::<span class="op">-</span><span class="dv">1</span>]).km</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>lon_B, lat_B <span class="op">=</span> lon_lat_paris</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [[np.radians(lat_A), np.radians(lon_A)], [np.radians(lat_B), np.radians(lon_B)]]</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with haversine =  </span><span class="sc">{</span>dist_haversine<span class="sc">}</span><span class="ss"> Km"</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with Vincenty =  </span><span class="sc">{</span>dist_vincenty<span class="sc">}</span><span class="ss"> Km"</span>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Relative error = |ground - calculated|/|ground| = </span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">abs</span>(dist_vincenty <span class="op">-</span> dist_haversine) <span class="op">/</span> dist_vincenty, PREC)<span class="sc">}</span><span class="ss"> %"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>dist_sklearn <span class="op">=</span> R_Km <span class="op">*</span> haversine_distances_sklearn(vals)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>dist_vincenty <span class="op">=</span> distance.distance(lon_lat_london[::<span class="op">-</span><span class="dv">1</span>], lon_lat_paris[::<span class="op">-</span><span class="dv">1</span>]).km</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with haversine (sklearn) =  </span><span class="sc">{</span><span class="bu">round</span>(dist_sklearn[<span class="dv">1</span>,<span class="dv">0</span>], PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with Vincenty (geopy)    =  </span><span class="sc">{</span><span class="bu">round</span>(dist_vincenty, PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Relative error = |ground - calculated|/|ground| = </span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">abs</span>(dist_vincenty <span class="op">-</span> dist_sklearn[<span class="dv">1</span>,<span class="dv">0</span>]) <span class="op">/</span> dist_vincenty, PREC)<span class="sc">}</span><span class="ss"> %"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Distance with haversine =  334.5634431209046 Km
-Distance with Vincenty =  334.88388938435094 Km
-Relative error = |ground - calculated|/|ground| = 0.0957 %</code></pre>
+<pre><code>Distance with haversine (sklearn) =  334.563443 Km
+Distance with Vincenty (geopy)    =  334.883889 Km
+Relative error = |ground - calculated|/|ground| = 0.095689 %</code></pre>
 </div>
 </div>
 
