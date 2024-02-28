@@ -313,7 +313,7 @@ Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
-<p>Please note that most mathematical textbooks have the angle <span class="math inline">\(\varphi\)</span> at zero when the point in on the z-axis, so <span class="math inline">\(\sin\)</span> and <span class="math inline">\(\cos\)</span> are swapped, and the angle’s domain would be <span class="math inline">\([0,\pi]\)</span>. In this blot post and to remain faithful to the definition of latitude, we consider <span class="math inline">\(\varphi\)</span> at zero when the point is on the xy-plane with domain <span class="math inline">\([-\pi,\pi]\)</span>.</p>
+<p>Please note that most mathematical textbooks have the angle <span class="math inline">\(\varphi\)</span> at zero when the point in on the z-axis, so <span class="math inline">\(\sin\)</span> and <span class="math inline">\(\cos\)</span> are swapped, and the angle’s domain would be <span class="math inline">\([0,\pi]\)</span>. In this blot post and to remain faithful to the definition of latitude, we consider <span class="math inline">\(\varphi\)</span> at zero when the point is on the xy-plane with domain <span class="math inline">\([-\pi/2,\pi/2]\)</span>.</p>
 <!-- Footnote -->
 </section>
 <section id="sec-map-projection" class="level2">
@@ -487,8 +487,8 @@ at the equator: 40</code></pre>
 <p>Before introducing the Haversine distance between <span class="math inline">\(A = (\text{Lon}_{A}, \text{Lat}_{A})\)</span> and <span class="math inline">\(B = (\text{Lon}_{B}, \text{Lat}_{B})\)</span>, we start with two related concepts that can be seen as its approximation:</p>
 <ul>
 <li><strong>Euclidean distance</strong> between the corresponding points on the sphere: <span class="math display">\[
-d_{\text{Eucl}}(A, B) = \lVert \Pi(\text{rad}(B)) - \Pi(\text{rad}(A)) \rVert = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}
-\]</span> where <span class="math inline">\(\text{rad}(A) = (\varphi_{A}, \theta_{A})\)</span> are the angle expressed in radiants. The formual above simply leverages on the Pythagorean theorem in respect to the 3D coordinate axis, and represents the distance we would travel if we could dig a straight tunnel connecting <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It always underestimate the distance on the sphere, in the worst case by a factor of <span class="math inline">\(\pi \mathcal{R}\)</span> for <span class="math inline">\(\mathcal{R}\)</span> earth radius.</li>
+d_{\text{Eucl}}(A, B) = \lVert \Pi(\varphi_{A}, \theta_{A}) - \Pi(\varphi_{A}, \theta_{A}) \rVert = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}
+\]</span> The formula above simply leverages on the Pythagorean theorem in respect to the 3D coordinate axis, and represents the distance we would travel if we could dig a straight tunnel connecting <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It always underestimate the distance on the sphere, in the worst case by a factor of <span class="math inline">\(\pi \mathcal{R}\)</span> for <span class="math inline">\(\mathcal{R}\)</span> earth radius.</li>
 </ul>
 <p>The Euclidean distance is not very useful if we want to know the distance on the sphere!</p>
 <p>Can we adjust for the curvature of the sphere getting inspired by <a href="#fig-radius-at-latitude" class="quarto-xref">Figure&nbsp;4</a>? For example we use the Pythagorean theorem on the surface of the sphere respect to the meridians and the parallels, and adjust for the fact that the latitude distance shrinks when moving away from the equator.</p>
