@@ -294,15 +294,19 @@ window.Quarto = {
 \varphi &amp;:= \text{rad}(\text{Lat}) \\
 \end{align*}
 \]</span></p>
-<p>Another basic map for the spherical model is <span class="math inline">\(\Pi: \mathbb{R}^2 \rightarrow \mathbb{S}^2 \subset \mathbb{R}^3\)</span> that projects each pair <span class="math inline">\((\theta, \varphi)\)</span> for <span class="math inline">\(\theta \in [-\pi, \pi]\)</span> and <span class="math inline">\(\varphi \in [-\pi/2, \pi/2]\)</span> on the sphere of radius <span class="math inline">\(R\)</span>:</p>
+<p>Another basic map for the spherical model is the immersion from the sphere to the 3D space</p>
 <p><span class="math display">\[
-\Pi(\theta, \varphi) = \begin{cases}
+\iota: \mathbb{S}^2 \rightarrow  \mathbb{R}^3
+\]</span></p>
+<p>that projects each pair <span class="math inline">\((\theta, \varphi)\)</span> for <span class="math inline">\(\theta \in [-\pi, \pi]\)</span> and <span class="math inline">\(\varphi \in [-\pi/2, \pi/2]\)</span> on the sphere of radius <span class="math inline">\(R\)</span>:</p>
+<p><span class="math display">\[
+\iota(\theta, \varphi) = \begin{cases}
        x = R \cos(\varphi) \cos(\theta)\\
        y = R \cos(\varphi) \sin(\theta)\\
        z = R \sin(\varphi)\\
      \end{cases}
 \]</span></p>
-<p>The function <span class="math inline">\(\Pi\)</span> is one of the many map projections, and the only one we will consider in this blog post; the reasoning behind its formulation can be derived from the definition of sine and cosine and from the drawing below.</p>
+<p>The function <span class="math inline">\(\iota\)</span> is one of the many map projections, and the only one we will consider in this blog post; the reasoning behind its formulation can be derived from the definition of sine and cosine and from the drawing below.</p>
 <div id="fig-spherical-coordinates" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-spherical-coordinates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -487,7 +491,7 @@ at the equator: 40</code></pre>
 <p>Before introducing the Haversine distance between <span class="math inline">\(A = (\text{Lon}_{A}, \text{Lat}_{A})\)</span> and <span class="math inline">\(B = (\text{Lon}_{B}, \text{Lat}_{B})\)</span>, we start with two related concepts that can be seen as its approximation:</p>
 <ul>
 <li><strong>Euclidean distance</strong> between the corresponding points on the sphere: <span class="math display">\[
-d_{\text{Eucl}}(A, B) = \lVert \Pi(\varphi_{A}, \theta_{A}) - \Pi(\varphi_{A}, \theta_{A}) \rVert = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}
+d_{\text{Eucl}}(A, B) = \lVert \iota(\varphi_{A}, \theta_{A}) - \iota(\varphi_{A}, \theta_{A}) \rVert = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}
 \]</span> The formula above simply leverages on the Pythagorean theorem in respect to the 3D coordinate axis, and represents the distance we would travel if we could dig a straight tunnel connecting <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It always underestimate the distance on the sphere, in the worst case by a factor of <span class="math inline">\(\pi \mathcal{R}\)</span> for <span class="math inline">\(\mathcal{R}\)</span> earth radius.</li>
 </ul>
 <p>The Euclidean distance is not very useful if we want to know the distance on the sphere!</p>
