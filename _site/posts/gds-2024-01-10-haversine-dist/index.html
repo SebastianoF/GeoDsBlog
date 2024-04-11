@@ -103,6 +103,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VPPV7D4HSQ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
+</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -363,42 +372,40 @@ Figure&nbsp;1
 </div>
 <div id="cell-5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm, colors</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Sphere surface</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>lon, lat <span class="op">=</span> np.mgrid[<span class="op">-</span><span class="dv">90</span>:<span class="dv">90</span>:<span class="ot">100j</span>, <span class="fl">0.0</span>:<span class="dv">360</span>:<span class="ot">100j</span>]</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>x, y , z <span class="op">=</span> lon_lat_to_3d(lon, lat)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(x, y, z,  rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"#303E4F"</span>, alpha<span class="op">=</span><span class="fl">0.2</span>, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallels</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>xx_equator, yy_equator, zz_equator <span class="op">=</span> lon_lat_to_3d(lon_at_equator_deg, lat_at_equator_deg)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_equator, yy_equator, zz_equator, color<span class="op">=</span><span class="st">"r"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>xx_tropic, yy_tropic, zz_tropic <span class="op">=</span> lon_lat_to_3d(lon_at_tropic_deg, lat_at_tropic_deg)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_tropic , yy_tropic, zz_tropic, color<span class="op">=</span><span class="st">"g"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>xx_arctic, yy_arctic, zz_arctic <span class="op">=</span> lon_lat_to_3d(lon_at_arctic_deg, lat_at_arctic_deg)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_arctic, yy_arctic, zz_arctic, color<span class="op">=</span><span class="st">"b"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Meridian</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>xx_meridian, yy_meridian, zz_meridian <span class="op">=</span> lon_lat_to_3d(lon_at_meridian_deg, lat_at_meridian_deg)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_meridian, yy_meridian, zz_meridian, color<span class="op">=</span><span class="st">"gray"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Cities</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [lon_lat_london, lon_lat_paris, lon_lat_rome]</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>lon_cities <span class="op">=</span> [a[<span class="dv">0</span>] <span class="cf">for</span> a <span class="kw">in</span> cities]</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>lat_cities <span class="op">=</span> [a[<span class="dv">1</span>] <span class="cf">for</span> a <span class="kw">in</span> cities]</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>xx_cities, yy_cities, zz_cities <span class="op">=</span> lon_lat_to_3d(lon_cities, lat_cities)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_cities, yy_cities, zz_cities, color<span class="op">=</span><span class="st">"k"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sphere surface</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>lon, lat <span class="op">=</span> np.mgrid[<span class="op">-</span><span class="dv">90</span>:<span class="dv">90</span>:<span class="ot">100j</span>, <span class="fl">0.0</span>:<span class="dv">360</span>:<span class="ot">100j</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>x, y , z <span class="op">=</span> lon_lat_to_3d(lon, lat)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(x, y, z,  rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"#303E4F"</span>, alpha<span class="op">=</span><span class="fl">0.2</span>, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallels</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>xx_equator, yy_equator, zz_equator <span class="op">=</span> lon_lat_to_3d(lon_at_equator_deg, lat_at_equator_deg)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_equator, yy_equator, zz_equator, color<span class="op">=</span><span class="st">"r"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>xx_tropic, yy_tropic, zz_tropic <span class="op">=</span> lon_lat_to_3d(lon_at_tropic_deg, lat_at_tropic_deg)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_tropic , yy_tropic, zz_tropic, color<span class="op">=</span><span class="st">"g"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>xx_arctic, yy_arctic, zz_arctic <span class="op">=</span> lon_lat_to_3d(lon_at_arctic_deg, lat_at_arctic_deg)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_arctic, yy_arctic, zz_arctic, color<span class="op">=</span><span class="st">"b"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Meridian</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>xx_meridian, yy_meridian, zz_meridian <span class="op">=</span> lon_lat_to_3d(lon_at_meridian_deg, lat_at_meridian_deg)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_meridian, yy_meridian, zz_meridian, color<span class="op">=</span><span class="st">"gray"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Cities</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [lon_lat_london, lon_lat_paris, lon_lat_rome]</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>lon_cities <span class="op">=</span> [a[<span class="dv">0</span>] <span class="cf">for</span> a <span class="kw">in</span> cities]</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>lat_cities <span class="op">=</span> [a[<span class="dv">1</span>] <span class="cf">for</span> a <span class="kw">in</span> cities]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>xx_cities, yy_cities, zz_cities <span class="op">=</span> lon_lat_to_3d(lon_cities, lat_cities)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>ax.scatter(xx_cities, yy_cities, zz_cities, color<span class="op">=</span><span class="st">"k"</span>,s<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -713,7 +720,7 @@ Very small distance (hav with sin)      = 1.11194938401393e-06 Km</code></pre>
 <pre><code>Very small distance for sklearn  = 1.11194938401393e-06 Km</code></pre>
 </div>
 </div>
-<p>We can see that (at least for this case) our results and the <code>sklearn</code> implementation are the same! And we can assume that <code>sklearn</code> implemented the haversine distance</p>
+<p>We can see that (at least for this case) our results and the <code>sklearn</code> implementation are the same! And we may even daring to assume that <code>sklearn</code> implemented the haversine distance with the <code>sin</code> formula.</p>
 </section>
 <section id="sec-vincentry-formula" class="level2">
 <h2 class="anchored" data-anchor-id="sec-vincentry-formula">See also: Vincety’s formula</h2>
