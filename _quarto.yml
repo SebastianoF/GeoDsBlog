@@ -5,7 +5,7 @@ website:
   title: "A Geospatial Data Science Blog"
   favicon: images/favicon.png
   site-url: "https://geospatial.netlify.app/"
-  # google-analytics: ""
+  google-analytics: "G-VPPV7D4HSQ"
   page-footer:
     left: "Blog made with [Quarto](https://quarto.org/), by Sebastiano Ferraris. License: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
     right:

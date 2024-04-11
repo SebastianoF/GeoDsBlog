@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/68b53bdf-4947-4178-b735-29047ebb449d/deploy-status)](https://app.netlify.com/sites/geospatial/deploys)
+
 # Geo Data Science Blog
 
 A Blog about Geospatial Data Science and Algorithms created with [Quarto](https://quarto.org/) and [netlify](https://app.netlify.com/). 
