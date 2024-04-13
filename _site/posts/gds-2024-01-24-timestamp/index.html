@@ -103,6 +103,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VPPV7D4HSQ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
+</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
@@ -580,9 +589,8 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 </div>
 <div id="cell-27" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the index to a dataframe</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.choice(<span class="bu">list</span>(<span class="st">"random"</span>), size<span class="op">=</span><span class="bu">len</span>(index_events))).set_index(index_events)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.choice(<span class="bu">list</span>(<span class="st">"random"</span>), size<span class="op">=</span><span class="bu">len</span>(index_events))).set_index(index_events)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
@@ -937,16 +945,15 @@ datetime +01:00: 2023-02-21T03:37:21+01:00</code></pre>
 <h3 class="anchored" data-anchor-id="timezones-as-capital-cities">Timezones as capital cities</h3>
 <p>Below, with <code>dateutil</code> we can also pass the offset with the capital city based offset, such as “Asia/Tehran”.</p>
 <div id="cell-53" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dateutil <span class="im">import</span> tz</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># country/city offset</span></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>str_event <span class="op">=</span> <span class="st">"2023-02-21 03:37:21"</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>str_offset <span class="op">=</span> <span class="st">"Asia/Tehran"</span></span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt.datetime.strptime(str_event, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt_event.astimezone(tz.gettz(str_offset))</span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># country/city offset</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>str_event <span class="op">=</span> <span class="st">"2023-02-21 03:37:21"</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>str_offset <span class="op">=</span> <span class="st">"Asia/Tehran"</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt.datetime.strptime(str_event, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt_event.astimezone(tz.gettz(str_offset))</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>datetime: 2023-02-21T03:37:21
 datetime: 2023-02-21T07:07:21+03:30</code></pre>

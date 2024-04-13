@@ -637,8 +637,8 @@ B &amp;=(\cos\tilde{\theta}_B~\cos\varphi_B, \sin\tilde{\theta}_B~\cos\varphi_B,
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    hav_rad <span class="op">=</span> <span class="kw">lambda</span>  x: np.sin(x<span class="op">/</span><span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">-</span> hav_rad(phi_B <span class="op">+</span> phi_A) ) <span class="op">*</span> hav_rad(theta_B <span class="op">-</span> theta_A)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_sin(lon_1, lon_2, lat_1, lat_2):</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lon_2, lat_1, lat_2])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_sin(lon_1, lat_1, lon_2, lat_2):</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lat_1, lon_2, lat_2])</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function_sin(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="7">
