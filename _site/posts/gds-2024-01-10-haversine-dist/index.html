@@ -271,7 +271,7 @@ window.Quarto = {
   <li><a href="#sec-haversine-distance" id="toc-sec-haversine-distance" class="nav-link" data-scroll-target="#sec-haversine-distance">Haversine Distance</a></li>
   <li><a href="#sec-implementation" id="toc-sec-implementation" class="nav-link" data-scroll-target="#sec-implementation">Implementation and examples</a></li>
   <li><a href="#sec-numerical-stability" id="toc-sec-numerical-stability" class="nav-link" data-scroll-target="#sec-numerical-stability">Numerical stability</a></li>
-  <li><a href="#sec-vincentry-formula" id="toc-sec-vincentry-formula" class="nav-link" data-scroll-target="#sec-vincentry-formula">See also: Vincety’s formula</a></li>
+  <li><a href="#sec-vincentry-formula" id="toc-sec-vincentry-formula" class="nav-link" data-scroll-target="#sec-vincentry-formula">See also: Vincenty’s formula</a></li>
   </ul>
 </nav>
     </div>
@@ -332,7 +332,7 @@ Figure&nbsp;1
 <section id="sec-map-projection" class="level2">
 <h2 class="anchored" data-anchor-id="sec-map-projection">Map Projection on the Sphere Experiments</h2>
 <p>To check all is working correctly we will plot on the 3D sphere a sequence of equidistant points around the equator (in red), around the tropic of Cancer (in green), around the Arctic Polar circle (of course in blue), and then the cities of Rome, Paris and London (in black). To show a visual reference to make sense of the position of these three cities, we also plot the meridian zero (in gray).</p>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-3" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -346,7 +346,7 @@ Figure&nbsp;1
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x, y, z)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">40</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create N equidistant points around the equator</span></span>
@@ -363,14 +363,14 @@ Figure&nbsp;1
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create N equidistant points at meridian 0</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>lat_at_meridian_deg <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">90</span>, <span class="dv">90</span>, N)[:<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>lon_at_meridian_deg <span class="op">=</span> <span class="op">-</span><span class="dv">90</span> <span class="op">*</span> np.ones_like(lat_at_meridian_deg) </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>lon_at_meridian_deg <span class="op">=</span> np.ones_like(lat_at_meridian_deg) </span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># a selection of 3 cities</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>lon_lat_london <span class="op">=</span> ( <span class="fl">0.1276</span>, <span class="fl">51.5072</span>)</span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>lon_lat_paris  <span class="op">=</span> ( <span class="fl">2.3522</span>, <span class="fl">48.8566</span>)</span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>lon_lat_rome   <span class="op">=</span> (<span class="fl">12.4964</span>, <span class="fl">41.9028</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
@@ -428,7 +428,7 @@ Figure&nbsp;2
 </figure>
 </div>
 <p>So now we know how to adjust for the number of points to maintain their distance equal while modulating the latitude.</p>
-<div id="cell-8" class="cell" data-execution_count="4">
+<div id="cell-8" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> num_points_at_latitude(num_points, latitude_deg):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(num_points <span class="op">*</span> np.cos(np.radians(latitude_deg)))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -457,7 +457,7 @@ at the tropic: 36
 at the equator: 40</code></pre>
 </div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeated code from cells above</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
@@ -584,8 +584,8 @@ d = 2 \mathcal{R} \arcsin
 <section id="proof-of-eq-hav-1" class="level4">
 <h4 class="anchored" data-anchor-id="proof-of-eq-hav-1">Proof of <a href="#eq-hav-1" class="quarto-xref">Equation&nbsp;5</a></h4>
 <p><strong>Hypothesis:</strong> <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> points on the surface of a sphere, with coordinates</p>
-<p><span class="math inline">\(A=(\varphi_A, \theta_A) = (\cos\theta_A~\cos\varphi_A, \sin\theta_A~\cos\varphi_A, \sin\varphi_A )\)</span> and</p>
-<p><span class="math inline">\(B=(\varphi_B, \theta_B) = (\cos\theta_B~\cos\varphi_B, \sin\theta_B~\cos\varphi_B, \sin\varphi_B )\)</span></p>
+<p><span class="math inline">\(A=(\theta_A, \varphi_A) = (\cos\theta_A~\cos\varphi_A, \sin\theta_A~\cos\varphi_A, \sin\varphi_A )\)</span> and</p>
+<p><span class="math inline">\(B=(\theta_B, \varphi_B) = (\cos\theta_B~\cos\varphi_B, \sin\theta_B~\cos\varphi_B, \sin\varphi_B )\)</span></p>
 <p>and <span class="math inline">\(\lambda\)</span> angle at the centre of the sphere.</p>
 <p><strong>Thesis:</strong> <span class="math inline">\(\text{hav}(\lambda) = \text{hav}(\varphi_B - \varphi_A) + \cos\varphi_A \cos\varphi_B ~\text{hav}(\theta_B - \theta_A)\)</span>.</p>
 <p>It is always possible to rotate the axis so to have <span class="math inline">\(\theta_A = 0\)</span>, and <span class="math inline">\(\tilde{\theta}_B = \theta_B - \theta_A\)</span>. In the new coordinate system we have: <span class="math display">\[
@@ -629,7 +629,7 @@ B &amp;=(\cos\tilde{\theta}_B~\cos\varphi_B, \sin\tilde{\theta}_B~\cos\varphi_B,
 <section id="sec-implementation" class="level2">
 <h2 class="anchored" data-anchor-id="sec-implementation">Implementation and examples</h2>
 <p>From a computational point of view, as sadi before, we want to avoid computing <span class="math inline">\(\sin\)</span> when the angles are very small. So a stable implementation would use the last part of <a href="#eq-hav-0" class="quarto-xref">Equation&nbsp;2</a>.</p>
-<div id="cell-17" class="cell" data-execution_count="6">
+<div id="cell-17" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">""" Haversine function in python"""</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function_sin(theta_A, phi_A, theta_B, phi_B):</span>
@@ -641,7 +641,7 @@ B &amp;=(\cos\tilde{\theta}_B~\cos\varphi_B, \sin\tilde{\theta}_B~\cos\varphi_B,
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lat_1, lon_2, lat_2])</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function_sin(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="7">
+<div id="cell-18" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify that it looks correct:</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to London = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_london), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
@@ -654,7 +654,7 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 </div>
 </div>
 <p>It seems to be working correctly. Let’s compare it with an out of the box function from the library <code>sklearn</code> (see also this <a href="https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points">stack overflow discussion</a> and <a href="https://stackoverflow.com/questions/19412462/getting-distance-between-two-points-based-on-latitude-longitude">this one</a>)</p>
-<div id="cell-20" class="cell" data-execution_count="8">
+<div id="cell-20" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> haversine_distances <span class="im">as</span> haversine_distances_sklearn</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london</span>
@@ -671,7 +671,7 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 <section id="sec-numerical-stability" class="level2">
 <h2 class="anchored" data-anchor-id="sec-numerical-stability">Numerical stability</h2>
 <p>Let’s see what happens in term of numerical stability. We take now two points in london very close to each others:</p>
-<div id="cell-22" class="cell" data-execution_count="9">
+<div id="cell-22" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lon_lat_london_1 <span class="op">=</span> (<span class="fl">0.1276</span>, <span class="fl">51.5072</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lon_lat_london_2 <span class="op">=</span> (<span class="fl">0.1276</span>, <span class="fl">51.50720001</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>PREC <span class="op">=</span> <span class="dv">20</span></span>
@@ -683,7 +683,7 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 </div>
 <p>We can see that our implementation with the haversine function, computed with the <code>sin</code> version, does not collapse to zero.</p>
 <p>What happens if we re-implement with function with the cosine?</p>
-<div id="cell-24" class="cell" data-execution_count="10">
+<div id="cell-24" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeated code with a small change. Now the Haversine function is computed with the cosine</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_function_cos(theta_A, phi_A, theta_B, phi_B):</span>
@@ -695,7 +695,7 @@ Distance Paris to London  = 334.563443 Km</code></pre>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lat_1, lon_2, lat_2])</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_function_cos(theta_1, phi_1, theta_2, phi_2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-25" class="cell" data-execution_count="11">
+<div id="cell-25" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance London to Paris (hav with cos) = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_cos(<span class="op">*</span>lon_lat_london, <span class="op">*</span>lon_lat_paris), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with cos)      = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_cos(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Very small distance (hav with sin)      = </span><span class="sc">{</span><span class="bu">round</span>(haversine_distance_sin(<span class="op">*</span>lon_lat_london_1, <span class="op">*</span>lon_lat_london_2), PREC)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -707,7 +707,7 @@ Very small distance (hav with sin)      = 1.11194938401393e-06 Km</code></pre>
 </div>
 <p>The function works well for large angles, though for small angle the Haversine distance computed with the cosine collapses.</p>
 <p>Had the developers of <code>sklearn</code> use the <code>sin</code> or the <code>cos</code>?</p>
-<div id="cell-27" class="cell" data-execution_count="12">
+<div id="cell-27" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london_1</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lon_B, lat_B <span class="op">=</span> lon_lat_london_2</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [[np.radians(lat_A), np.radians(lon_A)], [np.radians(lat_B), np.radians(lon_B)]]</span>
@@ -723,10 +723,10 @@ Very small distance (hav with sin)      = 1.11194938401393e-06 Km</code></pre>
 <p>We can see that (at least for this case) our results and the <code>sklearn</code> implementation are the same! And we may even daring to assume that <code>sklearn</code> implemented the haversine distance with the <code>sin</code> formula.</p>
 </section>
 <section id="sec-vincentry-formula" class="level2">
-<h2 class="anchored" data-anchor-id="sec-vincentry-formula">See also: Vincety’s formula</h2>
-<p>To compute the distance between two points on an ellipsoid model (which is more accurate than the spherical model on which the Haversine is based on) there is the Vincety formula.</p>
+<h2 class="anchored" data-anchor-id="sec-vincentry-formula">See also: Vincenty’s formula</h2>
+<p>To compute the distance between two points on an ellipsoid model (which is more accurate than the spherical model on which the Haversine is based on) there is the Vincenty formula <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>Its mathematical derivation may be the topic for another post, though if you want to have it computed with a tool out of the box, we recommend the library <code>geopy</code>.</p>
-<div id="cell-30" class="cell" data-execution_count="13">
+<div id="cell-30" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy <span class="im">import</span> distance</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>lon_A, lat_A <span class="op">=</span> lon_lat_london</span>
@@ -756,6 +756,7 @@ Relative error = |ground - calculated|/|ground| = 0.095689 %</code></pre>
 
 <ol>
 <li id="fn1"><p>See for example by JP Snyder · 1987 <a href="https://pubs.usgs.gov/publication/pp1395">“Map projections: A working manual”</a>, U.S. Government Printing Office, or H.S. Roblin “Map projections”, Edward Arnold Publisher Ltd.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The original Vincenty’s paper by can be found <a href="https://www.ngs.noaa.gov/wp-content/uploads/2018/12/inverse.pdf">here</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
