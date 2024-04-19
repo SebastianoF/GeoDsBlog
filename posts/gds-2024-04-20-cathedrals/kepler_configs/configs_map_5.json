@@ -1,0 +1,352 @@
+{
+    "version": "v1",
+    "config": {
+        "visState": {
+            "filters": [],
+            "layers": [
+                {
+                    "id": "fvgyeqv",
+                    "type": "point",
+                    "config": {
+                        "dataId": "cathedrals",
+                        "label": "Point",
+                        "color": [
+                            239,
+                            118,
+                            158
+                        ],
+                        "highlightColor": [
+                            252,
+                            242,
+                            26,
+                            255
+                        ],
+                        "columns": {
+                            "lat": "latitude",
+                            "lng": "longitude",
+                            "altitude": null
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "radius": 10,
+                            "fixedRadius": false,
+                            "opacity": 0.8,
+                            "outline": false,
+                            "thickness": 2,
+                            "strokeColor": null,
+                            "colorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "filled": true
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": null,
+                        "colorScale": "quantile",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                },
+                {
+                    "id": "w0co7pd",
+                    "type": "geojson",
+                    "config": {
+                        "dataId": "cathedrals",
+                        "label": "cathedrals",
+                        "color": [
+                            136,
+                            87,
+                            44
+                        ],
+                        "highlightColor": [
+                            252,
+                            242,
+                            26,
+                            255
+                        ],
+                        "columns": {
+                            "geojson": "_geojson"
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "opacity": 0.8,
+                            "strokeOpacity": 0.8,
+                            "thickness": 0.5,
+                            "strokeColor": [
+                                255,
+                                153,
+                                31
+                            ],
+                            "colorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radius": 10,
+                            "sizeRange": [
+                                0,
+                                10
+                            ],
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "heightRange": [
+                                0,
+                                500
+                            ],
+                            "elevationScale": 5,
+                            "enableElevationZoomFactor": true,
+                            "stroked": true,
+                            "filled": true,
+                            "enable3d": false,
+                            "wireframe": false
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": null,
+                        "colorScale": "quantile",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear",
+                        "heightField": null,
+                        "heightScale": "linear",
+                        "radiusField": null,
+                        "radiusScale": "linear"
+                    }
+                },
+                {
+                    "id": "yq45u7q",
+                    "type": "line",
+                    "config": {
+                        "dataId": "line",
+                        "label": "Point",
+                        "color": [
+                            255,
+                            248,
+                            51
+                        ],
+                        "highlightColor": [
+                            252,
+                            242,
+                            26,
+                            255
+                        ],
+                        "columns": {
+                            "lat0": "latitude_estimated",
+                            "lng0": "longitude",
+                            "lat1": "latitude_estimated_next",
+                            "lng1": "longitude_next",
+                            "alt0": "latitude_estimated_next",
+                            "alt1": null
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "opacity": 0.8,
+                            "thickness": 2,
+                            "colorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "sizeRange": [
+                                0,
+                                10
+                            ],
+                            "targetColor": null,
+                            "elevationScale": 1
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": null,
+                        "colorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                }
+            ],
+            "interactionConfig": {
+                "tooltip": {
+                    "fieldsToShow": {
+                        "cathedrals": [
+                            {
+                                "name": "dist_to_geod",
+                                "format": null
+                            },
+                            {
+                                "name": "name",
+                                "format": null
+                            }
+                        ],
+                        "line": [
+                            {
+                                "name": "name",
+                                "format": null
+                            }
+                        ]
+                    },
+                    "compareMode": false,
+                    "compareType": "absolute",
+                    "enabled": true
+                },
+                "brush": {
+                    "size": 0.5,
+                    "enabled": false
+                },
+                "geocoder": {
+                    "enabled": false
+                },
+                "coordinate": {
+                    "enabled": false
+                }
+            },
+            "layerBlending": "normal",
+            "splitMaps": [],
+            "animationConfig": {
+                "currentTime": null,
+                "speed": 1
+            }
+        },
+        "mapState": {
+            "bearing": 0,
+            "dragRotate": false,
+            "latitude": 38.92072975867944,
+            "longitude": 29.13479164145013,
+            "pitch": 0,
+            "zoom": 3.2565754063539543,
+            "isSplit": false
+        },
+        "mapStyle": {
+            "styleType": "dark",
+            "topLayerGroups": {},
+            "visibleLayerGroups": {
+                "label": true,
+                "road": true,
+                "border": false,
+                "building": true,
+                "water": true,
+                "land": true,
+                "3d building": false
+            },
+            "threeDBuildingColor": [
+                9.665468314072013,
+                17.18305478057247,
+                31.1442867897876
+            ],
+            "mapStyles": {}
+        }
+    }
+}
