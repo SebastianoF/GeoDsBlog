@@ -27,6 +27,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
       "/posts/gds-2024-01-10-haversine-dist/index.html",
       "/posts/gds-2022-10-03-polygons-part-1/index.html",
@@ -43,6 +44,7 @@
   {
     "listing": "/posts/all.html",
     "items": [
+      "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
       "/posts/gds-2024-01-10-haversine-dist/index.html",
       "/posts/gds-2022-10-03-polygons-part-1/index.html",
@@ -53,6 +55,7 @@
   {
     "listing": "/posts/gds.html",
     "items": [
+      "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
       "/posts/gds-2024-01-10-haversine-dist/index.html",
       "/posts/gds-2022-10-03-polygons-part-1/index.html",
