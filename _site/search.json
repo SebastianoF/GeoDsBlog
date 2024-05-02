@@ -11,7 +11,7 @@
     "href": "posts/gds-2024-01-24-timestamp/index.html#summary",
     "title": "Python datetimes manipulations",
     "section": "Summary",
-    "text": "Summary\nThis blog post collects in one place a range of methods for converting datetime objects across types in python and pandas.\nThe code snippet and the subsequent diagram summarise the data casting between datetime, int, str, pd.Timestamp.\nThe remaining sections offer more details and examples about each of those methods. At the end of the post you will find a section about some snippets to manipulate timezones in all the examined formats.\n\nimport datetime as dt\nimport pandas as pd\n\n# create a datetime\ndt_event = dt.datetime(year=2024, month=1, day=22, hour=13, minute=55, second=12)\n\n# convert to string with specific format code\nFORMAT_CODE = \"%m/%d/%Y, %H:%M:%S\"\ndt_event_str = dt_event.strftime(FORMAT_CODE)\n\n# convert from string to datetime\ndt_event = dt.datetime.strptime(dt_event_str, FORMAT_CODE)\n\n# convert from datetime to integer (milliseconds)\nmsec_event = int(dt_event.timestamp() * 1000)\n\n# convert from milliseconds to integer\ndt_event = dt.datetime.fromtimestamp(msec_event / 1000)\n\n# create a list of timestamps\ndt_start, dt_end = dt.datetime(2022, 3, 1), dt.datetime(2022, 3, 10)\n \nlist_events = []\n\nwhile dt_start &lt;= dt_end:\n    list_events.append(dt_start)\n    dt_start += dt.timedelta(days=1)\n\n# convert list of timestamps to pandas DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(list_events)\n\n# convert pandas DatetimeIdex of pd.Timestamps to list of timestamps\nlist_events = [dt.datetime.combine(x.date(), x.time()) for x in index_events]\n\n\n# convert pandas DatetimeIdex of pd.Timestamps to an Index of integers (nanoseconds)\nindex_events_int = index_events.astype(int)\n\n# convert pandas Index of integers (nanoseconds) to DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(index_events_int)\n\n# convert pandas DatetimeIdex of pd.Timestamps to an Index of strings\nindex_events_str = index_events.astype(str)\n\n# convert pandas Index of strings to DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(index_events_str)"
+    "text": "Summary\nThis blog post collects in one place a range of methods for converting datetime objects across types in python and pandas.\nThe code snippet and the subsequent diagram summarise the data casting between datetime, int, str, pd.Timestamp.\nThe remaining sections offer more details and examples about each of those methods. At the end of the post you will find a section about some snippets to manipulate timezones in all the examined formats.\n\nimport datetime as dt\nimport pandas as pd\n\n# create a datetime\ndt_event = dt.datetime(year=2024, month=1, day=22, hour=13, minute=55, second=12)\n\n# convert to string with specific format code\nFORMAT_CODE = \"%m/%d/%Y, %H:%M:%S\"\ndt_event_str = dt_event.strftime(FORMAT_CODE)\n\n# convert from string to datetime\ndt_event = dt.datetime.strptime(dt_event_str, FORMAT_CODE)\n\n# convert from datetime to integer (milliseconds)\nmsec_event = int(dt_event.timestamp() * 1000)\n\n# convert from milliseconds to integer\ndt_event = dt.datetime.fromtimestamp(msec_event / 1000)\n\n# create a list of timestamps\ndt_start, dt_end = dt.datetime(2022, 3, 1), dt.datetime(2022, 3, 10)\n \nlist_events = []\n\nwhile dt_start &lt;= dt_end:\n    list_events.append(dt_start)\n    dt_start += dt.timedelta(days=1)\n\n# convert list of timestamps to pandas DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(list_events)\n\n# convert pandas DatetimeIdex of pd.Timestamps to list of timestamps\nlist_events = [dt.datetime.combine(x.date(), x.time()) for x in index_events]\n\n\n# convert pandas DatetimeIdex of pd.Timestamps to an Index of integers (nanoseconds)\nindex_events_int = index_events.astype(int)\n\n# convert pandas Index of integers (nanoseconds) to DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(index_events_int)\n\n# convert pandas DatetimeIdex of pd.Timestamps to an Index of strings\nindex_events_str = index_events.astype(str)\n\n# convert pandas Index of strings to DatetimeIdex of pd.Timestamps\nindex_events = pd.to_datetime(index_events_str)\n\n\n\n\n\n\n\n\nNote\n\n\n\nGiven a timestamp with no further information about its unit of measurement, you can quickly trial and error its conversion to a human readable format with\npd.Timestamp(&lt;POSIX number here&gt;, unit=\"us\")\nThe most common POSIX formats are:\n\nfloat, with six digits after the comma, where 1.000000 represents one second after the first of January 1970.\nInteger in microsecond, usually denoted with the greek letter \\(\\mu\\), in pandas are converted with unit=\"us\".\nInteger in milliseconds in pandas are converted with unit=\"ms\".\n\nIf none of the unit you try (look under the pd.Timestamp documentation for the complete list), nothing provides satisfactorily results it may be worth trying converting the numbers with pd.Timedelta."
   },
   {
     "objectID": "posts/gds-2024-01-24-timestamp/index.html#introduction",
@@ -411,5 +411,82 @@
     "title": "Saint Michael Sword",
     "section": "Bloopers",
     "text": "Bloopers\nIn a first attempt of plotting the regression line with Kepler, we started drawing a straight line between the first and the last point, with the latitude computed via linear interpolation.\n\ndf_line_regression = gdf_cathedrals[[\"name\", \"longitude\", \"latitude\"]].copy()\ndf_line_regression[\"latitude_estimated\"] = get_y(df_line_regression[\"longitude\"], m, n)\ndf_line_regression = df_line_regression.drop(columns=[\"latitude\"])\ndf_line_regression[\"longitude_next\"] = df_line_regression.loc[7, \"longitude\"]\ndf_line_regression[\"latitude_estimated_next\"] = df_line_regression.loc[7, \"latitude_estimated\"]\ndf_line_regression = pd.DataFrame(df_line_regression.loc[1]).T\ndf_line_regression\n\n\n\n\n\n\n\n\nname\nlongitude\nlatitude_estimated\nlongitude_next\nlatitude_estimated_next\n\n\n\n\n1\nSkellig Michael\n-10.538483\n52.238049\n34.96996\n33.389514\n\n\n\n\n\n\n\n\nkepler_data = deepcopy({\"cathedrals\": gdf_cathedrals.__geo_interface__, \"line\": df_line_regression})\n\nif KEPLER_OUTPUT:\n    kcm = KeplerConfigManager()\n    config_map_5 = kcm.load_config(\"configs_map_5\")\n    \n    kmap_5 = KeplerGl(\n        data=kepler_data,\n        height=800,\n        config=config_map_5,\n    )\n    display(kmap_5)\nelse:\n    display(Image(\"images/cathedrals_in_a_row_with_straight_line_regression_wrong.png\"))\n\n\n\n\n\n\n\n\n\nif KEPLER_OUTPUT and OVERWRITE_CONFIGS:\n    kcm = KeplerConfigManager()\n    kcm.save_config(kmap_5, \"configs_map_5\")\n\nCan you see what went wrong? Why are all the points below the regression line?"
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html",
+    "href": "posts/bp-2022-07-23-gpg/index.html",
+    "title": "How to sign your commits",
+    "section": "",
+    "text": "This short blog post introduces the reader to the PGP key signatures, and suggests a way of signing commits with different accounts - e.g. personal and work settings - and to swap between them with a single CLI command."
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#requirements",
+    "href": "posts/bp-2022-07-23-gpg/index.html#requirements",
+    "title": "How to sign your commits",
+    "section": "Requirements",
+    "text": "Requirements\n\nYou are familiar with git command line and gitlab / github interface.\nYou installed the gpg1 command line interface (Mac, Linux or PowerShell - Windows)."
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#create-and-add-a-pgp-key-signature-to-github-or-gitlab",
+    "href": "posts/bp-2022-07-23-gpg/index.html#create-and-add-a-pgp-key-signature-to-github-or-gitlab",
+    "title": "How to sign your commits",
+    "section": "Create and add a PGP key signature to github or gitlab",
+    "text": "Create and add a PGP key signature to github or gitlab\nThe procedure of creating and adding a PGP key signature is similar to the one to add an RSA key to your github or gitlab account. The difference is that instead of using the ssh-agent you will be using the gpg CLI, and you will be asked to pair the configurations of your PGP key with the RSA key.\n\nCreate a new RSA (read only) key-pair with fingerprint (PGP key signature) via gpg the CLI command\n\ngpg --full-generate-key\nThe command above will bring you to a prompt asking you to input the kind of key that you want and its expiry period, followed by your email, username, and a passphrase. Recommended settings for a key to sign commits is RSA (sign only) followed by 4096 for the keysize (in the appendix of this article you can find some instructions to undo the key creation).\n\nIf you are using gitlab, please add the pgp public key to the page https://gitlab.com/-/profile/gpg_keys. If you are using github, go instead to use the page https://github.com/settings/keys.\n\nYou can see the list of created key pairs with pgp -k, and you can export the public key to a file with gpg --export -a \"email@address.com\" &gt; public.key, then copy the content of public.key to clipboard to export it to github/gitlab.\n\nNow you have created your RSA key pair, and the pgp public key. The missing step is to tell git that it has to start using the created key to sign the commits. To achive this goal, change the user setting on the local machine with\n\ngit config --global user.email &lt;same email used when creating the key-pair&gt;\ngit config --global user.name &lt;same username used when creating the key-pair&gt;\ngit config --global user.signingkey &lt;your fingerprint - copy paste from git(lab-hub) gpg page&gt;\ngit config --global commit.gpgSign true"
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#swap-between-work-and-personal-profile",
+    "href": "posts/bp-2022-07-23-gpg/index.html#swap-between-work-and-personal-profile",
+    "title": "How to sign your commits",
+    "section": "Swap between work and personal profile",
+    "text": "Swap between work and personal profile\nAt this point you may also have the problem that I had: swapping between multiple gitub/gitlab profiles, for work, personal project, etc. With the commands above I can create as many gpg keys with as many username and emails. To quickly tell git to swap between them, the solution that I suggest here is to create a bash script for each profile in the sub-folder ~/.git-accounts-settings/:\n# ~/.git-accounts-settings/company_A.sh\ngit config --global user.email &lt;same email used when creating the key-pair&gt;\ngit config --global user.name &lt;same username used when creating the key-pair&gt;\ngit config --global user.signingkey &lt;your fingerprint - copy paste from gitlab gpg page&gt;\ngit config --global commit.gpgSign true\n# ~/.git-accounts-settings/company_B.sh\ngit config --global user.email &lt;another email, same used when creating the key-pair&gt;\ngit config --global user.name &lt;another username used when creating the key-pair&gt;\ngit config --global user.signingkey &lt;your fingerprint - copy paste from gitlab gpg page&gt;\ngit config --global commit.gpgSign true\n# ~/.git-accounts-settings/personal.sh\ngit config --global user.email &lt;personal email&gt;\ngit config --global user.name &lt;personal user&gt;\ngit config --global commit.gpgSign false\nEach time you want to swap across profiles, you can simply call the script with bash ~/.git-accounts-settings/&lt;my profile&gt;.sh.\nAnd to quickly swap between them, the commands can be aliased with shorter variable names:\n# in the .bashrc\nalias set_git_config_company_A=\"bash ~/.git-accounts-settings/company_A.sh\"\nalias set_git_config_company_B=\"bash ~/.git-accounts-settings/company_B.sh\"\nalias set_git_config_personal=\"bash ~/.git-accounts-settings/personal.sh\""
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#cache-the-passphrases",
+    "href": "posts/bp-2022-07-23-gpg/index.html#cache-the-passphrases",
+    "title": "How to sign your commits",
+    "section": "Cache the passphrases",
+    "text": "Cache the passphrases\nTo avoid typing the passphrase each time a commit requires to be signed, it is possible to specify a caching duration the gpp agent config file, under ~/.gnupg/gpg-agent.conf.\nFor caching the passphrase for 400 days, create the config file with these two lines, where 34560000 is 400 times the number of seconds in a day.\ndefault-cache-ttl 34560000\nmaximum-cache-ttl 34560000\n\n\n\nkey-and-nib"
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#appendix-0-list-created-keys-and-delete-some",
+    "href": "posts/bp-2022-07-23-gpg/index.html#appendix-0-list-created-keys-and-delete-some",
+    "title": "How to sign your commits",
+    "section": "Appendix 0: List created keys and delete some",
+    "text": "Appendix 0: List created keys and delete some\nTo undo the key creation of step 1 you can retrieve the list of existing keys with gpg -k, hen copy the key public id to clipboard, that is a string like this dummy 43525435HJJH5K2H3KJHK3452KJH65NBMBV in the output\npub   ed25519 2022-02-18 [SC] [expires: 2024-02-18]\n      43525435HJJH5K2H3KJHK3452KJH65NBMBV\nuid           [ultimate] Sebastiano Ferraris &lt;seb@email.com&gt;\nsub   cv25519 2022-02-18 [E] [expires: 2024-02-18]\nFinally delete public and private key with:\ngpg --delete-secret-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV\ngpg --delete-key 43525435HJJH5K2H3KJHK3452KJH65NBMBV"
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#appendix-1-troubleshooting-on-mac",
+    "href": "posts/bp-2022-07-23-gpg/index.html#appendix-1-troubleshooting-on-mac",
+    "title": "How to sign your commits",
+    "section": "Appendix 1: Troubleshooting on mac",
+    "text": "Appendix 1: Troubleshooting on mac\nIf git commit fails to authenticate the git commit, with the following error message\nThen you have to redirect the GPG_TTY key to the local tty with:\nexport GPG_TTY=$(tty)\nIf this solves the problem, you will have to append it to your .bashrc."
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#appendix-2-export-public-and-private-keys",
+    "href": "posts/bp-2022-07-23-gpg/index.html#appendix-2-export-public-and-private-keys",
+    "title": "How to sign your commits",
+    "section": "Appendix 2: Export public and private keys",
+    "text": "Appendix 2: Export public and private keys\nHow do I know my public key?\nThis command will export an ascii armored version of the public key:\ngpg --output public.pgp --armor --export username@email\nAlso to export the secret key, there is a similar command:\ngpg --output private.pgp --armor --export-secret-key username@email"
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#appendix-3-trigger-gpg-passphrase-on-linux",
+    "href": "posts/bp-2022-07-23-gpg/index.html#appendix-3-trigger-gpg-passphrase-on-linux",
+    "title": "How to sign your commits",
+    "section": "Appendix 3: Trigger gpg passphrase on linux",
+    "text": "Appendix 3: Trigger gpg passphrase on linux\nOn some linux distributions, the prompt to insert the gpg passphrase does not pop up when you create a new commit. Git simply refuses to add a new non-signed commit.\nSo you will be in the situation where you have some code to commit, you know your passphrase, you have the gpg-agent on so you not need to retype the passphrase each time, but nobody is asking you for your passphrase when you are committing a message.\nA workaround is to trigger gpg to ask you for your passphrase for another reason (e.g. signing a file), after which your passphrase is stored in the gpg-agent and you will be free to create signed commits, as the passphrase is automatically retrieved from cache. The list of commands would be:\ngit commit -am \"new stuff\"  # this commit is not added and does not trigger the passphrase prompt\ncd \ntouch z_tmp.txt  # creating a dummy file to authenticate\ngpg -s z_tmp.txt  # this trigger the passphrase (and a y/n question to confirm your choice)\ncd &lt;repo you were working&gt;\ngit commit -am \"new stuff\"\nTo turn this workaround into a oneliner, you can create the dummy file z_tmp.txt in the root directory (as above), and then add the following line to your bash profile:\nalias gpg_trigger='gpg -s ~/z_tmp.txt'\nSo the next time, instead of running all the commands of the previous block, you can simply call the newly created alias gpg_trigger."
+  },
+  {
+    "objectID": "posts/bp-2022-07-23-gpg/index.html#footnotes",
+    "href": "posts/bp-2022-07-23-gpg/index.html#footnotes",
+    "title": "How to sign your commits",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nNote that gpg stands for Gnu Privacy Guard and implements the OpenPGP standard as defined by RFC4880. It is not the PGP protocol.↩︎"
+  },
+  {
+    "objectID": "about/about.html",
+    "href": "about/about.html",
+    "title": "Sebastiano Ferraris",
+    "section": "",
+    "text": "Welcome to my blog,\nI’m Sebastiano Ferraris, data scientist at General System, and this is my personal blog about Geospatial Data Science.\nHere I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and coding practices.\nAll my posts are aimed at be as practical and hands-on as possible, so as to give you the possibility of reproducing all that is shown.\nThe blog you are reading started on Medium, then moved to hashnode, to finally land to Quarto. The source code can be found here.\nAll the posts and content created in this blog are licenced under CC BY-SA 4.0 DEED.\nIf you want to get in touch, please drop me an email.\n\nUnless otherwise specified, all the images and articles are created by the author. In this page you can see The Apparition, painted by Chagall in 1925."
   }
 ]
