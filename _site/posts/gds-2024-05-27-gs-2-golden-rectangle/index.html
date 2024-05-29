@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-05-27">
 
-<title>A Geospatial Data Science Blog -</title>
+<title>A Geospatial Data Science Blog - The Golden Rectangle of Fashion — how to identify walking routes, dwells and co-locations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,35 +68,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-subtitle','listing-colab','listing-github',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts'] = new List('listing-posts', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VPPV7D4HSQ"></script>
 
 <script type="text/javascript">
@@ -109,37 +79,14 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="A Geospatial Data Science Blog - The Golden Rectangle of Fashion — how to identify walking routes, dwells and co-locations">
+<meta name="twitter:description" content="Article from the generalsystsem.com blog">
+<meta name="twitter:image" content="https://geospatial.netlify.app/posts/gds-2024-05-27-gs-2-golden-rectangle/images/cover.png">
+<meta name="twitter:image-height" content="912">
+<meta name="twitter:image-width" content="1627">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -149,7 +96,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">A Geospatial Data Science Blog</span>
     </a>
   </div>
@@ -165,15 +112,15 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
         <li>
-    <a class="dropdown-item" href="./posts/all.html">
+    <a class="dropdown-item" href="../../posts/all.html">
  <span class="dropdown-text">All posts</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./posts/gds.html">
+    <a class="dropdown-item" href="../../posts/gds.html">
  <span class="dropdown-text">Geospatial Data Science</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./posts/bp.html">
+    <a class="dropdown-item" href="../../posts/bp.html">
  <span class="dropdown-text">Code development</span></a>
   </li>  
     </ul>
@@ -184,11 +131,11 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="./about/about.html">
+    <a class="dropdown-item" href="../../about/about.html">
  <span class="dropdown-text">Author</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./about/CV_modern/curriculum.pdf">
+    <a class="dropdown-item" href="../../about/CV_modern/curriculum.pdf">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -211,238 +158,130 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Golden Rectangle of Fashion — how to identify walking routes, dwells and co-locations</h1>
+            <p class="subtitle lead">Article from the generalsystsem.com blog</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">geospatial</div>
+                <div class="quarto-category">ad-tech</div>
+                <div class="quarto-category">generalsystem</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 27, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(8)</span></div><div class="category" data-category="ad-tech">ad-tech <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data-science">data-science <span class="quarto-category-count">(2)</span></div><div class="category" data-category="generalsystem">generalsystem <span class="quarto-category-count">(2)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(7)</span></div><div class="category" data-category="github">github <span class="quarto-category-count">(1)</span></div><div class="category" data-category="hacks">hacks <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mathematics">mathematics <span class="quarto-category-count">(2)</span></div><div class="category" data-category="security">security <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tutorial">tutorial <span class="quarto-category-count">(6)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#finding-dwells" id="toc-finding-dwells" class="nav-link" data-scroll-target="#finding-dwells">Finding dwells</a></li>
+  <li><a href="#finding-co-locations" id="toc-finding-co-locations" class="nav-link" data-scroll-target="#finding-co-locations">Finding co-locations</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next</a></li>
+  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases">Use Cases</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<p><strong>Ownership Note:</strong> blog post originally published on the 7th of February 2024 for <a href="https://www.generalsystem.com/blog/skewness-and-noise">generalsystem.com</a>. As the General System startup adventure is coming to an end, and the website may no longer be maintained, I keep it live on my personal blog. Soon additional code embeddings that I could not add on the original version, and a more in depth-classification will be added.</p>
+<p>Special thanks to the <a href="generalsystem.com">generalsystem.com</a> team members, in particular <a href="https://www.linkedin.com/in/lisahutt/">Lisa Hutt</a> and <a href="https://www.linkedin.com/in/nysawilson/">Nysa Wilson</a> for the revision and support. Typos and mistakes are on the author.</p>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Intro</h2>
+<p>What does a day in the Quadrilatero d’Oro, Milan’s fashion district look like and how can retailers understand and respond to the complex footfall patterns?</p>
+<p>In this blog post, we use General System technology to analyse paths, dwells and co-location patterns of shoppers that were sharing their location through mobility data.</p>
+<p>The analysis is particularly relevant for retailers, media buyers, transport and city planners that are working with dynamic mobility data and are looking to extract similar insights or automate their reporting.</p>
+</section>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p><img src="images/co-location-analysis-map.png" class="img-fluid"></p>
+<p>The use case consists of two groups of people meeting in Milan for an afternoon of shopping.</p>
+<ul>
+<li>The first group, which we called group G (Green) appears on the map from Lanza tube station, line 2.</li>
+<li>The second group, Y (Yelllow) arrives shortly afterwards at the Cordusio tube station Cordusio, line 1.</li>
+</ul>
+<p>After a short walk from the tube station, both groups merge on the Via DelL’Orso and head East together before splitting around Teatro La Scala. They meet again on Via Manzoni for another tandem walk to the first shop.</p>
+<p>After the first shop, they split again. Group G walks southwards to visit a couple of shops, while group Y continues along via Manzoni to their next shop. Group G and Y regather for a visit to the last shop and finally head towards the Metro. Group G returns to Lanza tube station, while group Y heads for nearby Turati tube station on Line 3.</p>
+<p>‍ <img src="images/data-no-noise.png" class="img-fluid"></p>
+<p>This dataset is synthetic and built with the noise model presented in the previous blog post.</p>
+<p>‍<img src="images/data-with-noise.png" class="img-fluid">‍</p>
+<p>So far, the data creates visually appealing graphs that show the routes of each group.</p>
+</section>
+<section id="finding-dwells" class="level2">
+<h2 class="anchored" data-anchor-id="finding-dwells">Finding dwells</h2>
+<p>‍</p>
+<p>To mine significant information from the data, such as what shops were visited throughout the afternoon, we calculate where each group has dwelled using the dwell calculator algorithm.</p>
+<p>For this analysis, we define a dwell as a location of radius 15 metres, where a device (or a group of devices) has remained for more than 10 minutes. The algorithm also takes the outliers into account and removes them from the dwell detection.</p>
+<p>The algorithm returns a vector of labels, a vector of exceptions, and a table of geometries and time intervals where the dwells have occurred.</p>
+<p>On the map, we can show the dwell geometries as ellipses after performing a Principle Component Analysis (PCA) on the pings that have been labelled as a dwell, or as a convex hull or a concave hull. ‍</p>
+<p>‍<img src="images/dwells-pca.png" class="img-fluid">‍</p>
+<p>Given the number of pings in this example, the ellipses representation provides a reasonable representation of the dwell’s geometry, though there are other options. Below, we also show a visualisation of the concave hull, whose outline helps us understand how the pings are spread out around the centre of the visit.</p>
+<p>‍</p>
+<p>‍<img src="images/dwells-concave-hull.png" class="img-fluid">‍</p>
+<p>‍</p>
+<p>Comparing the algorithm response with the ground truth we can see that all the dwells are correctly identified. We can see where both groups have dwelled as well where each group dwelled individually.</p>
+</section>
+<section id="finding-co-locations" class="level2">
+<h2 class="anchored" data-anchor-id="finding-co-locations">Finding co-locations</h2>
+<p>Intersecting the geometries and time intervals of the dwells for the two groups provides the co-dwells, though this would not be informative enough if we also wanted to investigate where the two groups have been co-travelling.</p>
+<p>These more generic features, called co-locations, are the locations and time intervals where the devices have met, both in a static setting and in a dynamic setting.</p>
+<p>As it was for the visits, the co-locations are given as geometries and time intervals.</p>
+<p>‍ ‍<img src="images/co-locations-geometries.png" class="img-fluid">‍</p>
+<p>‍</p>
+<p>We can compare the co-locations and individual dwells to see that during the first co-location (first row), the two groups did not stop in any shop; they were simply walking together.</p>
+<p>‍<img src="images/co-locations-time-intervals.png" class="img-fluid">‍</p>
+<p>For the second co-location (second block of the first row), we can see that 10 minutes are spent together, without moving, in the same location.</p>
+<p>Afterwards, group Y visits another shop for about 30 minutes, while group G dwells for 25 minutes. We can see they are not in the same location, as the co-location algorithm has not detected joint activities.</p>
+<p>‍</p>
+<p>Finally, for the last co-location, both groups are static for about 10 minutes.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next</h2>
+<p>‍ In this blog post we used a toy example to show what can be achieved with mobility data and a couple of algorithms. The algorithms are robust enough to cope with the noise in mobility data. Moreover, a larger-scale dataset would account for, and further reduce the data imprecision.At scale we can investigate the behaviour of shoppers across a city centre to learn:</p>
+<ul>
+<li>the most common entry and exit points for the shopping center</li>
+<li>most common routes</li>
+<li>sequences of shops attended by crowds</li>
+<li>the times, days and seasons when these shops are most popular</li>
+<li>the volume of pedestrians on roads, in shops and other large buildings</li>
+<li>changes in patterns due to macro influences such as the weather or public events</li>
+</ul>
+</section>
+<section id="use-cases" class="level2">
+<h2 class="anchored" data-anchor-id="use-cases">Use Cases</h2>
+<p>Retailers, advertisers, transport and city planners can use these methods to extract insights and make informed business decisions and reports can be automated to create analytical dashboards that highlight trends over time.</p>
+<p>Analysing the multiple dimensions of movement over time involves working with very large, dynamic mobility data sets.</p>
 
 
+</section>
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-posts">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="geospatial,ad-tech,generalsystem" data-listing-date-sort="1716764400000" data-listing-file-modified-sort="1716833562848" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1959">
-<div class="thumbnail">
-<p><a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external"></a></p><a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external">
-<p><img src="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external">Limitations and challenges in mobility data — skewness and noise</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external">An article from the generalsystsem.com blog</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html" class="no-external">
-<div class="listing-date">
-May 27, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="geospatial,ad-tech,generalsystem" data-listing-date-sort="1716764400000" data-listing-file-modified-sort="1716979480712" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="933">
-<div class="thumbnail">
-<p><a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external"></a></p><a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external">
-<p><img src="./posts/gds-2024-05-27-gs-2-golden-rectangle/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external">The Golden Rectangle of Fashion — how to identify walking routes, dwells and co-locations</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external">Article from the generalsystsem.com blog</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2024-05-27-gs-2-golden-rectangle/index.html" class="no-external">
-<div class="listing-date">
-May 27, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="tutorial,geospatial,mathematics" data-listing-date-sort="1713567600000" data-listing-file-modified-sort="1716979700583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1355">
-<div class="thumbnail">
-<p><a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external"></a></p><a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external">
-<p><img src="./posts/gds-2024-04-20-cathedrals/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external">Saint Michael Sword</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external">Are the 7 famous Cathedrals really on a straight line? A numerical investigation</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external">
-<div class="listing-date">
-Apr 20, 2024
-</div>
-</a><div class="metadata-value listing-colab"><a href="./posts/gds-2024-04-20-cathedrals/index.html" class="no-external">
-</a><a href="https://colab.research.google.com/github/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-04-20-cathedrals/index.ipynb" target="_blank"><img src="images/colab.svg"></a>
-</div>
-<div class="metadata-value listing-github">
-<a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-04-20-cathedrals/index.ipynb" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="tutorial,geospatial" data-listing-date-sort="1706054400000" data-listing-file-modified-sort="1714687014982" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1609">
-<div class="thumbnail">
-<p><a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external"></a></p><a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external">
-<p><img src="./posts/gds-2024-01-24-timestamp/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external">Python datetimes manipulations</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external">Code fragments for timestamps and timezones manipulation</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external">
-<div class="listing-date">
-Jan 24, 2024
-</div>
-</a><div class="metadata-value listing-colab"><a href="./posts/gds-2024-01-24-timestamp/index.html" class="no-external">
-</a><a href="https://colab.research.google.com/github/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-01-24-timestamp/index.ipynb" target="_blank"><img src="images/colab.svg"></a>
-</div>
-<div class="metadata-value listing-github">
-<a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-01-24-timestamp/index.ipynb" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="tutorial,geospatial,mathematics" data-listing-date-sort="1705104000000" data-listing-file-modified-sort="1714687014981" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2195">
-<div class="thumbnail">
-<p><a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external"></a></p><a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external">
-<p><img src="./posts/gds-2024-01-10-haversine-dist/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external">Haversine’s distance mathematics</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external">Computing the distance between two points on a sphere</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external">
-<div class="listing-date">
-Jan 13, 2024
-</div>
-</a><div class="metadata-value listing-colab"><a href="./posts/gds-2024-01-10-haversine-dist/index.html" class="no-external">
-</a><a href="https://colab.research.google.com/github/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-01-10-haversine-dist/index.ipynb" target="_blank"><img src="images/colab.svg"></a>
-</div>
-<div class="metadata-value listing-github">
-<a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-01-10-haversine-dist/index.ipynb" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1664751600000" data-listing-file-modified-sort="1714687014979" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3152">
-<div class="thumbnail">
-<p><a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external"></a></p><a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external">
-<p><img src="./posts/gds-2022-10-03-polygons-part-1/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external">Using polygons</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external">Geospatial data science basic operations and measurements</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external">
-<div class="listing-date">
-Oct 3, 2022
-</div>
-</a><div class="metadata-value listing-colab"><a href="./posts/gds-2022-10-03-polygons-part-1/index.html" class="no-external">
-</a><a href="https://colab.research.google.com/github/SebastianoF/GeoDsBlog/blob/master/posts/gds-2022-10-03-polygons-part-1/index.ipynb" target="_blank"><img src="images/colab.svg"></a>
-</div>
-<div class="metadata-value listing-github">
-<a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2022-10-03-polygons-part-1/index.ipynb" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="tutorial,data-science,geospatial" data-listing-date-sort="1659049200000" data-listing-file-modified-sort="1714687014966" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2549">
-<div class="thumbnail">
-<p><a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external"></a></p><a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external">
-<p><img src="./posts/gds-2022-07-29-office-pos/images/cover_office_positioning.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external">How well positioned is your office?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external">Time to question your workplace location</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external">
-<div class="listing-date">
-Jul 29, 2022
-</div>
-</a><div class="metadata-value listing-colab"><a href="./posts/gds-2022-07-29-office-pos/index.html" class="no-external">
-</a><a href="https://colab.research.google.com/github/SebastianoF/GeoDsBlog/blob/master/posts/gds-2022-07-29-office-pos/index.ipynb" target="_blank"><img src="images/colab.svg"></a>
-</div>
-<div class="metadata-value listing-github">
-<a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2022-07-29-office-pos/index.ipynb" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="hacks,tutorial,security,github" data-listing-date-sort="1658530800000" data-listing-file-modified-sort="1706608763969" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
-<div class="thumbnail">
-<p><a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external"></a></p><a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external">
-<p><img src="./posts/bp-2022-07-23-gpg/images/cover.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external">How to sign your commits</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external">Setting up gpg authentication while keeping separate work and personal projects</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external">
-<div class="listing-date">
-Jul 23, 2022
-</div>
-</a><div class="metadata-value listing-github"><a href="./posts/bp-2022-07-23-gpg/index.html" class="no-external">
-</a><a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/bp-2022-07-23-gpg/index.qmd" target="_blank"> <img src="images/github.svg"> </a>
-</div>
-
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -856,5 +695,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
