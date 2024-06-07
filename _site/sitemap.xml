@@ -1,87 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://geospatial.netlify.app/posts/index.html/posts/index_gds.html</loc>
-    <lastmod>2024-02-06T20:56:12.562Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/index.html/posts/index.html</loc>
-    <lastmod>2024-01-30T09:59:24.009Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/index.html/posts/index_bp.html</loc>
-    <lastmod>2024-02-06T20:56:11.922Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/index_gds.html</loc>
-    <lastmod>2024-02-06T20:56:12.562Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/index.html</loc>
-    <lastmod>2024-02-06T21:26:08.413Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/index_bp.html</loc>
-    <lastmod>2024-02-06T20:57:42.550Z</lastmod>
-  </url>
-  <url>
     <loc>https://geospatial.netlify.app/index.html</loc>
     <lastmod>2024-02-06T22:19:41.230Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/bp.html</loc>
-    <lastmod>2024-02-06T22:19:41.231Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/all.html</loc>
-    <lastmod>2024-02-06T22:19:41.230Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/gds.html</loc>
-    <lastmod>2024-02-06T22:19:41.245Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/index.html</loc>
-    <lastmod>2024-05-02T21:56:54.982Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/gds-2024-01-10-haversine-dist/index.html</loc>
-    <lastmod>2024-05-02T21:56:54.981Z</lastmod>
   </url>
   <url>
     <loc>https://geospatial.netlify.app/posts/gds-2022-10-03-polygons-part-1/index.html</loc>
     <lastmod>2024-05-02T21:56:54.979Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatial.netlify.app/posts/gds-2022-07-29-office-pos/index.html</loc>
-    <lastmod>2024-05-02T21:56:54.966Z</lastmod>
-  </url>
-  <url>
     <loc>https://geospatial.netlify.app/posts/gds-2024-04-20-cathedrals/index.html</loc>
     <lastmod>2024-05-29T10:51:48.220Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatial.netlify.app/posts/bp-2022-07-23-gpg/index.html</loc>
-    <lastmod>2024-01-30T09:59:23.969Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/about/about.html</loc>
-    <lastmod>2024-05-02T21:56:54.944Z</lastmod>
-  </url>
-  <url>
-    <loc>https://geospatial.netlify.app/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html</loc>
-    <lastmod>2024-05-29T11:04:17.452Z</lastmod>
+    <loc>https://geospatial.netlify.app/posts/gds.html</loc>
+    <lastmod>2024-02-06T22:19:41.245Z</lastmod>
   </url>
   <url>
     <loc>https://geospatial.netlify.app/posts/gds-2024-05-27-gs-2-golden-rectangle/index.html</loc>
     <lastmod>2024-05-29T11:00:00.102Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatial.netlify.app/posts/z_gds-2024-05-29-kepler-lonboard/index.html</loc>
-    <lastmod>2024-05-29T10:42:51.833Z</lastmod>
+    <loc>https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/index.html</loc>
+    <lastmod>2024-05-02T21:56:54.982Z</lastmod>
   </url>
   <url>
-    <loc>https://geospatial.netlify.app/z_drafts/z_gds-2024-05-29-kepler-lonboard/index.html</loc>
-    <lastmod>2024-05-29T10:42:51.833Z</lastmod>
+    <loc>https://geospatial.netlify.app/posts/all.html</loc>
+    <lastmod>2024-02-06T22:19:41.230Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/posts/bp-2022-07-23-gpg/index.html</loc>
+    <lastmod>2024-01-30T09:59:23.969Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html</loc>
+    <lastmod>2024-05-29T11:06:40.188Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/posts/gds-2024-01-10-haversine-dist/index.html</loc>
+    <lastmod>2024-05-02T21:56:54.981Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/posts/bp.html</loc>
+    <lastmod>2024-02-06T22:19:41.231Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/posts/gds-2022-07-29-office-pos/index.html</loc>
+    <lastmod>2024-05-02T21:56:54.966Z</lastmod>
+  </url>
+  <url>
+    <loc>https://geospatial.netlify.app/about/about.html</loc>
+    <lastmod>2024-05-02T21:56:54.944Z</lastmod>
   </url>
 </urlset>
