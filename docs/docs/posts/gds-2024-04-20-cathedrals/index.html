@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.537">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-04-20">
+
+<title>A Geospatial Data Science Blog - Saint Michael Sword</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VPPV7D4HSQ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="A Geospatial Data Science Blog - Saint Michael Sword">
+<meta name="twitter:description" content="Are the 7 famous Cathedrals really on a straight line? A numerical investigation">
+<meta name="twitter:image" content="https://geospatial.netlify.app/posts/gds-2024-04-20-cathedrals/images/cover.png">
+<meta name="twitter:image-height" content="825">
+<meta name="twitter:image-width" content="1475">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Geospatial Data Science Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Posts</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
+        <li>
+    <a class="dropdown-item" href="../../posts/all.html">
+ <span class="dropdown-text">All posts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../posts/gds.html">
+ <span class="dropdown-text">Geospatial Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../posts/bp.html">
+ <span class="dropdown-text">Code development</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../about/about.html">
+ <span class="dropdown-text">Author</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../about/CV_modern/curriculum.pdf">
+ <span class="dropdown-text">CV</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sebastianof/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:sebastiano.ferraris@gmail.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Saint Michael Sword</h1>
+            <p class="subtitle lead">Are the 7 famous Cathedrals really on a straight line? A numerical investigation</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">tutorial</div>
+                <div class="quarto-category">geospatial</div>
+                <div class="quarto-category">mathematics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 20, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#dataset-collection" id="toc-dataset-collection" class="nav-link" data-scroll-target="#dataset-collection">Dataset collection</a>
+  <ul class="collapse">
+  <li><a href="#visualise-the-dataset-on-a-kepler-map" id="toc-visualise-the-dataset-on-a-kepler-map" class="nav-link" data-scroll-target="#visualise-the-dataset-on-a-kepler-map">Visualise the dataset on a kepler map</a></li>
+  </ul></li>
+  <li><a href="#compute-the-geodesic-line-between-the-first-and-the-last-cathedral" id="toc-compute-the-geodesic-line-between-the-first-and-the-last-cathedral" class="nav-link" data-scroll-target="#compute-the-geodesic-line-between-the-first-and-the-last-cathedral">Compute the geodesic line between the first and the last cathedral</a>
+  <ul class="collapse">
+  <li><a href="#drawing-a-geodesic-line-on-the-surface-of-a-sphere" id="toc-drawing-a-geodesic-line-on-the-surface-of-a-sphere" class="nav-link" data-scroll-target="#drawing-a-geodesic-line-on-the-surface-of-a-sphere">Drawing a geodesic line on the surface of a sphere</a></li>
+  </ul></li>
+  <li><a href="#distance-between-the-cathedrals-and-the-geodesic-line-connecting-the-first-and-the-last-one." id="toc-distance-between-the-cathedrals-and-the-geodesic-line-connecting-the-first-and-the-last-one." class="nav-link" data-scroll-target="#distance-between-the-cathedrals-and-the-geodesic-line-connecting-the-first-and-the-last-one.">Distance between the cathedrals and the geodesic line connecting the first and the last one.</a>
+  <ul class="collapse">
+  <li><a href="#distance-between-a-point-and-a-geodesic-line-on-the-sphere" id="toc-distance-between-a-point-and-a-geodesic-line-on-the-sphere" class="nav-link" data-scroll-target="#distance-between-a-point-and-a-geodesic-line-on-the-sphere">Distance between a point and a geodesic line on the sphere</a></li>
+  </ul></li>
+  <li><a href="#are-the-cathedrals-aligned-on-the-mercator-projection" id="toc-are-the-cathedrals-aligned-on-the-mercator-projection" class="nav-link" data-scroll-target="#are-the-cathedrals-aligned-on-the-mercator-projection">Are the cathedrals aligned on the Mercator projection?</a>
+  <ul class="collapse">
+  <li><a href="#unanswered-question" id="toc-unanswered-question" class="nav-link" data-scroll-target="#unanswered-question">Unanswered question</a></li>
+  </ul></li>
+  <li><a href="#bloopers" id="toc-bloopers" class="nav-link" data-scroll-target="#bloopers">Bloopers</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics">Topics</a></li>
+  <li><a href="#questions-and-further-experiments" id="toc-questions-and-further-experiments" class="nav-link" data-scroll-target="#questions-and-further-experiments">Questions and further experiments</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p><img src="images/cover.png" class="img-fluid"></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>We <a href="https://en.wikipedia.org/wiki/Saint_Michael%27s_line#:~:text=The%20aligned%20sites%20are%20almost,Stella%20Maris%20Monastery%3B%20although%20the">read on wikipedia</a> that there are 7 famous Cathedrals built across the past centuries, all related to Saint Michael and all aligned on a straight line.</p>
+<p>Being more like Saint Thomas than Saint Michael, we say that if we do not see we do not believe.</p>
+<p>So we consider the perfect alignment as our research hypothesis, and we proceed as follows:</p>
+<ol type="1">
+<li>Collect the dataset of the cathedrals via manual segmentation of the map.</li>
+<li>Compute the geodesic line (on a spherical model of the earth) between the first and the last cathedral.
+<ul>
+<li>draw a geodesic line on the surface of a sphere.</li>
+</ul></li>
+<li>Compute the distance between the cathedrals and the geodesic line connecting the first and the last one.
+<ul>
+<li>compute the distance between a point and a line on the sphere.</li>
+</ul></li>
+</ol>
+<p>This methodology has a couple of flaws:</p>
+<ul>
+<li>The spherical model is an approximation of the surface of the earth.</li>
+<li>The line is between the first and the last cathedrals as ground truth would bias the result for towards the misalignment of these two. A single line that minimizes the distances between all the cathedrals would reduce the overall error.</li>
+</ul>
+<p>We start the analysis nonetheless with these two limitations in mind and we see what happens, before deciding where to go next.</p>
+</section>
+<section id="dataset-collection" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-collection">Dataset collection</h2>
+<div id="cell-3" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> shape</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># set to False to see the kepler maps interactively</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>OVERWRITE_CONFIGS <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coordinates from google maps, and teh segmentations from KepelerGl.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>, <span class="st">"geometry"</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>geometry_skellig <span class="op">=</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538210287997396</span>, <span class="fl">51.772185270560065</span>],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538373297938953</span>, <span class="fl">51.7721348360848</span>],</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538348846448207</span>, <span class="fl">51.77204909734886</span>],</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.53876452179865</span>, <span class="fl">51.77191796720246</span>],</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.53873191981036</span>, <span class="fl">51.771827184569275</span>],</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.539261702118932</span>, <span class="fl">51.77147918278735</span>],</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.539147595159863</span>, <span class="fl">51.771378312203616</span>],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538894929750949</span>, <span class="fl">51.77155483557632</span>],</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538577060365403</span>, <span class="fl">51.77169605377814</span>],</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538422200921415</span>, <span class="fl">51.77178683667508</span>],</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538226588991567</span>, <span class="fl">51.77183727153805</span>],</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.537973923582655</span>, <span class="fl">51.77189274982316</span>],</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538055428553408</span>, <span class="fl">51.77197344538836</span>],</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.53818583650665</span>, <span class="fl">51.77195327151059</span>],</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538226588991567</span>, <span class="fl">51.77205414080813</span>],</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">10.538210287997396</span>, <span class="fl">51.772185270560065</span>],</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>geometry_st_michael_mount <span class="op">=</span> {</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477544937910665</span>, <span class="fl">50.116733166283005</span>],</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477912989731039</span>, <span class="fl">50.11667316516922</span>],</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.4779504187298205</span>, <span class="fl">50.11671316592009</span>],</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.478093896558475</span>, <span class="fl">50.1166931655488</span>],</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.4781438018902</span>, <span class="fl">50.11676516684632</span>],</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.478461948378875</span>, <span class="fl">50.116701165698345</span>],</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.478349661383472</span>, <span class="fl">50.116313156907054</span>],</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.47812508739081</span>, <span class="fl">50.116349157855076</span>],</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.4780876583920275</span>, <span class="fl">50.11629315636868</span>],</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.47783189356703</span>, <span class="fl">50.11633715754206</span>],</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477594843242365</span>, <span class="fl">50.11637315847207</span>],</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477519985244801</span>, <span class="fl">50.11645716053674</span>],</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477563652410055</span>, <span class="fl">50.11652916218916</span>],</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.4777008920712955</span>, <span class="fl">50.11652516210019</span>],</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.4777008920712955</span>, <span class="fl">50.11658116331525</span>],</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477507508911883</span>, <span class="fl">50.11666116493737</span>],</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">5.477544937910665</span>, <span class="fl">50.116733166283005</span>],</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>geometry_mont_st_michel <span class="op">=</span> {</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5118395414485475</span>, <span class="fl">48.636192167017676</span>],</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5119505023709103</span>, <span class="fl">48.63616378229307</span>],</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5119182879097475</span>, <span class="fl">48.63610701279718</span>],</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5122440119059872</span>, <span class="fl">48.636014762229614</span>],</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.512172424213728</span>, <span class="fl">48.63592014608774</span>],</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.512283385136142</span>, <span class="fl">48.635884664988474</span>],</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5122547500594112</span>, <span class="fl">48.635790048602615</span>],</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5121437891370484</span>, <span class="fl">48.63577585612979</span>],</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5119612405243346</span>, <span class="fl">48.63579951024894</span>],</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.511907549755382</span>, <span class="fl">48.63573564410058</span>],</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.511710683603845</span>, <span class="fl">48.63578295236671</span>],</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5116820485271396</span>, <span class="fl">48.63575220199832</span>],</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5115782463746592</span>, <span class="fl">48.63577585612979</span>],</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5113527451473583</span>, <span class="fl">48.6357971448375</span>],</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.511259681148302</span>, <span class="fl">48.63582552976841</span>],</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5111379820725148</span>, <span class="fl">48.63588703039579</span>],</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5110592356123072</span>, <span class="fl">48.63593197311487</span>],</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5109983860744136</span>, <span class="fl">48.636005300623694</span>],</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5109697509977082</span>, <span class="fl">48.636052608636966</span>],</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5107728848461712</span>, <span class="fl">48.63604787783775</span>],</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5107514085383815</span>, <span class="fl">48.63614012834475</span>],</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5109804891510816</span>, <span class="fl">48.63616851308267</span>],</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5110449180734582</span>, <span class="fl">48.63622055172633</span>],</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5110735531501636</span>, <span class="fl">48.63624893641774</span>],</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.511381380223122</span>, <span class="fl">48.63627022492708</span>],</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.511703524834904</span>, <span class="fl">48.63621818633469</span>],</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span><span class="fl">1.5118395414485475</span>, <span class="fl">48.636192167017676</span>],</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>geometry_san_michele_sacra <span class="op">=</span> {</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342461396228171</span>, <span class="fl">45.09750192282457</span>],</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342770176683438</span>, <span class="fl">45.09750192282457</span>],</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342788077000524</span>, <span class="fl">45.09747033312251</span>],</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343105807613863</span>, <span class="fl">45.09751455870019</span>],</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343092382376297</span>, <span class="fl">45.097568261140914</span>],</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343101332534344</span>, <span class="fl">45.0976409173037</span>],</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343195309195373</span>, <span class="fl">45.09771041441673</span>],</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343275860617843</span>, <span class="fl">45.097903110514835</span>],</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343249010143678</span>, <span class="fl">45.09802315037865</span>],</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.343105807613863</span>, <span class="fl">45.098209527560805</span>],</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.3428283527112885</span>, <span class="fl">45.09831693108512</span>],</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342761226525392</span>, <span class="fl">45.098449605747064</span>],</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342967080162602</span>, <span class="fl">45.09850330730838</span>],</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342935754608892</span>, <span class="fl">45.09857596228209</span>],</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342738851130772</span>, <span class="fl">45.09854121426282</span>],</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342644874469717</span>, <span class="fl">45.09856016773029</span>],</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342389794963722</span>, <span class="fl">45.098522260789075</span>],</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342327143856378</span>, <span class="fl">45.098465400329424</span>],</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342488246703278</span>, <span class="fl">45.098152666790355</span>],</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342474821465712</span>, <span class="fl">45.09808001127805</span>],</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.3423674195681095</span>, <span class="fl">45.09802315037865</span>],</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342447970991547</span>, <span class="fl">45.09787152103536</span>],</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.34249719686135</span>, <span class="fl">45.097843090488624</span>],</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">7.342461396228171</span>, <span class="fl">45.09750192282457</span>],</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>geometry_santuario_san_michele <span class="op">=</span> {</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954708098648354</span>, <span class="fl">41.70774624650484</span>],</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.95484520240551</span>, <span class="fl">41.70774624650484</span>],</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955046626444242</span>, <span class="fl">41.70771718285521</span>],</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955126180475807</span>, <span class="fl">41.70770581011917</span>],</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955176959645415</span>, <span class="fl">41.707803110128424</span>],</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955139721587672</span>, <span class="fl">41.70782332829385</span>],</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955200656591268</span>, <span class="fl">41.70789156455518</span>],</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.955099098251925</span>, <span class="fl">41.70803182775236</span>],</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954960301855804</span>, <span class="fl">41.708189781437795</span>],</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954833353932584</span>, <span class="fl">41.70818346329781</span>],</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954792730596836</span>, <span class="fl">41.70815313621718</span>],</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954733488233222</span>, <span class="fl">41.7080886911241</span>],</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.95464377836678</span>, <span class="fl">41.708063418520645</span>],</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954615003503958</span>, <span class="fl">41.707964855273005</span>],</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954615003503958</span>, <span class="fl">41.70788524638588</span>],</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954652241561726</span>, <span class="fl">41.70787766458189</span>],</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">15.954708098648354</span>, <span class="fl">41.70774624650484</span>],</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>geometry_taxiarchi_michail <span class="op">=</span> {</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.84592051904731</span>, <span class="fl">36.54830393321039</span>],</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846087201698992</span>, <span class="fl">36.54836364773902</span>],</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846075939357537</span>, <span class="fl">36.548390790691705</span>],</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.84614801834191</span>, <span class="fl">36.548419743163294</span>],</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846159280683366</span>, <span class="fl">36.548396219281116</span>],</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846316953461884</span>, <span class="fl">36.54846136232331</span>],</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.84629668124823</span>, <span class="fl">36.548499362405614</span>],</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846456606495014</span>, <span class="fl">36.54855907678405</span>],</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846648066297924</span>, <span class="fl">36.548256885367536</span>],</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846251631882385</span>, <span class="fl">36.54808859861725</span>],</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846256136818965</span>, <span class="fl">36.54806869370842</span>],</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.84619306770776</span>, <span class="fl">36.548050598332246</span>],</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846186310302834</span>, <span class="fl">36.54806145555846</span>],</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846042152333148</span>, <span class="fl">36.548008978951856</span>],</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846019627651152</span>, <span class="fl">36.548050598332246</span>],</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846033142459984</span>, <span class="fl">36.54805783648323</span>],</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.846003860373138</span>, <span class="fl">36.5481211702745</span>],</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">27.84592051904731</span>, <span class="fl">36.54830393321039</span>],</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>geometry_stella_maris_monastery <span class="op">=</span> {</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>    <span class="st">"type"</span>: <span class="st">"Polygon"</span>,</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: [</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">34.96991480318133</span>, <span class="fl">32.8276822842215</span>],</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">34.96962584007829</span>, <span class="fl">32.8271624051118</span>],</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">34.97034454318042</span>, <span class="fl">32.826841759593194</span>],</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">34.97061868766258</span>, <span class="fl">32.827420788523035</span>],</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">34.96991480318133</span>, <span class="fl">32.8276822842215</span>],</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the manual segmentations above, and the visually estimated locations of the tower bells in latitude, and longitude we create a 7 rows geopandas dataframe.</p>
+<div id="cell-6" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>landmarks_michael <span class="op">=</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: [<span class="st">"Skellig Michael"</span>, <span class="op">-</span><span class="fl">10.538483</span>, <span class="fl">51.772035</span>, shape(geometry_skellig)],</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: [<span class="st">"St Michael's Mount"</span>,  <span class="op">-</span><span class="fl">5.477813</span>, <span class="fl">50.116531</span>, shape(geometry_st_michael_mount)],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>: [<span class="st">"Mont Saint-Michel"</span>, <span class="op">-</span><span class="fl">1.511447</span>, <span class="fl">48.636038</span>, shape(geometry_mont_st_michel)],</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>: [<span class="st">"Sacra di San Michele"</span>, <span class="fl">7.342842</span>, <span class="fl">45.098029</span>, shape(geometry_san_michele_sacra)],</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">5</span>: [<span class="st">"San Michele Arcangelo"</span>, <span class="fl">15.954767</span>, <span class="fl">41.707770</span>, shape(geometry_santuario_san_michele)],</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">6</span>: [<span class="st">"Taxiarchi Michail"</span>, <span class="fl">27.846123</span>,<span class="fl">36.548389</span>, shape(geometry_taxiarchi_michail)],</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>: [<span class="st">"Stella Maris"</span>, <span class="fl">34.969960</span>, <span class="fl">32.827297</span>, shape(geometry_stella_maris_monastery)],</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-7" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gdf_cathedrals <span class="op">=</span> gpd.GeoDataFrame(pd.DataFrame(landmarks_michael, index <span class="op">=</span> [<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>, <span class="st">"geometry"</span>]).T)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gdf_cathedrals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Skellig Michael</td>
+<td>-10.538483</td>
+<td>51.772035</td>
+<td>POLYGON ((-10.53821 51.77219, -10.53837 51.772...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>St Michael's Mount</td>
+<td>-5.477813</td>
+<td>50.116531</td>
+<td>POLYGON ((-5.47754 50.11673, -5.47791 50.11667...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mont Saint-Michel</td>
+<td>-1.511447</td>
+<td>48.636038</td>
+<td>POLYGON ((-1.51184 48.63619, -1.51195 48.63616...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sacra di San Michele</td>
+<td>7.342842</td>
+<td>45.098029</td>
+<td>POLYGON ((7.34246 45.09750, 7.34277 45.09750, ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>San Michele Arcangelo</td>
+<td>15.954767</td>
+<td>41.70777</td>
+<td>POLYGON ((15.95471 41.70775, 15.95485 41.70775...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Taxiarchi Michail</td>
+<td>27.846123</td>
+<td>36.548389</td>
+<td>POLYGON ((27.84592 36.54830, 27.84609 36.54836...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Stella Maris</td>
+<td>34.96996</td>
+<td>32.827297</td>
+<td>POLYGON ((34.96991 32.82768, 34.96963 32.82716...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="visualise-the-dataset-on-a-kepler-map" class="level3">
+<h3 class="anchored" data-anchor-id="visualise-the-dataset-on-a-kepler-map">Visualise the dataset on a kepler map</h3>
+<div id="cell-9" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple utils to save and load Kepler configurations</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> PosixPath, Path</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> KeplerConfigManager:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Save, load and list config files for KeplerGl"""</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path_to_folder: PosixPath <span class="op">=</span> Path().cwd() <span class="op">/</span> <span class="st">"kepler_configs"</span>):</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_to_folder <span class="op">=</span> path_to_folder</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _check_name(name_config: <span class="bu">str</span>):</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> name_config.endswith(<span class="st">".json"</span>):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Name of the config must not include the extension '.json' ."</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _parse_name(<span class="va">self</span>, name_config: <span class="bu">str</span>) <span class="op">-&gt;</span> PosixPath:</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.path_to_folder <span class="op">/</span> (name_config <span class="op">+</span> <span class="st">".json"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> list_available_configs(<span class="va">self</span>):</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [f.stem <span class="cf">for</span> f <span class="kw">in</span> <span class="va">self</span>.path_to_folder.glob(<span class="st">"*.json"</span>)]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> save_config(<span class="va">self</span>, k_map: KeplerGl, name_config: <span class="bu">str</span>):</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="va">self</span>._parse_name(name_config).<span class="bu">open</span>(<span class="st">"w+"</span>, encoding<span class="op">=</span><span class="st">"UTF-8"</span>) <span class="im">as</span> file_target: </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            json.dump(k_map.config, file_target, indent<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_config(<span class="va">self</span>, name_config: <span class="bu">str</span>):</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.loads(<span class="va">self</span>._parse_name(name_config).read_text(encoding<span class="op">=</span><span class="st">"UTF-8"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_cathedrals.__geo_interface__})</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    config_map_1 <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_1"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    kmap_1 <span class="op">=</span> KeplerGl(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>kepler_data,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_1,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    display(kmap_1)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/cathedrals_in_a_row.png"</span>))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_1, <span class="st">"configs_map_1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="compute-the-geodesic-line-between-the-first-and-the-last-cathedral" class="level2">
+<h2 class="anchored" data-anchor-id="compute-the-geodesic-line-between-the-first-and-the-last-cathedral">Compute the geodesic line between the first and the last cathedral</h2>
+<p>The goal is to compute the geodesic line between the first and the last point, and then computing the distance between all the other 5 cathedrals and the line.</p>
+<p>As it turns out, estimating the distance between a point and a line on the sphere does not require to have a “drawable” model of the line. Lets first face the problem of:</p>
+<section id="drawing-a-geodesic-line-on-the-surface-of-a-sphere" class="level3">
+<h3 class="anchored" data-anchor-id="drawing-a-geodesic-line-on-the-surface-of-a-sphere">Drawing a geodesic line on the surface of a sphere</h3>
+<p>Given two points <span class="math inline">\(P_1 = (\text{rad}(\text{Lon}_1), \text{rad}(\text{lat}_1)) = (\theta_1, \phi_1)\)</span> and <span class="math inline">\(P_N = (\text{rad}(\text{Lon}_N), \text{rad}(\text{lat}_N)) = (\theta_N, \phi_N)\)</span>, for <span class="math inline">\(N\)</span> power of two, we can find the geodesic of the sphere with a recursive method on the geodesic midpoint (and this is why we wanted <span class="math inline">\(N\)</span> to be a power of two).</p>
+<p>The geodesic midpoint between <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_N\)</span>, is indicated with <span class="math display">\[
+P_{N/2} = \mathcal{M}^{\mathbb{S}^2}(P_{1}, P_{N})
+\]</span> and it is simply found as the intersection between the line passing through the origin and the midpoint of <span class="math inline">\(P_{1}\)</span> and <span class="math inline">\(P_{N}\)</span> in the 3D space, indicated with <span class="math inline">\(\mathcal{M}^{\mathbb{R}^3}(P_{1}, P_{N})\)</span>, and the sphere <span class="math inline">\(\mathbb{S}^2\)</span>.</p>
+<p>To compute the midpoint we then need to go from the sphere to the 3D space and from the 3D space to the projection on the sphere. Let <span class="math display">\[
+\iota: \mathbb{S}^2 \rightarrow  \mathbb{R}^3
+\]</span> be the projection from the sphere coordinates <span class="math inline">\((\theta, \varphi)\)</span> to the 3D space, defined as: <span class="math display">\[
+\iota(\theta, \varphi) = \begin{cases}
+       x = R \cos(\varphi) \cos(\theta)\\
+       y = R \cos(\varphi) \sin(\theta)\\
+       z = R \sin(\varphi)\\
+     \end{cases}
+\]</span> Note that to respect the lat/lon convention, when <span class="math inline">\(\varphi=0\)</span> the point <span class="math inline">\((\theta, 0)\)</span> is on the equator, unlike in most maths text where <span class="math inline">\((\theta, 0)\)</span> are the poles.</p>
+<p>The projection from any point of the 3D space over the 2D sphere, that will serve as inverse of <span class="math inline">\(\iota\)</span>: <span class="math display">\[
+\pi: \mathbb{R}^3 \setminus \{\mathbf{0}\} \longrightarrow \mathbb{S}^2
+\]</span> is given by: <span class="math display">\[
+\pi(x, y, z) = \left(\text{arctg}\left(\frac{y}{x}\right), \text{arctg}\left(\frac{z}{\sqrt{x^2 + y^2}}\right)\right)
+\]</span> When <span class="math inline">\(x=0\)</span>: <span class="math display">\[
+\pi(0, y, z) = \left(\text{sign}(y)\frac{\pi}{2}, \text{arctg}\left(\frac{z}{\sqrt{x^2 + y^2}}\right)\right)
+\]</span> and when <span class="math inline">\(x=y=0\)</span>: <span class="math display">\[
+\pi(0, 0, z) = \left(0, \text{sign}(z)\frac{\pi}{2} \right)
+\]</span> where <span class="math inline">\(\text{sign}(\eta)\)</span> is the sign function, equal to <span class="math inline">\(+1\)</span> when <span class="math inline">\(\eta \geq 0\)</span>, and to <span class="math inline">\(-1\)</span> when <span class="math inline">\(\eta &lt; 0\)</span>.</p>
+<p>The function defined above are all what is needed to compute the geodesic midpoint on the surface of a sphere: <span class="math display">\[
+P_{N/2} = \mathcal{M}^{\mathbb{S}^2}(P_{1}, P_{N}) = \pi\left(\frac{\iota(P_{1}) + \iota(P_{N})}{2}\right)
+\]</span></p>
+<div id="fig-drawing-geodesic-line" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-drawing-geodesic-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/drawing_a_geodesic_line.png" id="fig-drawing-geodesic-line" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-drawing-geodesic-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+<p>In python, and with a <code>Point</code> data class this translates into:</p>
+<div id="cell-13" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R_Km <span class="op">=</span> <span class="dv">6371</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Point:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" lat lon in degrees """</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lon, lat):</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lon <span class="op">=</span> lon</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lat <span class="op">=</span> lat</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _hav_function(theta_A: <span class="bu">float</span>, phi_A: <span class="bu">float</span>, theta_B: <span class="bu">float</span>, phi_B: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    hav_rad <span class="op">=</span> <span class="kw">lambda</span>  x: np.sin(x<span class="op">/</span><span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_rad(phi_B <span class="op">-</span> phi_A) <span class="op">-</span> hav_rad(phi_B <span class="op">+</span> phi_A) ) <span class="op">*</span> hav_rad(theta_B <span class="op">-</span> theta_A)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance(lon_1: <span class="bu">float</span>, lat_1: <span class="bu">float</span>, lon_2: <span class="bu">float</span>, lat_2: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [lon_1, lat_1, lon_2, lat_2])</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(_hav_function(theta_1, phi_1, theta_2, phi_2)))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav(p1: Point, p2: Point) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> haversine_distance(p1.lon, p1.lat, p2.lon, p2.lat)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> iota(theta: <span class="bu">float</span>, phi: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">float</span>]:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> R_Km <span class="op">*</span> np.cos(phi) <span class="op">*</span> np.cos(theta)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> R_Km <span class="op">*</span> np.cos(phi) <span class="op">*</span> np.sin(theta)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> R_Km <span class="op">*</span> np.sin(phi)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x, y, z)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pi(x, y, z) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">float</span>]:</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">==</span> y <span class="op">==</span> z <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Point (0,0,0) can not be projected on the sphere"</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">==</span> y <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">0</span>, np.sign(z) <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (np.sign(y) <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">2</span>, np.arctan(z<span class="op">/</span>y))</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.arctan(y<span class="op">/</span>x), np.arctan(z<span class="op">/</span>(np.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> y<span class="op">**</span><span class="dv">2</span>))))</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> midpoint(p1: Point, p2: Point) <span class="op">-&gt;</span> Point:</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    lon_1, lat_1, lon_2, lat_2 <span class="op">=</span> p1.lon, p1.lat, p2.lon, p2.lat</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.deg2rad, [lon_1, lat_1, lon_2, lat_2])</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    x1, y1, z1 <span class="op">=</span> iota(theta_1, phi_1)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    x2, y2, z2 <span class="op">=</span> iota(theta_2, phi_2)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    xm, ym, zm <span class="op">=</span> (x1<span class="op">+</span>x2)<span class="op">/</span><span class="dv">2</span>, (y1<span class="op">+</span>y2)<span class="op">/</span><span class="dv">2</span>, (z1<span class="op">+</span>z2)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    theta_m, phi_m <span class="op">=</span> pi(xm, ym, zm)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    lon_m, lat_m <span class="op">=</span> <span class="bu">map</span>(np.rad2deg, [theta_m, phi_m])</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Point(lon_m, lat_m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And the recursive method to compute the points on the trajectory are:</p>
+<div id="cell-15" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tolerance_Km <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>accumulator <span class="op">=</span> []  <span class="co"># list of objects of class Point</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> midpoints_rec(p1: Point, p2: Point, bailout) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> accumulator</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    bailout <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> hav(p1, p2) <span class="op">&lt;</span> tolerance_Km:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        bailout <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> bailout <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        mp <span class="op">=</span> midpoint(p1, p2)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        accumulator <span class="op">+=</span> [mp]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        midpoints_rec(p1, mp, bailout)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        midpoints_rec(mp, p2, bailout)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>se_cathedral_centres_points <span class="op">=</span> gdf_cathedrals.<span class="bu">apply</span>(<span class="kw">lambda</span> row: Point(row.longitude, row.latitude), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>midpoints_rec(se_cathedral_centres_points.loc[<span class="dv">1</span>], se_cathedral_centres_points.loc[<span class="dv">7</span>], <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-16" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert accumulator into a dataframe of points</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_points <span class="op">=</span> pd.DataFrame([[p.lon, p.lat] <span class="cf">for</span> p <span class="kw">in</span> accumulator], columns<span class="op">=</span>[<span class="st">"longitude"</span>, <span class="st">"latitude"</span>]).sort_values(by<span class="op">=</span>[<span class="st">"longitude"</span>], ascending<span class="op">=</span><span class="va">True</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df_points.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>-10.531190</td>
+<td>51.771078</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>-10.523898</td>
+<td>51.770120</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>-10.516606</td>
+<td>51.769161</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>-10.509315</td>
+<td>51.768202</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>-10.502023</td>
+<td>51.767243</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-17" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_cathedrals.__geo_interface__, <span class="st">"line"</span>: df_points})</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    config_map_2 <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_2"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    kmap_2 <span class="op">=</span> KeplerGl(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>kepler_data,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_2,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    display(kmap_2)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/cathedrals_in_a_row_with_geodesic.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_2, <span class="st">"configs_map_2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="distance-between-the-cathedrals-and-the-geodesic-line-connecting-the-first-and-the-last-one." class="level2">
+<h2 class="anchored" data-anchor-id="distance-between-the-cathedrals-and-the-geodesic-line-connecting-the-first-and-the-last-one.">Distance between the cathedrals and the geodesic line connecting the first and the last one.</h2>
+<p>Visually we can see that the cathedrals are not aligned over the geodesics. Let’s measure the sum of the distances between each cathedral and the geodesic. We will use the distance between the bell tower and the geodesics passing through the bell towers of the first and the last cathedrals.</p>
+<section id="distance-between-a-point-and-a-geodesic-line-on-the-sphere" class="level3">
+<h3 class="anchored" data-anchor-id="distance-between-a-point-and-a-geodesic-line-on-the-sphere">Distance between a point and a geodesic line on the sphere</h3>
+<p>Finding the distance between a point and a line is equivalent to find the projection of the point on the line itself. Using planes we can find the direction of the projection, as a vector, and then we can project it on the sphere with the function <span class="math inline">\(\pi\)</span> defined above.</p>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> two points on the geodesic line, and <span class="math inline">\(C\)</span> a point on the sphere, we indicate with <span class="math inline">\(\mathcal{d}_{\mathbb{S}^2}(C, \overset{\frown}{AB})\)</span> the sought distance between <span class="math inline">\(C\)</span> and the geodesic passing through <span class="math inline">\(AB\)</span>. Using the <a href="https://en.wikipedia.org/wiki/Cross_product">cross product</a> <span class="math inline">\(\times\)</span> then we can use the following facts:</p>
+<ul>
+<li><span class="math inline">\(E = A\times B\)</span> is the vector normal to the plane <span class="math inline">\(\triangle OAB\)</span>.</li>
+<li><span class="math inline">\(F = C\times E\)</span> is the vector normal to the plane <span class="math inline">\(\triangle OCA\)</span>, which is also perpendicular to <span class="math inline">\(\triangle OAB\)</span> and passes through <span class="math inline">\(C\)</span>.</li>
+<li><span class="math inline">\(G = E\times F\)</span> is the vector belonging to the plane <span class="math inline">\(\triangle OAB\)</span>, projection of <span class="math inline">\(C\)</span>.</li>
+</ul>
+<p>The projection of <span class="math inline">\(G\)</span> on the sphere <span class="math inline">\(\pi(G)\)</span> is the projection of <span class="math inline">\(C\)</span> over the geodesic curve <span class="math inline">\(AB\)</span>, therefore the sought distance is:</p>
+<p><span class="math display">\[
+\mathcal{d}_{\mathbb{S}^2}(C, \overset{\frown}{AB}) = \mathcal{Hav}(C, \pi(G))
+\]</span></p>
+<div id="fig-distance-point-geodesic-line" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distance-point-geodesic-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/distance_point_geodesic_line.png" id="fig-distance-point-geodesic-line" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-distance-point-geodesic-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+<div id="cell-20" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> distance_point_line(point: Point, line: <span class="bu">tuple</span>[Point, Point]) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A geodesic line is defined by two points on the sphere"""</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(line) <span class="op">!=</span> <span class="dv">2</span> <span class="kw">or</span> line[<span class="dv">0</span>] <span class="op">==</span> line[<span class="dv">1</span>]:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Line must have two different elements"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    A, B <span class="op">=</span> iota(np.deg2rad(line[<span class="dv">0</span>].lon), np.deg2rad(line[<span class="dv">0</span>].lat)), iota(np.deg2rad(line[<span class="dv">1</span>].lon), np.deg2rad(line[<span class="dv">1</span>].lat))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> iota(np.deg2rad(point.lon), np.deg2rad(point.lat))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    E <span class="op">=</span> np.cross(A, B)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.cross(C, E)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> np.cross(E, F)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    G_theta, G_phi <span class="op">=</span> pi(G[<span class="dv">0</span>], G[<span class="dv">1</span>], G[<span class="dv">2</span>])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav(point, Point(np.rad2deg(G_theta), np.rad2deg(G_phi)))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity checks</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>np.testing.assert_almost_equal(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> R_Km<span class="op">/</span><span class="dv">8</span>, distance_point_line(Point(<span class="dv">0</span>, <span class="dv">45</span>), (Point(<span class="dv">0</span>,<span class="dv">0</span>), Point(<span class="dv">90</span>,<span class="dv">0</span>))))</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>np.testing.assert_almost_equal(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> R_Km<span class="op">/</span><span class="dv">4</span>, distance_point_line(Point(<span class="dv">0</span>, <span class="dv">90</span>), (Point(<span class="dv">0</span>,<span class="dv">0</span>), Point(<span class="dv">90</span>,<span class="dv">0</span>))))</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>np.testing.assert_almost_equal(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> R_Km<span class="op">/</span><span class="dv">2</span>, distance_point_line(Point(<span class="dv">180</span>, <span class="dv">0</span>), (Point(<span class="dv">0</span>,<span class="dv">0</span>), Point(<span class="dv">0</span>,<span class="dv">90</span>))))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>np.testing.assert_almost_equal(<span class="dv">0</span>, distance_point_line(Point(<span class="dv">0</span>, <span class="dv">1</span>), (Point(<span class="dv">0</span>, <span class="dv">0</span>), Point(<span class="dv">0</span>, <span class="dv">2</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can use the created function to compute all the distances between the geodesic and each cathedral:</p>
+<div id="cell-22" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> (Point(gdf_cathedrals.loc[<span class="dv">1</span>, <span class="st">"longitude"</span>], gdf_cathedrals.loc[<span class="dv">1</span>, <span class="st">"latitude"</span>]), Point(gdf_cathedrals.loc[<span class="dv">7</span>, <span class="st">"longitude"</span>], gdf_cathedrals.loc[<span class="dv">7</span>, <span class="st">"latitude"</span>]))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>gdf_cathedrals[<span class="st">"dist_to_geod"</span>] <span class="op">=</span> gdf_cathedrals.<span class="bu">apply</span>(<span class="kw">lambda</span> row: distance_point_line(Point(row[<span class="st">"longitude"</span>], row[<span class="st">"latitude"</span>]), line), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>gdf_cathedrals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+<th data-quarto-table-cell-role="th">dist_to_geod</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Skellig Michael</td>
+<td>-10.538483</td>
+<td>51.772035</td>
+<td>POLYGON ((-10.53821 51.77219, -10.53837 51.772...</td>
+<td>1.094214e-13</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>St Michael's Mount</td>
+<td>-5.477813</td>
+<td>50.116531</td>
+<td>POLYGON ((-5.47754 50.11673, -5.47791 50.11667...</td>
+<td>9.303994e+01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mont Saint-Michel</td>
+<td>-1.511447</td>
+<td>48.636038</td>
+<td>POLYGON ((-1.51184 48.63619, -1.51195 48.63616...</td>
+<td>1.638178e+02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sacra di San Michele</td>
+<td>7.342842</td>
+<td>45.098029</td>
+<td>POLYGON ((7.34246 45.09750, 7.34277 45.09750, ...</td>
+<td>2.709241e+02</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>San Michele Arcangelo</td>
+<td>15.954767</td>
+<td>41.70777</td>
+<td>POLYGON ((15.95471 41.70775, 15.95485 41.70775...</td>
+<td>2.651008e+02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Taxiarchi Michail</td>
+<td>27.846123</td>
+<td>36.548389</td>
+<td>POLYGON ((27.84592 36.54830, 27.84609 36.54836...</td>
+<td>1.269761e+02</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Stella Maris</td>
+<td>34.96996</td>
+<td>32.827297</td>
+<td>POLYGON ((34.96991 32.82768, 34.96963 32.82716...</td>
+<td>0.000000e+00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Root means squared error: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(np.sqrt(gdf_cathedrals[<span class="st">'dist_to_geod'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span>).<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(gdf_cathedrals) ), <span class="dv">4</span>) <span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Root means squared error: 167.0303 Km</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="are-the-cathedrals-aligned-on-the-mercator-projection" class="level2">
+<h2 class="anchored" data-anchor-id="are-the-cathedrals-aligned-on-the-mercator-projection">Are the cathedrals aligned on the Mercator projection?</h2>
+<p>With our experiments and measurements we saw that the cathedrals are not aligned in the spherical geometry. Visually on the same line only on the KeperlGl Mercator map projection. As for the previous case the model for the visualisation is different than the model for estimating the distance between the line and the cathedral.</p>
+<p>Let’s create a straight line between the first and the last Cathedral.</p>
+<div id="cell-25" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_line <span class="op">=</span> gdf_cathedrals[[<span class="st">"name"</span>,<span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].loc[[<span class="dv">1</span>]].copy()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_line[<span class="st">"longitude_next"</span>] <span class="op">=</span> gdf_cathedrals.loc[<span class="dv">7</span>, <span class="st">"longitude"</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df_line[<span class="st">"latitude_next"</span>] <span class="op">=</span> gdf_cathedrals.loc[<span class="dv">7</span>, <span class="st">"latitude"</span>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>df_line[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"single line"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>df_line</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+<th data-quarto-table-cell-role="th">longitude_next</th>
+<th data-quarto-table-cell-role="th">latitude_next</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>single line</td>
+<td>-10.538483</td>
+<td>51.772035</td>
+<td>34.96996</td>
+<td>32.827297</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_cathedrals.__geo_interface__, <span class="st">"line"</span>: df_line})</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    config_map_3 <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_3"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    kmap_3 <span class="op">=</span> KeplerGl(</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>kepler_data,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_3,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    display(kmap_3)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/cathedrals_in_a_row_with_straight_line.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_3, <span class="st">"configs_map_3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The result with a straight line between the first and the last cathedral is more convincing than the previous one, computed with the geodesic line.</p>
+<p>Before summing the distances between the line and the bell towers though we can think that this approach of joining the first with the last may not be the optimal one. What if we try to fit the points with linear regression?</p>
+<div id="cell-29" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gdf_cathedrals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+<th data-quarto-table-cell-role="th">dist_to_geod</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Skellig Michael</td>
+<td>-10.538483</td>
+<td>51.772035</td>
+<td>POLYGON ((-10.53821 51.77219, -10.53837 51.772...</td>
+<td>1.094214e-13</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>St Michael's Mount</td>
+<td>-5.477813</td>
+<td>50.116531</td>
+<td>POLYGON ((-5.47754 50.11673, -5.47791 50.11667...</td>
+<td>9.303994e+01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mont Saint-Michel</td>
+<td>-1.511447</td>
+<td>48.636038</td>
+<td>POLYGON ((-1.51184 48.63619, -1.51195 48.63616...</td>
+<td>1.638178e+02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sacra di San Michele</td>
+<td>7.342842</td>
+<td>45.098029</td>
+<td>POLYGON ((7.34246 45.09750, 7.34277 45.09750, ...</td>
+<td>2.709241e+02</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>San Michele Arcangelo</td>
+<td>15.954767</td>
+<td>41.70777</td>
+<td>POLYGON ((15.95471 41.70775, 15.95485 41.70775...</td>
+<td>2.651008e+02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Taxiarchi Michail</td>
+<td>27.846123</td>
+<td>36.548389</td>
+<td>POLYGON ((27.84592 36.54830, 27.84609 36.54836...</td>
+<td>1.269761e+02</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Stella Maris</td>
+<td>34.96996</td>
+<td>32.827297</td>
+<td>POLYGON ((34.96991 32.82768, 34.96963 32.82716...</td>
+<td>0.000000e+00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> gdf_cathedrals[<span class="st">"longitude"</span>].to_numpy().reshape((<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> gdf_cathedrals[<span class="st">"latitude"</span>].to_numpy()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>model.fit(x, y)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>m, n <span class="op">=</span> model.coef_[<span class="dv">0</span>], model.intercept_</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Regression line: y = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(m, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> x + </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(n, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> m , <span class="op">-</span><span class="dv">1</span>, n</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Implicit form  : </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(a, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(b, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> y + </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(c, <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Regression line: y = -0.414 x + 47.873
+Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_y(input_x, input_m, input_n):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" in degrees! """</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_x <span class="op">*</span> input_m <span class="op">+</span> input_n</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_dist_deg(input_x, input_y, input_a, input_b, input_c):</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" in degrees! """</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">abs</span>(input_a <span class="op">*</span> input_x <span class="op">+</span> input_b <span class="op">*</span> input_y <span class="op">+</span> input_c ) <span class="op">/</span> np.sqrt(input_a <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> input_b <span class="op">**</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-32" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_regression <span class="op">=</span> gdf_cathedrals[[<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].copy()</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_regression[<span class="st">"latitude_estimated"</span>] <span class="op">=</span> get_y(df_regression[<span class="st">"longitude"</span>], m, n)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df_regression[<span class="st">"latitude_estimated_next"</span>] <span class="op">=</span> df_regression[<span class="st">"latitude_estimated"</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>df_regression[<span class="st">"longitude_next"</span>] <span class="op">=</span> df_regression[<span class="st">"longitude"</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>df_regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude</th>
+<th data-quarto-table-cell-role="th">latitude_estimated</th>
+<th data-quarto-table-cell-role="th">latitude_estimated_next</th>
+<th data-quarto-table-cell-role="th">longitude_next</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Skellig Michael</td>
+<td>-10.538483</td>
+<td>51.772035</td>
+<td>52.238049</td>
+<td>50.142038</td>
+<td>-5.477813</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>St Michael's Mount</td>
+<td>-5.477813</td>
+<td>50.116531</td>
+<td>50.142038</td>
+<td>48.499262</td>
+<td>-1.511447</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mont Saint-Michel</td>
+<td>-1.511447</td>
+<td>48.636038</td>
+<td>48.499262</td>
+<td>44.832022</td>
+<td>7.342842</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sacra di San Michele</td>
+<td>7.342842</td>
+<td>45.098029</td>
+<td>44.832022</td>
+<td>41.265163</td>
+<td>15.954767</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>San Michele Arcangelo</td>
+<td>15.954767</td>
+<td>41.70777</td>
+<td>41.265163</td>
+<td>36.340041</td>
+<td>27.846123</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Taxiarchi Michail</td>
+<td>27.846123</td>
+<td>36.548389</td>
+<td>36.340041</td>
+<td>33.389514</td>
+<td>34.96996</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Stella Maris</td>
+<td>34.96996</td>
+<td>32.827297</td>
+<td>33.389514</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-33" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_cathedrals.__geo_interface__, <span class="st">"line"</span>: df_regression})</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    config_map_4 <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_4"</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    kmap_4 <span class="op">=</span> KeplerGl(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>kepler_data,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_4,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    display(kmap_4)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/cathedrals_in_a_row_with_straight_line_regression.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_4, <span class="st">"configs_map_4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see that the line computed with linear regression in degrees is closer to the rows of cathedral than it is for the geodesic. Here as well we can compute the average distance in degrees between the line and the bell towers with the function <code>get_dist_deg</code> implemented above, though this distance would not be a “real” distance in any meaningful sense.</p>
+<section id="unanswered-question" class="level3">
+<h3 class="anchored" data-anchor-id="unanswered-question">Unanswered question</h3>
+<p>Now we know that the cathedrals are not aligned on the geodesic. Are they “almost” aligned on the mercator projection by accident or was there a plan?</p>
+<p>Did the builders knew the earth was round? Or did they followed some method that is today lost, possibly based on the position of a start or a constellation, resulting in an alignment on the Mercator projection?</p>
+<p>Certainly 7 cathedrals are too many to be a coincidence, and more historical investigations about the past knowledge would be at this point an interesting project.</p>
+</section>
+</section>
+<section id="bloopers" class="level2">
+<h2 class="anchored" data-anchor-id="bloopers">Bloopers</h2>
+<p>In a first attempt of plotting the regression line with Kepler, we started drawing a straight line between the first and the last point, with the latitude computed via linear interpolation.</p>
+<div id="cell-37" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_line_regression <span class="op">=</span> gdf_cathedrals[[<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].copy()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_line_regression[<span class="st">"latitude_estimated"</span>] <span class="op">=</span> get_y(df_line_regression[<span class="st">"longitude"</span>], m, n)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df_line_regression <span class="op">=</span> df_line_regression.drop(columns<span class="op">=</span>[<span class="st">"latitude"</span>])</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df_line_regression[<span class="st">"longitude_next"</span>] <span class="op">=</span> df_line_regression.loc[<span class="dv">7</span>, <span class="st">"longitude"</span>]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>df_line_regression[<span class="st">"latitude_estimated_next"</span>] <span class="op">=</span> df_line_regression.loc[<span class="dv">7</span>, <span class="st">"latitude_estimated"</span>]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>df_line_regression <span class="op">=</span> pd.DataFrame(df_line_regression.loc[<span class="dv">1</span>]).T</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>df_line_regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">longitude</th>
+<th data-quarto-table-cell-role="th">latitude_estimated</th>
+<th data-quarto-table-cell-role="th">longitude_next</th>
+<th data-quarto-table-cell-role="th">latitude_estimated_next</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Skellig Michael</td>
+<td>-10.538483</td>
+<td>52.238049</td>
+<td>34.96996</td>
+<td>33.389514</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-38" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_cathedrals.__geo_interface__, <span class="st">"line"</span>: df_line_regression})</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    config_map_5 <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_5"</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    kmap_5 <span class="op">=</span> KeplerGl(</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>kepler_data,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map_5,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    display(kmap_5)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/cathedrals_in_a_row_with_straight_line_regression_wrong.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-39" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_5, <span class="st">"configs_map_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Can you see what went wrong? Why are all the points below the regression line?</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<section id="topics" class="level3">
+<h3 class="anchored" data-anchor-id="topics">Topics</h3>
+<ul>
+<li>A dataset of cathedrals segmentations.</li>
+<li>Drawing a geodesic between two point.</li>
+<li>Distance point-to-geodesic line.</li>
+<li>Linear regression on the Mercator projection.</li>
+<li>Distance point-line on the Mercator projection.</li>
+</ul>
+</section>
+<section id="questions-and-further-experiments" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-further-experiments">Questions and further experiments</h3>
+<ul>
+<li>Can you draw the geodesic lines between each cathedral the the geodesic between the first and the last one?</li>
+<li>To compute the distance between cathedrals we considered the geolocation of the tower bell. What about using the closest wall?</li>
+<li>Geodesics linear regression?</li>
+<li>Trace the geodesic line with Vincenty’s formula with the same recursive algorithm?</li>
+</ul>
+<p>These and more will come soon in the next blog posts! Stay tuned!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Blog made with <a href="https://quarto.org/">Quarto</a>, by Sebastiano Ferraris. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sebastianof/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:sebastiano.ferraris@gmail.com">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
