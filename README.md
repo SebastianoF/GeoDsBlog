@@ -1,5 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/68b53bdf-4947-4178-b735-29047ebb449d/deploy-status)](https://app.netlify.com/sites/geospatial/deploys)
-
 # Geo Data Science Blog
 
 A Blog about Geospatial Data Science and Algorithms created with [Quarto](https://quarto.org/) and [netlify](https://app.netlify.com/). 
@@ -7,6 +5,15 @@ A Blog about Geospatial Data Science and Algorithms created with [Quarto](https:
 - Created on the ashes of my blog about geospatial data science on [hashnode](https://geods.hashnode.dev/) and my [medium blog](https://medium.com/@sebastianof/).
 - To start reading the blog go to [https://geospatial.netlify.app/](https://geospatial.netlify.app/)
 - To know more about the blog, go to the [about](https://geospatial.netlify.app/about/about.html) page.
+
+
+## Temporary disclaimer - website temporarily suspended
+
+Due to netlify billing based on website bandwidth, and with no capping for when exceeding the free allowance, I had to temporarily suspend the service.
+
+Soon I will be looking for alternatives and let you when the website is again available.
+
+Thank you for your understanding.
 
 
 ## Blog local development
