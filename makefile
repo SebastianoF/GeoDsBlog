@@ -1,3 +1,4 @@
-quarto:
-	quarto preview . --no-browser --no-watch-inputs
-
+render:
+	quarto render
+open:
+	open docs/index.html
