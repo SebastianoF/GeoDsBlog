@@ -1,6 +1,8 @@
 project:
   type: website
   render:
+    - "*.qmd"
+    - "*.ipynb"
     - "!**/docs/**"
   output-dir: docs
 
