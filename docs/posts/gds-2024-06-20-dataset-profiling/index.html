@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-06-20">
+<meta name="dcterms.date" content="2024-06-25">
 
 <title>A Geospatial Data Science Blog - Dataset profiling with H3</title>
 <style>
@@ -207,6 +207,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
                 <div class="quarto-category">pings binning</div>
                 <div class="quarto-category">Geolife</div>
                 <div class="quarto-category">dataset “profile”</div>
+                <div class="quarto-category">tutorial</div>
               </div>
                   </div>
   </div>
@@ -218,7 +219,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 20, 2024</p>
+        <p class="date">June 25, 2024</p>
       </div>
     </div>
     
@@ -257,16 +258,15 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 
-<p>It is not often useful to visualise all the pings (which are the point of a trajectory, with <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> attributes) you have on a dataset on a map. When the number of pings is in the order of million it becomes also computationally challenging…</p>
-<p>So how to quickly investigate the position in space and time of a large, or even very large mobility dataset?</p>
-<p>In his blog post I present a simple application of the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>, to quickly show where and when a dataset appeared on the map, and to create results such as the one shown below:</p>
+<p>When investigating a large dataset of pings (which are the point of a trajectory, with <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> attributes), it can be impractical or useless to try to show all the entries on a map at once.</p>
+<p>In his blog post I present a simple trick to aggregate pings into space and time bins, leveraging on the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>. This helps visualizing where and when a dataset is distributed on a map, as done below:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/dataset_profile.gif" class="img-fluid figure-img"></p>
 <figcaption>geolife_dataset_profile</figcaption>
 </figure>
 </div>
-<p>This example is based on the open source Geolife dataset. After parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
+<p>This example uses the open source Geolife dataset. After parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
 <p>As for any posts in this blog, the text is sourced directly from a jupyter notebook, and all the results are reproducible with your local python environment.</p>
 <section id="outline" class="level3">
 <h3 class="anchored" data-anchor-id="outline">Outline</h3>
