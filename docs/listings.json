@@ -1,8 +1,28 @@
 [
   {
-    "listing": "/posts/bp.html",
+    "listing": "/posts/gds.html",
     "items": [
-      "/posts/bp-2022-07-23-gpg/index.html"
+      "/posts/gds-2024-06-20-dataset-profiling/index.html",
+      "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
+      "/posts/gds-2024-05-27-gs-2-golden-rectangle/index.html",
+      "/posts/gds-2024-04-20-cathedrals/index.html",
+      "/posts/gds-2024-01-24-timestamp/index.html",
+      "/posts/gds-2024-01-10-haversine-dist/index.html",
+      "/posts/gds-2022-10-03-polygons-part-1/index.html",
+      "/posts/gds-2022-07-29-office-pos/index.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/gds-2024-06-20-dataset-profiling/index.html",
+      "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
+      "/posts/gds-2024-05-27-gs-2-golden-rectangle/index.html",
+      "/posts/gds-2024-04-20-cathedrals/index.html",
+      "/posts/gds-2024-01-24-timestamp/index.html",
+      "/posts/gds-2024-01-10-haversine-dist/index.html",
+      "/posts/gds-2022-10-03-polygons-part-1/index.html",
+      "/posts/gds-2022-07-29-office-pos/index.html"
     ]
   },
   {
@@ -20,30 +40,9 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/posts/bp.html",
     "items": [
-      "/posts/gds-2024-06-20-dataset-profiling/index.html",
-      "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
-      "/posts/gds-2024-05-27-gs-2-golden-rectangle/index.html",
-      "/posts/gds-2024-04-20-cathedrals/index.html",
-      "/posts/gds-2024-01-24-timestamp/index.html",
-      "/posts/gds-2024-01-10-haversine-dist/index.html",
-      "/posts/gds-2022-10-03-polygons-part-1/index.html",
-      "/posts/gds-2022-07-29-office-pos/index.html",
       "/posts/bp-2022-07-23-gpg/index.html"
-    ]
-  },
-  {
-    "listing": "/posts/gds.html",
-    "items": [
-      "/posts/gds-2024-06-20-dataset-profiling/index.html",
-      "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
-      "/posts/gds-2024-05-27-gs-2-golden-rectangle/index.html",
-      "/posts/gds-2024-04-20-cathedrals/index.html",
-      "/posts/gds-2024-01-24-timestamp/index.html",
-      "/posts/gds-2024-01-10-haversine-dist/index.html",
-      "/posts/gds-2022-10-03-polygons-part-1/index.html",
-      "/posts/gds-2022-07-29-office-pos/index.html"
     ]
   }
 ]

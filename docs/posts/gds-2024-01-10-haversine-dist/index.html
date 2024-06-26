@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-01-13">
 
-<title>A Geospatial Data Science Blog - Haversine’s distance mathematics</title>
+<title>Haversine’s distance mathematics – A Geospatial Data Science Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,7 +113,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -144,7 +144,7 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="A Geospatial Data Science Blog - Haversine’s distance mathematics">
+<meta name="twitter:title" content="Haversine’s distance mathematics – A Geospatial Data Science Blog">
 <meta name="twitter:description" content="Computing the distance between two points on a sphere">
 <meta name="twitter:image" content="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-10-haversine-dist/images/cover.png">
 <meta name="twitter:image-height" content="932">
@@ -164,13 +164,13 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Posts</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
@@ -189,7 +189,7 @@ window.Quarto = {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">About</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
@@ -215,7 +215,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -309,13 +309,12 @@ window.Quarto = {
      \end{cases}
 \]</span></p>
 <p>The function <span class="math inline">\(\iota\)</span> is one of the many map projections, and the only one we will consider in this blog post; the reasoning behind its formulation can be derived from the definition of sine and cosine and from the drawing below.</p>
-<div id="fig-spherical-coordinates" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-spherical-coordinates" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-spherical-coordinates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/spherical_coordinates.png" id="fig-spherical-coordinates" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-spherical-coordinates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
@@ -409,13 +408,12 @@ Figure&nbsp;1
 <p>From the plot above we can see that all works as expected, including the fact that the points at the tropic of cancer, even if they have the same longitude spacing as the point on the equator, have a significantly smaller mutual distance. They obviously come close to each other when approaching the north pole, becoming a single point at the pole itself.</p>
 <p>If we want to keep the same “horizontal distance” or the distance on the tropic of Cancer as we have it at the equator, then we have to consider a smaller radius (that is the radius that varies in function of the latitude and that is given by <span class="math inline">\(R\cos(\varphi)\)</span>) instead of the radius at the equator (that is <span class="math inline">\(R\)</span>).</p>
 <p>The drawing below may convince you about the need to multiply by the cosine of the latitude to have the sought result.</p>
-<div id="fig-radius-at-latitude" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-radius-at-latitude" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/radius_at_latitude.png" id="fig-radius-at-latitude" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
@@ -495,13 +493,12 @@ d_{\text{Eucl}}(A, B) = \lVert \iota(\varphi_{A}, \theta_{A}) - \iota(\varphi_{A
 </ul>
 <p>The Euclidean distance is not very useful if we want to know the distance on the sphere!</p>
 <p>Can we adjust for the curvature of the sphere getting inspired by <a href="#fig-radius-at-latitude" class="quarto-xref">Figure&nbsp;4</a>? For example we use the Pythagorean theorem on the surface of the sphere respect to the meridians and the parallels, and adjust for the fact that the latitude distance shrinks when moving away from the equator.</p>
-<div id="fig-eucliean-spherical" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-eucliean-spherical" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-eucliean-spherical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/eucliean_spherical_distance.png" id="fig-eucliean-spherical" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-eucliean-spherical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3
 </figcaption>
 </figure>
 </div>
@@ -526,13 +523,12 @@ d_{\text{Sph}}(A, B) = \sqrt{\hat{AP}^ 2 + \hat{BP}^2}
 <h2 class="anchored" data-anchor-id="sec-haversine-distance">Haversine Distance</h2>
 <p>The examples proposed above are useful to develop some geometrical intuition about the distances on the sphere. The Haversine distance, provides us with a closed form solution to compute the length of the <em>geodesic</em> curve on the sphere, which is the shortest path on the surface of the sphere between the point <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
 <p>Thanks to the already mentioned symmetry, the geodesics is the arch defined by the intersection between the sphere and the plane passing through <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and the centre of the sphere. This plane always cuts the sphere in half, and again by symmetry, and rotating the sphere so that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are on the equator, it is easy to see why a curve made in this way is the shortest one (or why any other curve would be longer).</p>
-<div id="fig-radius-at-latitude" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-radius-at-latitude" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/geodesic_on_the_sphere.png" id="fig-radius-at-latitude" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
@@ -786,18 +782,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -829,7 +814,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sebastianof\.github\.io\/GeoDsBlog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -864,7 +889,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -912,7 +941,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
