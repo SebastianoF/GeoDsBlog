@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-06-25">
 
-<title>A Geospatial Data Science Blog - Dataset profiling with H3</title>
+<title>Dataset profiling with H3 – A Geospatial Data Science Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -118,7 +118,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="A Geospatial Data Science Blog - Dataset profiling with H3">
+<meta name="twitter:title" content="Dataset profiling with H3 – A Geospatial Data Science Blog">
 <meta name="twitter:description" content="Summarise large pings datasets - a case study with geolife dataset">
 <meta name="twitter:image" content="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-06-20-dataset-profiling/images/cover.png">
 <meta name="twitter:image-height" content="444">
@@ -138,13 +138,13 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-posts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Posts</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-posts">    
@@ -163,7 +163,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">About</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
@@ -189,7 +189,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -278,66 +278,88 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 <li><a href="#sec-space-time-binning" class="quarto-xref">Section&nbsp;5</a> Space-time binning with H3</li>
 <li><a href="#sec-dataset-profile-visualisation" class="quarto-xref">Section&nbsp;6</a> Dataset profile visualisation</li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To create the <code>.gif</code> animation on mac, take a scree recording with a software like QuickTime player <code>video.mov</code>, then following <a href="https://gist.github.com/SheldonWangRJT/8d3f44a35c8d1386a396b9b49b43c385">this guide</a>, run the command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-i</span> video.mov <span class="at">-pix_fmt</span> rgb8 <span class="at">-r</span> 10 output.gif <span class="kw">&amp;&amp;</span> <span class="ex">gifsicle</span> <span class="at">-O3</span> output.gif <span class="at">-o</span> output.gif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Making sure that fake sure you have <code>ffmpeg</code> and <code>gifsicle</code> installed:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ffmpeg</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install gifsicle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="sec-python-env" class="level2">
 <h2 class="anchored" data-anchor-id="sec-python-env">Python environment setup</h2>
 <p>Create a virtualenvironment and install the required libraries.</p>
 <p>Suggested lightweight method:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">virtualenv</span> venv <span class="at">-p</span> python3.11</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">virtualenv</span> venv <span class="at">-p</span> python3.11</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The requirement file contains</p>
-<pre class="text"><code>geopandas==0.14.4
+<pre class="text"><code>altair==5.3.0
+geopandas==0.14.4
 gitpython==3.1.43
+h3==3.7.7
 keplergl==0.3.2
-h3==3.7.7</code></pre>
+matplotlib==3.9.0
+pyarrow==16.1.0
+tqdm==4.66.4</code></pre>
 <p>Please look under <code>requirements.txt</code> in the repository for the complete pinned dependency tree.</p>
 </section>
 <section id="sec-download-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="sec-download-the-dataset">Download the dataset</h2>
 <p>The dataset can be downloaded manually, or running the following python command:</p>
-<div id="cell-4" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> git</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> h3</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely <span class="im">import</span> Polygon</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'dark_background'</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>alt.renderers.set_embed_options(theme<span class="op">=</span><span class="st">"dark"</span>)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># for blog visualisation: set to true if running on jupyter notebook</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-5" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> git</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> h3</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely <span class="im">import</span> Polygon</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'dark_background'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>alt.renderers.set_embed_options(theme<span class="op">=</span><span class="st">"dark"</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># for blog visualisation: set to true if running on jupyter notebook</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url_download_geolife_dataset <span class="op">=</span> <span class="st">"https://download.microsoft.com/download/F/4/8/F4894AA5-FDBC-481E-9285-D5F8C4C4F039/Geolife%20Trajectories%201.3.zip"</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    path_root <span class="op">=</span> Path(git.Repo(Path().cwd(), search_parent_directories<span class="op">=</span><span class="va">True</span>).git.rev_parse(<span class="st">"--show-toplevel"</span>))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> (git.exc.InvalidGitRepositoryError, <span class="pp">ModuleNotFoundError</span>):</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    path_root <span class="op">=</span> Path().cwd()</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>path_data_folder <span class="op">=</span> path_root <span class="op">/</span> <span class="st">"z_data"</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>path_data_folder.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>path_unzipped_dataset <span class="op">=</span> path_data_folder <span class="op">/</span> <span class="st">"Geolife Trajectories 1.3"</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path_unzipped_dataset.exists():</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    zip_path, _ <span class="op">=</span> urllib.request.urlretrieve(url_download_geolife_dataset)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(zip_path, <span class="st">"r"</span>) <span class="im">as</span> f:</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        f.extractall(path_data_folder)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset ready"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url_download_geolife_dataset <span class="op">=</span> <span class="st">"https://download.microsoft.com/download/F/4/8/F4894AA5-FDBC-481E-9285-D5F8C4C4F039/Geolife%20Trajectories%201.3.zip"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    path_root <span class="op">=</span> Path(git.Repo(Path().cwd(), search_parent_directories<span class="op">=</span><span class="va">True</span>).git.rev_parse(<span class="st">"--show-toplevel"</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> (git.exc.InvalidGitRepositoryError, <span class="pp">ModuleNotFoundError</span>):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    path_root <span class="op">=</span> Path().cwd()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>path_data_folder <span class="op">=</span> path_root <span class="op">/</span> <span class="st">"z_data"</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>path_data_folder.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>path_unzipped_dataset <span class="op">=</span> path_data_folder <span class="op">/</span> <span class="st">"Geolife Trajectories 1.3"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path_unzipped_dataset.exists():</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> requests.get(url_download_geolife_dataset)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> zipfile.ZipFile(io.BytesIO(r.content))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    z.extractall(path_data_folder)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset ready"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dataset ready</code></pre>
 </div>
@@ -355,124 +377,124 @@ h3==3.7.7</code></pre>
 </ul>
 <p>To load the files I implemented a class to load the files and enrich them with the labels when they are available. The time formats are converted to pandas datetimes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>The main parser method has also a boolean flag <code>parse_only_if_labels</code>. <code>False</code> by default, when set to <code>True</code> only the files with the labels are parsed.</p>
-<div id="cell-7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Columns names</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>COLS_TRAJECTORY <span class="op">=</span> [</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"none"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date_elapsed"</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>COLS_TRAJECTORY_TO_LOAD <span class="op">=</span> [</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date"</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time"</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>COLS_LABELS <span class="op">=</span> [</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"start_time"</span>,</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"end_time"</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"transportation_mode"</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>COLS_RESULTS <span class="op">=</span> [</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"entity_id"</span>,</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,  <span class="co"># degrees</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,  <span class="co"># degrees</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,  <span class="co"># meters (int)</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"timestamp"</span>,  <span class="co"># UNIX (int)</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"transport"</span>,  <span class="co"># only if the labels.txt file is there</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Format codes</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>LABELS_FC <span class="op">=</span> <span class="st">"%Y/%m/</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>TRAJECTORY_FC <span class="op">=</span> <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GeoLifeDataLoader:</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path_to_geolife_folder: <span class="bu">str</span> <span class="op">|</span> Path) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pfo_geolife <span class="op">=</span> path_to_geolife_folder</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        pfo_data <span class="op">=</span> Path(<span class="va">self</span>.pfo_geolife) <span class="op">/</span> <span class="st">"Data"</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dir_per_subject: <span class="bu">dict</span>[<span class="bu">int</span>, Path] <span class="op">=</span> {<span class="bu">int</span>(f.name): f <span class="cf">for</span> f <span class="kw">in</span> pfo_data.iterdir() <span class="cf">if</span> f.is_dir()}</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_pandas_per_device(</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>,</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        device_number: <span class="bu">int</span>,</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        leave_progressbar<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="bu">tuple</span>[pd.DataFrame]:</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        path_to_device_folder <span class="op">=</span> <span class="va">self</span>.dir_per_subject[device_number]</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        pfo_trajectory <span class="op">=</span> path_to_device_folder <span class="op">/</span> <span class="st">"Trajectory"</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        pfi_labels <span class="op">=</span> path_to_device_folder <span class="op">/</span> <span class="st">"labels.txt"</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>        df_labels <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        df_trajectory <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        list_trajectories <span class="op">=</span> [plt_file <span class="cf">for</span> plt_file <span class="kw">in</span> pfo_trajectory.iterdir() <span class="cf">if</span> <span class="bu">str</span>(plt_file).endswith(<span class="st">".plt"</span>)]</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        list_dfs <span class="op">=</span> []</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> traj <span class="kw">in</span> tqdm(list_trajectories, leave<span class="op">=</span>leave_progressbar):</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> pd.read_csv(traj, skiprows<span class="op">=</span><span class="dv">6</span>, names<span class="op">=</span>COLS_TRAJECTORY, usecols<span class="op">=</span>COLS_TRAJECTORY_TO_LOAD)</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>            df_sourced[<span class="st">"altitude"</span>] <span class="op">=</span> df_sourced[<span class="st">"altitude"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x <span class="op">*</span> <span class="fl">0.3048</span>)  <span class="co"># feets to meters</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>            df_sourced[<span class="st">"timestamp"</span>] <span class="op">=</span> df_sourced.<span class="bu">apply</span>(</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>                <span class="kw">lambda</span> x: dt.datetime.strptime(x[<span class="st">"date"</span>] <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> x[<span class="st">"time"</span>], TRAJECTORY_FC),</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>                axis<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> df_sourced.assign(entity_id<span class="op">=</span><span class="ss">f"device_</span><span class="sc">{</span>device_number<span class="sc">}</span><span class="ss">"</span>, transport<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> df_sourced[COLS_RESULTS]</span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>            list_dfs.append(df_sourced)</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>        df_trajectory <span class="op">=</span> pd.concat(list_dfs)</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pfi_labels.exists():</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>            df_labels <span class="op">=</span> pd.read_csv(pfi_labels, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>            df_labels.columns <span class="op">=</span> COLS_LABELS</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>            df_labels[<span class="st">"start_time"</span>] <span class="op">=</span> df_labels[<span class="st">"start_time"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: dt.datetime.strptime(x, LABELS_FC))</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>            df_labels[<span class="st">"end_time"</span>] <span class="op">=</span> df_labels[<span class="st">"end_time"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: dt.datetime.strptime(x, LABELS_FC))</span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_labels <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> _, row <span class="kw">in</span> tqdm(df_labels.iterrows(), leave<span class="op">=</span>leave_progressbar):</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>                mask <span class="op">=</span> (df_trajectory.timestamp <span class="op">&gt;</span> row.start_time) <span class="op">&amp;</span> (df_trajectory.timestamp <span class="op">&lt;=</span> row.end_time)</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>                df_trajectory.loc[mask, <span class="st">"transport"</span>] <span class="op">=</span> row[<span class="st">"transportation_mode"</span>]</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df_trajectory, df_labels</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_pandas(<span class="va">self</span>, parse_only_if_labels: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>        list_dfs_final <span class="op">=</span> []</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx <span class="kw">in</span> tqdm(<span class="va">self</span>.dir_per_subject.keys()):</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>            df_trajectory, df_labels <span class="op">=</span> <span class="va">self</span>.to_pandas_per_device(idx, leave_progressbar<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> parse_only_if_labels:</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> df_labels <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>                    list_dfs_final.append(df_trajectory)</span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>: </span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">pass</span></span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>                list_dfs_final.append(df_trajectory)</span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.concat(list_dfs_final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-8" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Columns names</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>COLS_TRAJECTORY <span class="op">=</span> [</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"none"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date_elapsed"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>COLS_TRAJECTORY_TO_LOAD <span class="op">=</span> [</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>COLS_LABELS <span class="op">=</span> [</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"start_time"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"end_time"</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"transportation_mode"</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>COLS_RESULTS <span class="op">=</span> [</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"entity_id"</span>,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>,  <span class="co"># degrees</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>,  <span class="co"># degrees</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitude"</span>,  <span class="co"># meters (int)</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"timestamp"</span>,  <span class="co"># UNIX (int)</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"transport"</span>,  <span class="co"># only if the labels.txt file is there</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Format codes</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>LABELS_FC <span class="op">=</span> <span class="st">"%Y/%m/</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>TRAJECTORY_FC <span class="op">=</span> <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GeoLifeDataLoader:</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path_to_geolife_folder: <span class="bu">str</span> <span class="op">|</span> Path) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pfo_geolife <span class="op">=</span> path_to_geolife_folder</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>        pfo_data <span class="op">=</span> Path(<span class="va">self</span>.pfo_geolife) <span class="op">/</span> <span class="st">"Data"</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dir_per_subject: <span class="bu">dict</span>[<span class="bu">int</span>, Path] <span class="op">=</span> {<span class="bu">int</span>(f.name): f <span class="cf">for</span> f <span class="kw">in</span> pfo_data.iterdir() <span class="cf">if</span> f.is_dir()}</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_pandas_per_device(</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        device_number: <span class="bu">int</span>,</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        leave_progressbar<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="bu">tuple</span>[pd.DataFrame]:</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>        path_to_device_folder <span class="op">=</span> <span class="va">self</span>.dir_per_subject[device_number]</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>        pfo_trajectory <span class="op">=</span> path_to_device_folder <span class="op">/</span> <span class="st">"Trajectory"</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>        pfi_labels <span class="op">=</span> path_to_device_folder <span class="op">/</span> <span class="st">"labels.txt"</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>        df_labels <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>        df_trajectory <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>        list_trajectories <span class="op">=</span> [plt_file <span class="cf">for</span> plt_file <span class="kw">in</span> pfo_trajectory.iterdir() <span class="cf">if</span> <span class="bu">str</span>(plt_file).endswith(<span class="st">".plt"</span>)]</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>        list_dfs <span class="op">=</span> []</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> traj <span class="kw">in</span> tqdm(list_trajectories, leave<span class="op">=</span>leave_progressbar):</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> pd.read_csv(traj, skiprows<span class="op">=</span><span class="dv">6</span>, names<span class="op">=</span>COLS_TRAJECTORY, usecols<span class="op">=</span>COLS_TRAJECTORY_TO_LOAD)</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>            df_sourced[<span class="st">"altitude"</span>] <span class="op">=</span> df_sourced[<span class="st">"altitude"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x <span class="op">*</span> <span class="fl">0.3048</span>)  <span class="co"># feets to meters</span></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>            df_sourced[<span class="st">"timestamp"</span>] <span class="op">=</span> df_sourced.<span class="bu">apply</span>(</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>                <span class="kw">lambda</span> x: dt.datetime.strptime(x[<span class="st">"date"</span>] <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> x[<span class="st">"time"</span>], TRAJECTORY_FC),</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>                axis<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> df_sourced.assign(entity_id<span class="op">=</span><span class="ss">f"device_</span><span class="sc">{</span>device_number<span class="sc">}</span><span class="ss">"</span>, transport<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>            df_sourced <span class="op">=</span> df_sourced[COLS_RESULTS]</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>            list_dfs.append(df_sourced)</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>        df_trajectory <span class="op">=</span> pd.concat(list_dfs)</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pfi_labels.exists():</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>            df_labels <span class="op">=</span> pd.read_csv(pfi_labels, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>            df_labels.columns <span class="op">=</span> COLS_LABELS</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>            df_labels[<span class="st">"start_time"</span>] <span class="op">=</span> df_labels[<span class="st">"start_time"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: dt.datetime.strptime(x, LABELS_FC))</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>            df_labels[<span class="st">"end_time"</span>] <span class="op">=</span> df_labels[<span class="st">"end_time"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: dt.datetime.strptime(x, LABELS_FC))</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_labels <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> _, row <span class="kw">in</span> tqdm(df_labels.iterrows(), leave<span class="op">=</span>leave_progressbar):</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>                mask <span class="op">=</span> (df_trajectory.timestamp <span class="op">&gt;</span> row.start_time) <span class="op">&amp;</span> (df_trajectory.timestamp <span class="op">&lt;=</span> row.end_time)</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>                df_trajectory.loc[mask, <span class="st">"transport"</span>] <span class="op">=</span> row[<span class="st">"transportation_mode"</span>]</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df_trajectory, df_labels</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_pandas(<span class="va">self</span>, parse_only_if_labels: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>        list_dfs_final <span class="op">=</span> []</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx <span class="kw">in</span> tqdm(<span class="va">self</span>.dir_per_subject.keys()):</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>            df_trajectory, df_labels <span class="op">=</span> <span class="va">self</span>.to_pandas_per_device(idx, leave_progressbar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> parse_only_if_labels:</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> df_labels <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>                    list_dfs_final.append(df_trajectory)</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>: </span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">pass</span></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>                list_dfs_final.append(df_trajectory)</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.concat(list_dfs_final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-and-save-to-parquet" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-save-to-parquet">Load and save to parquet</h3>
 <p>To speed up next loading phase, I save to parquet after loading from the <code>.plt</code> files the first time.</p>
 <p>In this way it will take less time to reload the dataset to continue the analysis.</p>
-<div id="cell-9" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>path_complete_parquet <span class="op">=</span> path_data_folder <span class="op">/</span> <span class="st">"GeolifeTrajectories.parquet"</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path_complete_parquet.exists():</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this takes about 5 minutes</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    gdl <span class="op">=</span> GeoLifeDataLoader(path_unzipped_dataset)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    df_geolife <span class="op">=</span> gdl.to_pandas(parse_only_if_labels<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    df_geolife <span class="op">=</span> df_geolife.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    df_geolife.to_parquet(path_complete_parquet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-10" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>path_complete_parquet <span class="op">=</span> path_data_folder <span class="op">/</span> <span class="st">"GeolifeTrajectories.parquet"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path_complete_parquet.exists():</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this takes about 5 minutes</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    gdl <span class="op">=</span> GeoLifeDataLoader(path_unzipped_dataset)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    df_geolife <span class="op">=</span> gdl.to_pandas(parse_only_if_labels<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    df_geolife <span class="op">=</span> df_geolife.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    df_geolife.to_parquet(path_complete_parquet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this takes 2 seconds (MAC book air, 8GB RAM)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_geolife <span class="op">=</span> pd.read_parquet(path_complete_parquet)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_geolife.shape)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df_geolife.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this takes 2 seconds (MAC book air, 8GB RAM)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_geolife <span class="op">=</span> pd.read_parquet(path_complete_parquet)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_geolife.shape)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_geolife.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(12517364, 6)</code></pre>
 </div>
@@ -480,7 +502,7 @@ h3==3.7.7</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -548,18 +570,18 @@ h3==3.7.7</code></pre>
 </section>
 <section id="sec-eda" class="level2">
 <h2 class="anchored" data-anchor-id="sec-eda">Exploratory data analysis (EDA)</h2>
-<div id="cell-12" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>map_unique_values <span class="op">=</span> {}</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df_geolife.columns:</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    map_unique_values.update({col: df_geolife[col].nunique()})</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_unique_values <span class="op">=</span> pd.Series(map_unique_values).to_frame(name<span class="op">=</span><span class="st">"unique values"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> map_unique_values</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>df_unique_values.head(<span class="bu">len</span>(df_geolife.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>map_unique_values <span class="op">=</span> {}</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df_geolife.columns:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    map_unique_values.update({col: df_geolife[col].nunique()})</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df_unique_values <span class="op">=</span> pd.Series(map_unique_values).to_frame(name<span class="op">=</span><span class="st">"unique values"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> map_unique_values</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>df_unique_values.head(<span class="bu">len</span>(df_geolife.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -597,15 +619,15 @@ h3==3.7.7</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sum_na <span class="op">=</span> df_geolife.isna().<span class="bu">sum</span>()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sum_na_perc <span class="op">=</span> ((<span class="dv">100</span> <span class="op">*</span> df_geolife.isna().<span class="bu">sum</span>()) <span class="op">/</span> <span class="bu">len</span>(df_geolife)).<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span><span class="bu">round</span>(x, <span class="dv">1</span>)<span class="sc">}</span><span class="ss"> %"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pd.concat([sum_na.to_frame(name<span class="op">=</span><span class="st">"num nan"</span>), sum_na_perc.to_frame(name<span class="op">=</span><span class="st">"percentage"</span>)], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sum_na <span class="op">=</span> df_geolife.isna().<span class="bu">sum</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sum_na_perc <span class="op">=</span> ((<span class="dv">100</span> <span class="op">*</span> df_geolife.isna().<span class="bu">sum</span>()) <span class="op">/</span> <span class="bu">len</span>(df_geolife)).<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span><span class="bu">round</span>(x, <span class="dv">1</span>)<span class="sc">}</span><span class="ss"> %"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pd.concat([sum_na.to_frame(name<span class="op">=</span><span class="st">"num nan"</span>), sum_na_perc.to_frame(name<span class="op">=</span><span class="st">"percentage"</span>)], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -650,11 +672,11 @@ h3==3.7.7</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-14" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"time covered:           </span><span class="sc">{</span>df_geolife[<span class="st">'timestamp'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>df_geolife[<span class="st">'timestamp'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of devices:      </span><span class="sc">{</span><span class="bu">len</span>(df_geolife[<span class="st">'entity_id'</span>].unique())<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of pings:        </span><span class="sc">{</span><span class="bu">len</span>(df_geolife)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Avg pings per device:   </span><span class="sc">{</span><span class="bu">round</span>( <span class="bu">len</span>(df_geolife) <span class="op">/</span> <span class="bu">len</span>(df_geolife[<span class="st">'entity_id'</span>].unique()) , <span class="dv">2</span>)<span class="sc">:_}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-15" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"time covered:           </span><span class="sc">{</span>df_geolife[<span class="st">'timestamp'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>df_geolife[<span class="st">'timestamp'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of devices:      </span><span class="sc">{</span><span class="bu">len</span>(df_geolife[<span class="st">'entity_id'</span>].unique())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of pings:        </span><span class="sc">{</span><span class="bu">len</span>(df_geolife)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Avg pings per device:   </span><span class="sc">{</span><span class="bu">round</span>( <span class="bu">len</span>(df_geolife) <span class="op">/</span> <span class="bu">len</span>(df_geolife[<span class="st">'entity_id'</span>].unique()) , <span class="dv">2</span>)<span class="sc">:_}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>time covered:           2000-01-01 23:12:19 -&gt; 2012-07-27 08:31:20
 Number of devices:      69
@@ -662,16 +684,16 @@ Number of pings:        12517364
 Avg pings per device:   181_411.07</code></pre>
 </div>
 </div>
-<div id="cell-15" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>se_devices_count <span class="op">=</span> df_geolife[<span class="st">"entity_id"</span>].value_counts().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> se_devices_count.plot.box()</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ax.plot(np.random.normal(<span class="dv">1</span>, <span class="fl">0.03</span>, size<span class="op">=</span><span class="bu">len</span>(se_devices_count)), se_devices_count.to_numpy(), <span class="st">'r.'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of pings per entity id (log)"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> se_devices_count.quantile([<span class="fl">.25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>]).to_list()</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"quantiles: </span><span class="sc">{</span>quantiles[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-16" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>se_devices_count <span class="op">=</span> df_geolife[<span class="st">"entity_id"</span>].value_counts().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> se_devices_count.plot.box()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">'log'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>ax.plot(np.random.normal(<span class="dv">1</span>, <span class="fl">0.03</span>, size<span class="op">=</span><span class="bu">len</span>(se_devices_count)), se_devices_count.to_numpy(), <span class="st">'r.'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of pings per entity id (log)"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> se_devices_count.quantile([<span class="fl">.25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>]).to_list()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"quantiles: </span><span class="sc">{</span>quantiles[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>quantiles: 1985.0 - 23606.0 - 172547.0</code></pre>
 </div>
@@ -685,14 +707,14 @@ Avg pings per device:   181_411.07</code></pre>
 </div>
 <section id="examine-the-outliers" class="level3">
 <h3 class="anchored" data-anchor-id="examine-the-outliers">Examine the outliers</h3>
-<div id="cell-17" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"longitude interval: </span><span class="sc">{</span>df_geolife[<span class="st">'longitude'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>df_geolife[<span class="st">'longitude'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"latitude interval: </span><span class="sc">{</span>df_geolife[<span class="st">'latitude'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>df_geolife[<span class="st">'latitude'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df_lon_out_of_range <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'longitude'</span>] <span class="op">&gt;</span> <span class="dv">180</span>) <span class="op">|</span> (df_geolife[<span class="st">'longitude'</span>] <span class="op">&lt;</span> <span class="op">-</span><span class="dv">180</span>)]</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>df_lat_out_of_range <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'latitude'</span>] <span class="op">&gt;</span> <span class="dv">90</span>) <span class="op">|</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&lt;</span> <span class="op">-</span><span class="dv">90</span>)]</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of longitudes out of range </span><span class="sc">{</span><span class="bu">len</span>(df_lon_out_of_range)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_lon_out_of_range) <span class="op">/</span> <span class="bu">len</span>(df_geolife), <span class="dv">10</span>)<span class="sc">}</span><span class="ss"> %)"</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of latitudes out of range  </span><span class="sc">{</span><span class="bu">len</span>(df_lat_out_of_range)<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_lat_out_of_range) <span class="op">/</span> <span class="bu">len</span>(df_geolife), <span class="dv">10</span>)<span class="sc">}</span><span class="ss"> %)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-18" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"longitude interval: </span><span class="sc">{</span>df_geolife[<span class="st">'longitude'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>df_geolife[<span class="st">'longitude'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"latitude interval: </span><span class="sc">{</span>df_geolife[<span class="st">'latitude'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>df_geolife[<span class="st">'latitude'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>df_lon_out_of_range <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'longitude'</span>] <span class="op">&gt;</span> <span class="dv">180</span>) <span class="op">|</span> (df_geolife[<span class="st">'longitude'</span>] <span class="op">&lt;</span> <span class="op">-</span><span class="dv">180</span>)]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>df_lat_out_of_range <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'latitude'</span>] <span class="op">&gt;</span> <span class="dv">90</span>) <span class="op">|</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&lt;</span> <span class="op">-</span><span class="dv">90</span>)]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of longitudes out of range </span><span class="sc">{</span><span class="bu">len</span>(df_lon_out_of_range)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_lon_out_of_range) <span class="op">/</span> <span class="bu">len</span>(df_geolife), <span class="dv">10</span>)<span class="sc">}</span><span class="ss"> %)"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of latitudes out of range  </span><span class="sc">{</span><span class="bu">len</span>(df_lat_out_of_range)<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_lat_out_of_range) <span class="op">/</span> <span class="bu">len</span>(df_geolife), <span class="dv">10</span>)<span class="sc">}</span><span class="ss"> %)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>longitude interval: -179.9695933, 179.9969416
 latitude interval: 1.044024, 400.166666666667
@@ -705,8 +727,8 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <li>In general, out of range pings has to be observed individually to understand their origin. They can be legit and going out of range devices crossing the antimeridian, or they can be results of faulty correction algorithms, data type wrongly conversion, or others unknowns.</li>
 <li>In this case, we have only one point that is out of range, and the goal of the post is how to create a profile for the dataset, so I drop it without feeling too much guilt about it.</li>
 </ul>
-<div id="cell-19" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_geolife <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'longitude'</span>] <span class="op">&lt;=</span> <span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'longitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&lt;=</span> <span class="dv">90</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">90</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_geolife <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'longitude'</span>] <span class="op">&lt;=</span> <span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'longitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&lt;=</span> <span class="dv">90</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">90</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -720,21 +742,21 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <li>Group by the pings over the index and compute their size.</li>
 <li>Use h3 to add the geometry of each row, turning the dataframe into a geodataframe.</li>
 </ul>
-<div id="cell-21" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>H3_RESOLUTION <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>TIME_RESOLUTION <span class="op">=</span> <span class="st">"48h"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>H3_RESOLUTION <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>TIME_RESOLUTION <span class="op">=</span> <span class="st">"48h"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 mins 50</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_geolife[<span class="st">"time_bins"</span>] <span class="op">=</span> df_geolife.set_index(<span class="st">"timestamp"</span>).index.floor(TIME_RESOLUTION)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>df_geolife[<span class="st">"h3"</span>] <span class="op">=</span> df_geolife.<span class="bu">apply</span>(<span class="kw">lambda</span> row: h3.geo_to_h3(row[<span class="st">"latitude"</span>], row[<span class="st">"longitude"</span>], H3_RESOLUTION), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>df_geolife.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-23" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 mins 50</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_geolife[<span class="st">"time_bins"</span>] <span class="op">=</span> df_geolife.set_index(<span class="st">"timestamp"</span>).index.floor(TIME_RESOLUTION)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>df_geolife[<span class="st">"h3"</span>] <span class="op">=</span> df_geolife.<span class="bu">apply</span>(<span class="kw">lambda</span> row: h3.geo_to_h3(row[<span class="st">"latitude"</span>], row[<span class="st">"longitude"</span>], H3_RESOLUTION), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>df_geolife.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -810,15 +832,15 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-23" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 30 seconds</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_bins_space_time <span class="op">=</span> pd.Series(df_geolife[<span class="st">"time_bins"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">"_"</span> <span class="op">+</span>  df_geolife[<span class="st">"h3"</span>]).to_frame(name<span class="op">=</span><span class="st">"bins"</span>).groupby(<span class="st">"bins"</span>).size().to_frame(name<span class="op">=</span><span class="st">"count"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 30 seconds</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df_bins_space_time <span class="op">=</span> pd.Series(df_geolife[<span class="st">"time_bins"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">"_"</span> <span class="op">+</span>  df_geolife[<span class="st">"h3"</span>]).to_frame(name<span class="op">=</span><span class="st">"bins"</span>).groupby(<span class="st">"bins"</span>).size().to_frame(name<span class="op">=</span><span class="st">"count"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -856,15 +878,15 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_bins_space_time[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(df_bins_space_time.index.<span class="bu">map</span>(<span class="kw">lambda</span> x: x.split(<span class="st">"_"</span>)[<span class="dv">0</span>]))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_bins_space_time[<span class="st">"h3"</span>] <span class="op">=</span> df_bins_space_time.index.<span class="bu">map</span>(<span class="kw">lambda</span> x: x.split(<span class="st">"_"</span>)[<span class="dv">1</span>])</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>df_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-25" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_bins_space_time[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(df_bins_space_time.index.<span class="bu">map</span>(<span class="kw">lambda</span> x: x.split(<span class="st">"_"</span>)[<span class="dv">0</span>]))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_bins_space_time[<span class="st">"h3"</span>] <span class="op">=</span> df_bins_space_time.index.<span class="bu">map</span>(<span class="kw">lambda</span> x: x.split(<span class="st">"_"</span>)[<span class="dv">1</span>])</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -916,12 +938,12 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-25" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 seconds - 1.2million rows</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>geometry<span class="op">=</span><span class="bu">list</span>(df_bins_space_time[<span class="st">"h3"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: Polygon(h3.h3_to_geo_boundary(x, geo_json<span class="op">=</span><span class="va">True</span>))))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>gdf_bins_space_time <span class="op">=</span> gpd.GeoDataFrame(df_bins_space_time, geometry<span class="op">=</span>geometry)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf_bins_space_time.shape)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>gdf_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 seconds - 1.2million rows</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>geometry<span class="op">=</span><span class="bu">list</span>(df_bins_space_time[<span class="st">"h3"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: Polygon(h3.h3_to_geo_boundary(x, geo_json<span class="op">=</span><span class="va">True</span>))))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>gdf_bins_space_time <span class="op">=</span> gpd.GeoDataFrame(df_bins_space_time, geometry<span class="op">=</span>geometry)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf_bins_space_time.shape)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>gdf_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(252683, 4)</code></pre>
 </div>
@@ -929,7 +951,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -992,62 +1014,62 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <section id="sec-dataset-profile-visualisation" class="level2">
 <h2 class="anchored" data-anchor-id="sec-dataset-profile-visualisation">Dataset profile visualisation</h2>
 <p>Now that we have the the geolife dataset binned in space and time we can visualise the results with KeplerGl.</p>
-<div id="cell-27" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path, PosixPath</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> KeplerConfigManager:</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Save, load and list config files for KeplerGl"""</span> </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path_to_folder: PosixPath <span class="op">|</span> <span class="va">None</span><span class="op">=</span> <span class="va">None</span>):</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> path_to_folder <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>            path_to_folder <span class="op">=</span> Path().cwd() <span class="op">/</span> <span class="st">"kepler_configs"</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_to_folder <span class="op">=</span> path_to_folder</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_to_folder.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _check_name(name_config: <span class="bu">str</span>):</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> name_config.endswith(<span class="st">".json"</span>):</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Name of the config must not include the extension '.json' ."</span>)</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _parse_name(<span class="va">self</span>, name_config: <span class="bu">str</span>) <span class="op">-&gt;</span> PosixPath:</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.path_to_folder <span class="op">/</span> (name_config <span class="op">+</span> <span class="st">".json"</span>)</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> list_available_configs(<span class="va">self</span>):</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [f.stem <span class="cf">for</span> f <span class="kw">in</span> <span class="va">self</span>.path_to_folder.glob(<span class="st">"*.json"</span>)]</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> save_config(<span class="va">self</span>, k_map: KeplerGl, name_config: <span class="bu">str</span>):</span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="va">self</span>._parse_name(name_config).<span class="bu">open</span>(<span class="st">"w+"</span>, encoding<span class="op">=</span><span class="st">"UTF-8"</span>) <span class="im">as</span> file_target: </span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>            json.dump(k_map.config, file_target, indent<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_config(<span class="va">self</span>, name_config: <span class="bu">str</span>):</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.loads(<span class="va">self</span>._parse_name(name_config).read_text(encoding<span class="op">=</span><span class="st">"UTF-8"</span>))</span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>kcm <span class="op">=</span> KeplerConfigManager()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path, PosixPath</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keplergl <span class="im">import</span> KeplerGl</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> KeplerConfigManager:</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Save, load and list config files for KeplerGl"""</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path_to_folder: PosixPath <span class="op">|</span> <span class="va">None</span><span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> path_to_folder <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>            path_to_folder <span class="op">=</span> Path().cwd() <span class="op">/</span> <span class="st">"kepler_configs"</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_to_folder <span class="op">=</span> path_to_folder</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_to_folder.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _check_name(name_config: <span class="bu">str</span>):</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> name_config.endswith(<span class="st">".json"</span>):</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Name of the config must not include the extension '.json' ."</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _parse_name(<span class="va">self</span>, name_config: <span class="bu">str</span>) <span class="op">-&gt;</span> PosixPath:</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.path_to_folder <span class="op">/</span> (name_config <span class="op">+</span> <span class="st">".json"</span>)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> list_available_configs(<span class="va">self</span>):</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [f.stem <span class="cf">for</span> f <span class="kw">in</span> <span class="va">self</span>.path_to_folder.glob(<span class="st">"*.json"</span>)]</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> save_config(<span class="va">self</span>, k_map: KeplerGl, name_config: <span class="bu">str</span>):</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="va">self</span>._parse_name(name_config).<span class="bu">open</span>(<span class="st">"w+"</span>, encoding<span class="op">=</span><span class="st">"UTF-8"</span>) <span class="im">as</span> file_target: </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            json.dump(k_map.config, file_target, indent<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_config(<span class="va">self</span>, name_config: <span class="bu">str</span>):</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.loads(<span class="va">self</span>._parse_name(name_config).read_text(encoding<span class="op">=</span><span class="st">"UTF-8"</span>))</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>kcm <span class="op">=</span> KeplerConfigManager()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>config_map <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_binning"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    map1 <span class="op">=</span> KeplerGl(</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>deepcopy(</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>            {</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"hex_binning"</span>: gdf_bins_space_time[gdf_bins_space_time[<span class="st">"timestamp"</span>].dt.year <span class="op">&gt;</span> <span class="dv">2008</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>).drop(columns<span class="op">=</span>[<span class="st">"h3"</span>]),  <span class="co"># limit to the first 200_000</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        ), </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map,</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    display(map1)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/dataset_profile.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>config_map <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_binning"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    map1 <span class="op">=</span> KeplerGl(</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>deepcopy(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"hex_binning"</span>: gdf_bins_space_time[gdf_bins_space_time[<span class="st">"timestamp"</span>].dt.year <span class="op">&gt;</span> <span class="dv">2008</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>).drop(columns<span class="op">=</span>[<span class="st">"h3"</span>]),  <span class="co"># limit to the first 200_000</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        ), </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>config_map,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">800</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    display(map1)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    display(Image(<span class="st">"images/dataset_profile.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1056,26 +1078,9 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">False</span>:  <span class="co"># overwrite kepler map configs</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(map1, <span class="st">"configs_map_binning"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To create the <code>.gis</code> shown above on mac, take a scree recording with a software like QuickTime player <code>video.mov</code>, then following <a href="https://gist.github.com/SheldonWangRJT/8d3f44a35c8d1386a396b9b49b43c385">this guide</a>, run the command:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-i</span> video.mov <span class="at">-pix_fmt</span> rgb8 <span class="at">-r</span> 10 output.gif <span class="kw">&amp;&amp;</span> <span class="ex">gifsicle</span> <span class="at">-O3</span> output.gif <span class="at">-o</span> output.gif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>First, make sure you have <code>ffmpeg</code> and <code>gifsicle</code> installed:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ffmpeg</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install gifsicle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div id="cell-30" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">False</span>:  <span class="co"># overwrite kepler map configs</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(map1, <span class="st">"configs_map_binning"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -1123,18 +1128,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1166,7 +1160,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sebastianof\.github\.io\/GeoDsBlog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1201,7 +1235,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1249,7 +1287,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
