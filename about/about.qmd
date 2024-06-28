@@ -13,6 +13,12 @@ about:
     - icon: medium
       text: Medium
       href: https://medium.com/@sebastianof
+    - icon: google
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=1tAeAI0AAAAJ&hl=en
+    - icon: code-square
+      text: LeetCode 
+      href: https://leetcode.com/u/SebastianoF/
 
 ---
 
@@ -28,10 +34,17 @@ All my posts are aimed at be as *practical* and *hands-on* as possible, so as to
 
 The blog you are reading started on [Medium](https://medium.com/@sebastianof), then moved to [hashnode](https://geods.hashnode.dev/), to [netlify](https://geods.netlify.com/) (now defunct) to finally land to [Quarto](https://quarto.org/) and [github pages](https://pages.github.com/). The source code can be found [here](https://github.com/SebastianoF/GeoDsBlog). 
 
-All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/). 
+All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/).
 
 If you want to get in touch, please [drop me an email](mailto:sebastiano.ferraris@gmail.com), or connect on [linkedin](https://www.linkedin.com/in/ibis-redibis/). I am nowhere to be found on X, Facebook, Instagram or other social networks.
 
+You can also find two versions of my CV:
+
+- [One for humans](https://sebastianof.github.io/GeoDsBlog/about/CV_for_humans/curriculum.pdf) (that looks interesting and would not work if parsed by an Applicant Tracking Systems)
+- [One for machines](https://sebastianof.github.io/GeoDsBlog/about/CV_for_machines/curriculum.docx.pdf) (that looks dull and is ATS compatible).
+
 -------
 
-Unless otherwise specified, all the images and articles are created by the author. In this page you can see *The Apparition*, painted by Chagall in 1925.
+All the images and articles are created by the author, unless otherwise specified. 
+
+In this page there is an example of an otherwise specified one. It is *The Apparition*, painted by Chagall in 1925.
