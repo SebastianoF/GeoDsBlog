@@ -1,7 +1,7 @@
 ---
 title: Code development
 listing:
-  contents: "bp-*/index.*"
+  contents: "bp-*/index.qmd"
   sort: "date desc"
   fields: [image, date, title, subtitle, colab, github]
   categories: true

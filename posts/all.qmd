@@ -2,7 +2,7 @@
 title: "Posts"
 listing:
   - id: all-post
-    contents: "**/index.*"
+    contents: "**/index.ipynb"
     type: default
     sort: "date desc"
     fields: [image, date, title, subtitle, colab, github]
