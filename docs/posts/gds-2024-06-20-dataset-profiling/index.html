@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2024-06-25">
 
-<title>Dataset profiling with H3 – A Geospatial Data Science Blog</title>
+<title>Summarise large datasets with spatio-temporal bins – A Geospatial Data Science Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,8 +118,8 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="Dataset profiling with H3 – A Geospatial Data Science Blog">
-<meta name="twitter:description" content="Summarise large pings datasets - a case study with geolife dataset">
+<meta name="twitter:title" content="Summarise large datasets with spatio-temporal bins – A Geospatial Data Science Blog">
+<meta name="twitter:description" content="A case study with the Geolife dataset">
 <meta name="twitter:image" content="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-06-20-dataset-profiling/images/cover.png">
 <meta name="twitter:image-height" content="444">
 <meta name="twitter:image-width" content="787">
@@ -172,8 +172,12 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
  <span class="dropdown-text">Author</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../about/CV_modern/curriculum.pdf">
- <span class="dropdown-text">CV</span></a>
+    <a class="dropdown-item" href="../../about/CV_for_humans/curriculum.pdf">
+ <span class="dropdown-text">CV for humans</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../about/CV_for_machines/curriculum.docx.pdf">
+ <span class="dropdown-text">CV for machines</span></a>
   </li>  
     </ul>
   </li>
@@ -198,8 +202,8 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Dataset profiling with H3</h1>
-            <p class="subtitle lead">Summarise large pings datasets - a case study with geolife dataset</p>
+      <h1 class="title">Summarise large datasets with spatio-temporal bins</h1>
+            <p class="subtitle lead">A case study with the Geolife dataset</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">geospatial</div>
                 <div class="quarto-category">H3</div>
@@ -238,7 +242,7 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
   <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a></li>
   <li><a href="#sec-python-env" id="toc-sec-python-env" class="nav-link" data-scroll-target="#sec-python-env">Python environment setup</a></li>
   <li><a href="#sec-download-the-dataset" id="toc-sec-download-the-dataset" class="nav-link" data-scroll-target="#sec-download-the-dataset">Download the dataset</a></li>
-  <li><a href="#sec-load-dataset" id="toc-sec-load-dataset" class="nav-link" data-scroll-target="#sec-load-dataset">Load Dataset</a>
+  <li><a href="#sec-load-dataset" id="toc-sec-load-dataset" class="nav-link" data-scroll-target="#sec-load-dataset">Load the dataset</a>
   <ul class="collapse">
   <li><a href="#load-and-save-to-parquet" id="toc-load-and-save-to-parquet" class="nav-link" data-scroll-target="#load-and-save-to-parquet">Load and save to parquet</a></li>
   </ul></li>
@@ -258,20 +262,15 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 
-<p>When investigating a large dataset of pings (which are the point of a trajectory, with <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> attributes), it can be impractical or useless to try to show all the entries on a map at once.</p>
-<p>In his blog post I present a simple trick to aggregate pings into space and time bins, leveraging on the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>. This helps visualizing where and when a dataset is distributed on a map, as done below:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/dataset_profile.gif" class="img-fluid figure-img"></p>
-<figcaption>geolife_dataset_profile</figcaption>
-</figure>
-</div>
-<p>This example uses the open source Geolife dataset. After parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
-<p>As for any posts in this blog, the text is sourced directly from a jupyter notebook, and all the results are reproducible with your local python environment.</p>
+<p>It can be impractical or useless to try to show all the data on a map at when investigating a large dataset of pings (which are the points of a trajectory having <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> as its attributes).</p>
+<p>In his blog post I present a simple trick to aggregate pings into spatio-temporal <a href="https://en.wikipedia.org/wiki/Data_binning">bins</a>, leveraging on the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>. This helps visualizing where and when a dataset is distributed on a map, producing nice visualisation like the one below:</p>
+<p><img src="images/dataset_profile.gif" class="img-fluid"></p>
+<p>This example uses the open source <a href="https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/">Geolife dataset</a>: after parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
+<p>As for any of the posts in this blog, the text is sourced directly from a jupyter notebook, and all the results are reproducible with your local python environment.</p>
 <section id="outline" class="level3">
 <h3 class="anchored" data-anchor-id="outline">Outline</h3>
 <ul>
-<li><a href="#sec-python-env" class="quarto-xref">Section&nbsp;1</a> python environment setup</li>
+<li><a href="#sec-python-env" class="quarto-xref">Section&nbsp;1</a> Python environment setup</li>
 <li><a href="#sec-download-the-dataset" class="quarto-xref">Section&nbsp;2</a> Download geolife dataset</li>
 <li><a href="#sec-load-dataset" class="quarto-xref">Section&nbsp;3</a> Load the dataset</li>
 <li><a href="#sec-eda" class="quarto-xref">Section&nbsp;4</a> Exploratory data analysis (EDA)</li>
@@ -290,7 +289,7 @@ Tip
 <div class="callout-body-container callout-body">
 <p>To create the <code>.gif</code> animation on mac, take a scree recording with a software like QuickTime player <code>video.mov</code>, then following <a href="https://gist.github.com/SheldonWangRJT/8d3f44a35c8d1386a396b9b49b43c385">this guide</a>, run the command:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-i</span> video.mov <span class="at">-pix_fmt</span> rgb8 <span class="at">-r</span> 10 output.gif <span class="kw">&amp;&amp;</span> <span class="ex">gifsicle</span> <span class="at">-O3</span> output.gif <span class="at">-o</span> output.gif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Making sure that fake sure you have <code>ffmpeg</code> and <code>gifsicle</code> installed:</p>
+<p>Making sure that you have <code>ffmpeg</code> and <code>gifsicle</code> installed beforehand:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ffmpeg</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install gifsicle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -302,8 +301,8 @@ Tip
 <p>Suggested lightweight method:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">virtualenv</span> venv <span class="at">-p</span> python3.11</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The requirement file contains</p>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> https://raw.githubusercontent.com/SebastianoF/GeoDsBlog/master/posts/gds-2024-06-20-dataset-profiling/requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where the requirement file is sourced directly from the repository, and contains the following libraries and their pinned dependencies:</p>
 <pre class="text"><code>altair==5.3.0
 geopandas==0.14.4
 gitpython==3.1.43
@@ -312,12 +311,8 @@ keplergl==0.3.2
 matplotlib==3.9.0
 pyarrow==16.1.0
 tqdm==4.66.4</code></pre>
-<p>Please look under <code>requirements.txt</code> in the repository for the complete pinned dependency tree.</p>
-</section>
-<section id="sec-download-the-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="sec-download-the-dataset">Download the dataset</h2>
-<p>The dataset can be downloaded manually, or running the following python command:</p>
-<div id="cell-5" class="cell" data-execution_count="31">
+<p>You can look under <code>requirements.txt</code> <a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-06-20-dataset-profiling/requirements.txt">in the repository</a> for the complete file.</p>
+<div id="cell-4" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
@@ -341,6 +336,10 @@ tqdm==4.66.4</code></pre>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># for blog visualisation: set to true if running on jupyter notebook</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="sec-download-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="sec-download-the-dataset">Download the dataset</h2>
+<p>The dataset can be downloaded manually, or running the following commands:</p>
 <div id="cell-6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url_download_geolife_dataset <span class="op">=</span> <span class="st">"https://download.microsoft.com/download/F/4/8/F4894AA5-FDBC-481E-9285-D5F8C4C4F039/Geolife%20Trajectories%201.3.zip"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -366,8 +365,8 @@ tqdm==4.66.4</code></pre>
 </div>
 </section>
 <section id="sec-load-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="sec-load-dataset">Load Dataset</h2>
-<p>The folder structure of the Geolife dataset is not that linear.</p>
+<h2 class="anchored" data-anchor-id="sec-load-dataset">Load the dataset</h2>
+<p>The folder structure of the Geolife dataset is not as linear as it could be.</p>
 <ul>
 <li>The trajectories are divided into 182 folders numbered from <code>000</code> to <code>181</code>.</li>
 <li>Each folder contains a subfolder called <code>Trajectory</code> containing a series of <code>.plt</code> files.</li>
@@ -722,10 +721,10 @@ Number of longitudes out of range 0 (0.0 %)
 Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
-<p>There is only one ping outsie the standard lat lon range.</p>
+<p>There is only one ping outside the standard lat-lon range.</p>
 <ul>
-<li>In general, out of range pings has to be observed individually to understand their origin. They can be legit and going out of range devices crossing the antimeridian, or they can be results of faulty correction algorithms, data type wrongly conversion, or others unknowns.</li>
-<li>In this case, we have only one point that is out of range, and the goal of the post is how to create a profile for the dataset, so I drop it without feeling too much guilt about it.</li>
+<li>In general out of range pings has to be considered individually to understand their origin. They can be legit and going out of range when the device is crossing the antimeridian, or they can be the result of a faulty correction algorithm, or a faulty data type conversion, or other unknown unknowns.</li>
+<li>In the examined case we have only one point that is out of range. The goal of this post is creating a profile for a dataset, so I dropped the outlier without feeling too guilty about it!</li>
 </ul>
 <div id="cell-20" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_geolife <span class="op">=</span> df_geolife[(df_geolife[<span class="st">'longitude'</span>] <span class="op">&lt;=</span> <span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'longitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">180</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&lt;=</span> <span class="dv">90</span>) <span class="op">&amp;</span> (df_geolife[<span class="st">'latitude'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">90</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1090,7 +1089,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>for a refresher about datetime manipulation, <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-24-timestamp/">here</a> is an detailed tutorial on this topic.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>For a refresher about datetime manipulation, <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-24-timestamp/">here</a> is an detailed tutorial on this topic.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -38,14 +38,10 @@ website:
         menu:
           - text: Author
             href: about/about.qmd
-          - text: CV
-            href: about/CV_modern/curriculum.pdf
-      #     - text: My CV
-      #       href: series-gha.qmd
-      #     - text: Publications
-      #       href: series-gha.qmd
-      #     - text: Open source projects
-      #       href: series-gha.qmd
+          - text: CV for humans
+            href: about/CV_for_humans/curriculum.pdf
+          - text: CV for machines
+            href: about/CV_for_machines/curriculum.docx.pdf
       - icon: github
         href: https://github.com/sebastianof/
       - icon: envelope
