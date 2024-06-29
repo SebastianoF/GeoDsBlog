@@ -13,7 +13,7 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/posts/all.html",
     "items": [
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "listing": "/posts/all.html",
+    "listing": "/index.html",
     "items": [
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
