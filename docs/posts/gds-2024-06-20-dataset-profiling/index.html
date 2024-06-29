@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2024-06-25">
 
-<title>Dataset profiling with H3 – A Geospatial Data Science Blog</title>
+<title>Summarise large datasets with spatio-temporal bins – A Geospatial Data Science Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,8 +118,8 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="Dataset profiling with H3 – A Geospatial Data Science Blog">
-<meta name="twitter:description" content="Summarise large pings datasets - a case study with geolife dataset">
+<meta name="twitter:title" content="Summarise large datasets with spatio-temporal bins – A Geospatial Data Science Blog">
+<meta name="twitter:description" content="A case study with the Geolife dataset">
 <meta name="twitter:image" content="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-06-20-dataset-profiling/images/cover.png">
 <meta name="twitter:image-height" content="444">
 <meta name="twitter:image-width" content="787">
@@ -202,8 +202,8 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Dataset profiling with H3</h1>
-            <p class="subtitle lead">Summarise large pings datasets - a case study with geolife dataset</p>
+      <h1 class="title">Summarise large datasets with spatio-temporal bins</h1>
+            <p class="subtitle lead">A case study with the Geolife dataset</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">geospatial</div>
                 <div class="quarto-category">H3</div>
@@ -262,10 +262,10 @@ gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 
 
 
-<p>When investigating a large dataset of pings (which are the point of a trajectory, with <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> attributes), it can be impractical or useless to try to show all the entries on a map at once.</p>
-<p>In his blog post I present a simple trick to aggregate pings into space and time bins, leveraging on the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>. This helps visualizing where and when a dataset is distributed on a map, as done below:</p>
+<p>It can be impractical or useless to try to show all the data on a map at when investigating a large dataset of pings (which are the points of a trajectory having <code>latitude</code>, <code>longitude</code> and <code>timestamp</code> as its attributes).</p>
+<p>In his blog post I present a simple trick to aggregate pings into spatio-temporal <a href="https://en.wikipedia.org/wiki/Data_binning">bins</a>, leveraging on the ubiquitous Uber <a href="https://www.uber.com/en-GB/blog/h3/">H3 Spatial Indexing</a>. This helps visualizing where and when a dataset is distributed on a map, producing nice visualisation like the one below:</p>
 <p><img src="images/dataset_profile.gif" class="img-fluid"></p>
-<p>This example uses the open source <a href="https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/">Geolife dataset</a>. After parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
+<p>This example uses the open source <a href="https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/">Geolife dataset</a>: after parsing it and adding a minimal EDA, I bin all the pings in space with H3, and in time with a fixed length time window. In the last step the resulting <strong>dataset profile</strong> is then plotted with KeplerGl.</p>
 <p>As for any of the posts in this blog, the text is sourced directly from a jupyter notebook, and all the results are reproducible with your local python environment.</p>
 <section id="outline" class="level3">
 <h3 class="anchored" data-anchor-id="outline">Outline</h3>
