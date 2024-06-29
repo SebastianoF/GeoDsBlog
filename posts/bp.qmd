@@ -1,7 +1,7 @@
 ---
 title: Code development
 listing:
-  contents: "bp-*/index.qmd"
+  contents: "bp-*/index.ipynb"
   sort: "date desc"
   fields: [image, date, title, subtitle, colab, github]
   categories: true
