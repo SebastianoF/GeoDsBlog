@@ -40,8 +40,8 @@ If you want to get in touch, please [drop me an email](mailto:sebastiano.ferrari
 
 You can also find two versions of my CV:
 
-- [One for humans](https://sebastianof.github.io/GeoDsBlog/about/CV_for_humans/curriculum.pdf) (that looks interesting and would not work if parsed by an Applicant Tracking Systems)
-- [One for machines](https://sebastianof.github.io/GeoDsBlog/about/CV_for_machines/curriculum.docx.pdf) (that looks dull and is ATS compatible).
+- [One for humans](https://sebastianof.github.io/GeoDsBlog/about/CV_for_humans/curriculum.pdf) it looks interesting and it is not Applicant Tracking Systems compatible.
+- [One for machines](https://sebastianof.github.io/GeoDsBlog/about/CV_for_machines/curriculum.docx.pdf) it looks dull and is ATS compatible.
 
 -------
 

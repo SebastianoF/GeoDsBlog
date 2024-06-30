@@ -12,6 +12,9 @@ env
 # Temporary data
 tmp_data*
 
+# data from third parties
+datashader-examples
+
 # Jupyter notebooks
 .ipynb_checkpoints
 
