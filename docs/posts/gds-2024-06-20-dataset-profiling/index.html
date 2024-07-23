@@ -304,7 +304,7 @@ Tip
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> https://raw.githubusercontent.com/SebastianoF/GeoDsBlog/master/posts/gds-2024-06-20-dataset-profiling/requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where the requirement file is sourced directly from the repository, and contains the following libraries and their pinned dependencies:</p>
 <pre class="text"><code>altair==5.3.0
-geopandas==0.14.4
+geopandas==1.0.1
 gitpython==3.1.43
 h3==3.7.7
 keplergl==0.3.2
@@ -312,7 +312,7 @@ matplotlib==3.9.0
 pyarrow==16.1.0
 tqdm==4.66.4</code></pre>
 <p>You can look under <code>requirements.txt</code> <a href="https://github.com/SebastianoF/GeoDsBlog/blob/master/posts/gds-2024-06-20-dataset-profiling/requirements.txt">in the repository</a> for the complete file.</p>
-<div id="cell-4" class="cell" data-execution_count="31">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
@@ -495,7 +495,7 @@ tqdm==4.66.4</code></pre>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_geolife.shape)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_geolife.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>(12517364, 6)</code></pre>
+<pre><code>(24876977, 6)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
@@ -516,47 +516,47 @@ tqdm==4.66.4</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>device_104</td>
-<td>39.930748</td>
-<td>116.306143</td>
-<td>0.0</td>
-<td>2008-08-16 07:47:56</td>
+<td>device_135</td>
+<td>39.974294</td>
+<td>116.399741</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:34</td>
 <td>None</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>device_104</td>
-<td>39.930792</td>
-<td>116.306167</td>
-<td>0.0</td>
-<td>2008-08-16 07:47:57</td>
+<td>device_135</td>
+<td>39.974292</td>
+<td>116.399592</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:35</td>
 <td>None</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>device_104</td>
-<td>39.931093</td>
-<td>116.306342</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:00</td>
+<td>device_135</td>
+<td>39.974309</td>
+<td>116.399523</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:36</td>
 <td>None</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>device_104</td>
-<td>39.930950</td>
-<td>116.306313</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:05</td>
+<td>device_135</td>
+<td>39.974320</td>
+<td>116.399588</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:38</td>
 <td>None</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>device_104</td>
-<td>39.930963</td>
-<td>116.306383</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:10</td>
+<td>device_135</td>
+<td>39.974365</td>
+<td>116.399730</td>
+<td>149.6568</td>
+<td>2009-01-03 01:21:39</td>
 <td>None</td>
 </tr>
 </tbody>
@@ -590,23 +590,23 @@ tqdm==4.66.4</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">entity_id</td>
-<td>69</td>
+<td>182</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">latitude</td>
-<td>3156361</td>
+<td>4698617</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">longitude</td>
-<td>3287728</td>
+<td>4839004</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">altitude</td>
-<td>692084</td>
+<td>987052</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">timestamp</td>
-<td>9756930</td>
+<td>17994493</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">transport</td>
@@ -662,8 +662,8 @@ tqdm==4.66.4</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">transport</td>
-<td>7083278</td>
-<td>56.6 %</td>
+<td>19442892</td>
+<td>78.2 %</td>
 </tr>
 </tbody>
 </table>
@@ -678,9 +678,9 @@ tqdm==4.66.4</code></pre>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Avg pings per device:   </span><span class="sc">{</span><span class="bu">round</span>( <span class="bu">len</span>(df_geolife) <span class="op">/</span> <span class="bu">len</span>(df_geolife[<span class="st">'entity_id'</span>].unique()) , <span class="dv">2</span>)<span class="sc">:_}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>time covered:           2000-01-01 23:12:19 -&gt; 2012-07-27 08:31:20
-Number of devices:      69
-Number of pings:        12517364
-Avg pings per device:   181_411.07</code></pre>
+Number of devices:      182
+Number of pings:        24876977
+Avg pings per device:   136_686.69</code></pre>
 </div>
 </div>
 <div id="cell-16" class="cell" data-execution_count="9">
@@ -694,7 +694,7 @@ Avg pings per device:   181_411.07</code></pre>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> se_devices_count.quantile([<span class="fl">.25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>]).to_list()</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"quantiles: </span><span class="sc">{</span>quantiles[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>quantiles[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>quantiles: 1985.0 - 23606.0 - 172547.0</code></pre>
+<pre><code>quantiles: 3359.0 - 35181.5 - 143041.5</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -716,9 +716,9 @@ Avg pings per device:   181_411.07</code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of latitudes out of range  </span><span class="sc">{</span><span class="bu">len</span>(df_lat_out_of_range)<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> <span class="bu">len</span>(df_lat_out_of_range) <span class="op">/</span> <span class="bu">len</span>(df_geolife), <span class="dv">10</span>)<span class="sc">}</span><span class="ss"> %)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>longitude interval: -179.9695933, 179.9969416
-latitude interval: 1.044024, 400.166666666667
+latitude interval: 1.044024, 64.751993
 Number of longitudes out of range 0 (0.0 %)
-Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
+Number of latitudes out of range  0  (0.0 %)</code></pre>
 </div>
 </div>
 <p>There is only one ping outside the standard lat-lon range.</p>
@@ -772,58 +772,58 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>device_104</td>
-<td>39.930748</td>
-<td>116.306143</td>
-<td>0.0</td>
-<td>2008-08-16 07:47:56</td>
+<td>device_135</td>
+<td>39.974294</td>
+<td>116.399741</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:34</td>
 <td>None</td>
-<td>2008-08-15</td>
-<td>8831aa51bbfffff</td>
+<td>2009-01-02</td>
+<td>8831aa5555fffff</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>device_104</td>
-<td>39.930792</td>
-<td>116.306167</td>
-<td>0.0</td>
-<td>2008-08-16 07:47:57</td>
+<td>device_135</td>
+<td>39.974292</td>
+<td>116.399592</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:35</td>
 <td>None</td>
-<td>2008-08-15</td>
-<td>8831aa51bbfffff</td>
+<td>2009-01-02</td>
+<td>8831aa5555fffff</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>device_104</td>
-<td>39.931093</td>
-<td>116.306342</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:00</td>
+<td>device_135</td>
+<td>39.974309</td>
+<td>116.399523</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:36</td>
 <td>None</td>
-<td>2008-08-15</td>
-<td>8831aa51bbfffff</td>
+<td>2009-01-02</td>
+<td>8831aa5555fffff</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>device_104</td>
-<td>39.930950</td>
-<td>116.306313</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:05</td>
+<td>device_135</td>
+<td>39.974320</td>
+<td>116.399588</td>
+<td>149.9616</td>
+<td>2009-01-03 01:21:38</td>
 <td>None</td>
-<td>2008-08-15</td>
-<td>8831aa51bbfffff</td>
+<td>2009-01-02</td>
+<td>8831aa5555fffff</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>device_104</td>
-<td>39.930963</td>
-<td>116.306383</td>
-<td>0.0</td>
-<td>2008-08-16 07:48:10</td>
+<td>device_135</td>
+<td>39.974365</td>
+<td>116.399730</td>
+<td>149.6568</td>
+<td>2009-01-03 01:21:39</td>
 <td>None</td>
-<td>2008-08-15</td>
-<td>8831aa51bbfffff</td>
+<td>2009-01-02</td>
+<td>8831aa5555fffff</td>
 </tr>
 </tbody>
 </table>
@@ -860,16 +860,16 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <td>1</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5081fffff</td>
-<td>9</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5017fffff</td>
+<td>1</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5085fffff</td>
-<td>4</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5023fffff</td>
+<td>1</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5087fffff</td>
-<td>21</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5027fffff</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
@@ -914,22 +914,22 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <td>8831aa50cdfffff</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5081fffff</td>
-<td>9</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5017fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5081fffff</td>
+<td>8831aa5017fffff</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5085fffff</td>
-<td>4</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5023fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5085fffff</td>
+<td>8831aa5023fffff</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5087fffff</td>
-<td>21</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5027fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5087fffff</td>
+<td>8831aa5027fffff</td>
 </tr>
 </tbody>
 </table>
@@ -944,7 +944,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf_bins_space_time.shape)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>gdf_bins_space_time.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>(252683, 4)</code></pre>
+<pre><code>(394264, 4)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
@@ -973,7 +973,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <td>2</td>
 <td>1999-12-31</td>
 <td>8831aa50c5fffff</td>
-<td>POLYGON ((116.32271 39.99250, 116.32038 39.988...</td>
+<td>POLYGON ((116.32271 39.9925, 116.32038 39.9884...</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1999-12-31_8831aa50cdfffff</td>
@@ -983,25 +983,25 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <td>POLYGON ((116.32234 39.99982, 116.32001 39.995...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5081fffff</td>
-<td>9</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5017fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5081fffff</td>
-<td>POLYGON ((116.33853 39.98014, 116.33620 39.976...</td>
+<td>8831aa5017fffff</td>
+<td>POLYGON ((116.30762 39.99021, 116.30529 39.986...</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5085fffff</td>
-<td>4</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5023fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5085fffff</td>
-<td>POLYGON ((116.33118 39.97534, 116.32885 39.971...</td>
+<td>8831aa5023fffff</td>
+<td>POLYGON ((116.27782 39.97829, 116.2755 39.9742...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2007-04-11_8831aa5087fffff</td>
-<td>21</td>
+<td data-quarto-table-cell-role="th">2007-04-11_8831aa5027fffff</td>
+<td>1</td>
 <td>2007-04-11</td>
-<td>8831aa5087fffff</td>
-<td>POLYGON ((116.33890 39.97282, 116.33657 39.968...</td>
+<td>8831aa5027fffff</td>
+<td>POLYGON ((116.27047 39.97348, 116.26814 39.969...</td>
 </tr>
 </tbody>
 </table>
@@ -1053,7 +1053,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 <span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>kcm <span class="op">=</span> KeplerConfigManager()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="32">
+<div id="cell-29" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>config_map <span class="op">=</span> kcm.load_config(<span class="st">"configs_map_binning"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
@@ -1077,7 +1077,7 @@ Number of latitudes out of range  1  (7.9889e-06 %)</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="30">
+<div id="cell-30" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">False</span>:  <span class="co"># overwrite kepler map configs</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(map1, <span class="st">"configs_map_binning"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
