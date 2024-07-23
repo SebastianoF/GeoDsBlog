@@ -18,7 +18,7 @@
     "href": "about/about.html",
     "title": "Sebastiano Ferraris",
     "section": "",
-    "text": "Welcome to my blog,\nI’m Sebastiano Ferraris, data scientist at General System, and this is my personal blog about Geospatial Data Science.\nHere I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and coding practices.\nAll my posts are aimed at be as practical and hands-on as possible, so as to give you the possibility of reproducing all that is shown.\nThe blog you are reading started on Medium, then moved to hashnode, to netlify (now defunct) to finally land to Quarto and github pages. The source code can be found here.\nAll the posts and content created in this blog are licenced under CC BY-SA 4.0 DEED.\nIf you want to get in touch, please drop me an email, or connect on linkedin. I am nowhere to be found on X, Facebook, Instagram or other social networks.\nYou can also find two versions of my CV:\n\nOne for humans it looks interesting and it is not Applicant Tracking Systems compatible.\nOne for machines it looks dull and is ATS compatible.\n\n\nAll the images and articles are created by the author, unless otherwise specified.\nIn this page there is an example of an otherwise specified one. It is The Apparition, painted by Chagall in 1925."
+    "text": "Welcome to my blog,\nI’m Sebastiano Ferraris, data scientist at General System, and this is my personal blog about Geospatial Data Science.\nHere I am sharing some tutorials and small projects about geospatial data science with particular focus on algorithms, mathematics and coding practices.\nAll my posts are aimed at be as practical and hands-on as possible, so as to give you the possibility of reproducing all that is shown.\nThe blog you are reading is made with Quarto and deployed on github pages. You can find the source code here.\nAll the posts and content created in this blog are licenced under CC BY-SA 4.0 DEED.\nIf you want to get in touch, please drop me an email, or connect on linkedin. I am nowhere to be found on X, Facebook, Instagram or other social networks.\nYou can also find two versions of my CV:\n\nOne for humans it looks interesting and it is not Applicant Tracking Systems compatible.\nOne for machines it looks dull and is ATS compatible.\n\n\nAll the images and articles are created by the author, unless otherwise specified.\nIn this page there is an example of an otherwise specified one. It is The Apparition, painted by Chagall in 1925."
   },
   {
     "objectID": "posts/gds-2024-06-20-dataset-profiling/index.html",
@@ -81,7 +81,7 @@
     "href": "posts/gds-2024-05-27-gs-2-golden-rectangle/index.html",
     "title": "The Golden Rectangle of Fashion — how to identify walking routes, dwells and co-locations",
     "section": "",
-    "text": "Ownership Note: blog post originally published on the 7th of February 2024 for generalsystem.com. As the General System startup adventure is coming to an end, and the website may no longer be maintained, I keep it live on my personal blog. Soon additional code embeddings that I could not add on the original version, and a more in depth-classification will be added.\nSpecial thanks to the generalsystem.com team members, in particular Lisa Hutt and Nysa Wilson for the revision and support. Typos and mistakes are on the author."
+    "text": "Ownership Note: I originally wrote this blog post for generalsystem.com, and it was published on the 7th of February 2024 when it became of public domain. As the General System startup adventure is coming to an end, and the website may no longer be maintained, I keep it live on my personal blog. Here I could expand the article with the code embeddings that I could not add on the original version, and a more in depth-classification will be added.\nSpecial thanks to the generalsystem.com team members, in particular Lisa Hutt and Nysa Wilson for the revision and support. Typos and mistakes are on me."
   },
   {
     "objectID": "posts/gds-2024-05-27-gs-2-golden-rectangle/index.html#intro",
@@ -522,7 +522,7 @@
     "href": "posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html",
     "title": "Limitations and challenges in mobility data — skewness and noise",
     "section": "",
-    "text": "Ownership Note: blog post originally published on the 4th of August 2023 for generalsystem.com. As the General System startup adventure is coming to an end, and the website may no longer be maintained, I keep it live on my personal blog.\nSpecial thanks to the generalsystem.com team members, in particular Lisa Hutt and Nysa Wilson for the revision and support. Typos and mistakes are on the author."
+    "text": "Ownership Note: I originally wrote this blog post for generalsystem.com, and it was published on the 4th of August 2023 when it became of public domain. As the General System startup adventure is coming to an end, and the website may no longer be maintained, I keep it live on my personal blog.\nSpecial thanks to the generalsystem.com team members, in particular Lisa Hutt and Nysa Wilson for the revision and support. Typos and mistakes are on me."
   },
   {
     "objectID": "posts/gds-2024-05-27-gs-1-limitations-and-challenges-in-ad-tech/index.html#aims",
