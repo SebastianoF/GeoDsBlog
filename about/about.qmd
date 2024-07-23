@@ -10,9 +10,6 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/ibis-redibis/
-    - icon: medium
-      text: Medium
-      href: https://medium.com/@sebastianof
     - icon: google
       text: Google Scholar
       href: https://scholar.google.com/citations?user=1tAeAI0AAAAJ&hl=en
@@ -32,7 +29,7 @@ Here I am sharing some tutorials and small projects about [geospatial data scien
 
 All my posts are aimed at be as *practical* and *hands-on* as possible, so as to give you the possibility of reproducing all that is shown.
 
-The blog you are reading started on [Medium](https://medium.com/@sebastianof), then moved to [hashnode](https://geods.hashnode.dev/), to [netlify](https://geods.netlify.com/) (now defunct) to finally land to [Quarto](https://quarto.org/) and [github pages](https://pages.github.com/). The source code can be found [here](https://github.com/SebastianoF/GeoDsBlog). 
+The blog you are reading is made with [Quarto](https://quarto.org/) and deployed on [github pages](https://pages.github.com/). You can find the source code [here](https://github.com/SebastianoF/GeoDsBlog). 
 
 All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/).
 
