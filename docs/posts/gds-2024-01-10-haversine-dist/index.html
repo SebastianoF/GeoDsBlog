@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.47">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -195,7 +195,7 @@ window.Quarto = {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
         <li>
     <a class="dropdown-item" href="../../about/about.html">
- <span class="dropdown-text">Author</span></a>
+ <span class="dropdown-text">Author and feedback</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../about/CV_for_humans/curriculum.pdf">
@@ -282,7 +282,7 @@ window.Quarto = {
 <p><img src="images/cover.png" class="img-fluid"></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This blog post is for the reader interested in building an intuition for how distances on the sphere are computed (<a href="#sec-map-projection" class="quarto-xref">Section&nbsp;3</a>, <a href="#sec-two-points-distance" class="quarto-xref">Section&nbsp;4</a>), to understand the details of the maths behind the Haversine distance (<a href="#sec-haversine-distance" class="quarto-xref">Section&nbsp;5</a>), to have an implementation in python with some examples and details about the numerical stability (<a href="#sec-implementation" class="quarto-xref">Section&nbsp;6</a>, <a href="#sec-numerical-stability" class="quarto-xref">Section&nbsp;7</a>), and a conclusion about what to use in the python practice (<a href="#sec-vincentry-formula" class="quarto-xref">Section&nbsp;8</a>). This last one is the only section you should look at if you are here to compute the Haversine distance quickly and accurately.</p>
+<p>This blog post is for the reader interested in building an intuition for how distances on the sphere are computed ( <a href="#sec-map-projection" class="quarto-xref">Section&nbsp;3</a>, <a href="#sec-two-points-distance" class="quarto-xref">Section&nbsp;4</a> ), to understand the details of the maths behind the Haversine distance ( <a href="#sec-haversine-distance" class="quarto-xref">Section&nbsp;5</a> ), to have an implementation in python with some examples and details about the numerical stability ( <a href="#sec-implementation" class="quarto-xref">Section&nbsp;6</a>, <a href="#sec-numerical-stability" class="quarto-xref">Section&nbsp;7</a> ), and a conclusion about what to use in the python practice ( <a href="#sec-vincentry-formula" class="quarto-xref">Section&nbsp;8</a> ). This last one is the only section you should look at if you are here to compute the Haversine distance quickly and accurately.</p>
 <p>The article starts with the somehow pedantic though possibly important section about the motivations and formulas behind the spherical model.</p>
 <p><img src="images/earth_models.png" class="img-fluid"></p>
 </section>
@@ -293,7 +293,7 @@ window.Quarto = {
 <p>Which model is the best one?</p>
 <p>If the local topography is not relevant and the computations has to be kept bare simple and fast, the sphere is the go to model of the earth. The conventional coordinates system, consisting of the pair longitude (East-West direction) and latitude (North-South direction) measured in degrees from the center of the modelling surface in the 3D space, can be projected in any of the mentioned model, and even more, such as the cylindrical, conical and plane model.</p>
 <p>Adding the radius as third coordinate, we can model the altitude for each point. Unlike latitude and longitude, the location of the zero for the altitude point is model-dependent, and will be different if on the sphere, the ellipsoid or others. The functions mapping the latitude, longitude (and altitude) coordinates across models are called <a href="https://en.wikipedia.org/wiki/Map_projection">maps projections</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>For a fixed radius <span class="math inline">\(R\)</span>, and for <span class="math inline">\(\text{rad}: \text{Deg} \rightarrow \text{Rad}\)</span> the function mapping degrees to radians, we can rename the two angles with the radians with the conventional greek letters <span class="math inline">\(\theta\)</span> (theta) and <span class="math inline">\(\varphi\)</span> (phi):</p>
+<p>Expressing the function mapping degrees to radians with <span class="math inline">\(\text{rad}: \text{Deg} \rightarrow \text{Rad}\)</span>, we name latitude longitude with the conventional greek letters <span class="math inline">\(\theta\)</span> (theta) and <span class="math inline">\(\varphi\)</span> (phi) when expressed in radians instead of in degrees:</p>
 <p><span class="math display">\[
 \begin{align*}
 \theta &amp;:= \text{rad}(\text{Lon}) \\
@@ -307,9 +307,9 @@ window.Quarto = {
 <p>that projects each pair <span class="math inline">\((\theta, \varphi)\)</span> for <span class="math inline">\(\theta \in [-\pi, \pi]\)</span> and <span class="math inline">\(\varphi \in [-\pi/2, \pi/2]\)</span> on the sphere of radius <span class="math inline">\(R\)</span>:</p>
 <p><span class="math display">\[
 \iota(\theta, \varphi) = \begin{cases}
-       x = R \cos(\varphi) \cos(\theta)\\
-       y = R \cos(\varphi) \sin(\theta)\\
-       z = R \sin(\varphi)\\
+       x = R \cos\varphi \cos\theta\\
+       y = R \cos\varphi \sin\theta\\
+       z = R \sin\varphi\\
      \end{cases}
 \]</span></p>
 <p>The function <span class="math inline">\(\iota\)</span> is one of the many map projections, and the only one we will consider in this blog post; the reasoning behind its formulation can be derived from the definition of sine and cosine and from the drawing below.</p>
@@ -319,6 +319,7 @@ window.Quarto = {
 <img src="images/spherical_coordinates.png" id="fig-spherical-coordinates" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-spherical-coordinates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
@@ -418,6 +419,7 @@ window.Quarto = {
 <img src="images/radius_at_latitude.png" id="fig-radius-at-latitude" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
@@ -503,6 +505,7 @@ d_{\text{Eucl}}(A, B) = \lVert \iota(\varphi_{A}, \theta_{A}) - \iota(\varphi_{A
 <img src="images/eucliean_spherical_distance.png" id="fig-eucliean-spherical" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-eucliean-spherical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
 </figcaption>
 </figure>
 </div>
@@ -533,6 +536,7 @@ d_{\text{Sph}}(A, B) = \sqrt{\hat{AP}^ 2 + \hat{BP}^2}
 <img src="images/geodesic_on_the_sphere.png" id="fig-radius-at-latitude" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-radius-at-latitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
 </figcaption>
 </figure>
 </div>

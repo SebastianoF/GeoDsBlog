@@ -23,7 +23,7 @@ about:
 
 #### Welcome to my blog,
 
-I'm Sebastiano Ferraris and this is my personal blog about Geospatial Data Science.
+I'm Sebastiano Ferraris, I'm a senior data scientist at Kpler and this is my personal blog about Geospatial Data Science.
 
 Here I am sharing some tutorials and small projects about [geospatial data science](https://carto.com/what-is-spatial-data-science) with particular focus on algorithms, mathematics and coding practices.
 
@@ -39,6 +39,14 @@ You can also find two versions of my CV:
 
 - [One for humans](https://sebastianof.github.io/GeoDsBlog/about/CV_for_humans/curriculum.pdf) it looks interesting and it is not Applicant Tracking Systems compatible.
 - [One for machines](https://sebastianof.github.io/GeoDsBlog/about/CV_for_machines/curriculum.docx.pdf) it looks dull and is ATS compatible.
+
+
+#### Feedback
+
+There are no public comment sections. This is a deliberate choice, as I can not commit to their moderation with enough consistency. 
+
+Nonetheless any comment, suggestion and feedback you would like to share with me, postive or negative is very welcome. Please drop me an email (you can find it on my [github](https://github.com/SebastianoF) profile). I do not guarantee to answer in short time, though I promise to do all what I can to answer to you in due course.
+Any contribution that will be integrated into the blog, from entire ideas for new blog posts, to typos and corrections will be acknowledged at the bottom of each post.
 
 -------
 

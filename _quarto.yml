@@ -36,7 +36,7 @@ website:
       #   menu:
       - text: About
         menu:
-          - text: Author
+          - text: Author and feedback
             href: about/about.qmd
           - text: CV for humans
             href: about/CV_for_humans/curriculum.pdf
