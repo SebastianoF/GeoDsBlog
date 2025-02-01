@@ -32,6 +32,13 @@ source .venv/bin/activate
 uv pip install -r <blog post folder path>/requirements.txt
 ```
 
+To activate the virtualenvironment created with `uv` run:
+
+
+```bash
+source .venv/bin/activate
+```
+
 ## License
 
 This blog is licensed under [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
