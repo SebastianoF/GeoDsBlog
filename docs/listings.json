@@ -2,6 +2,7 @@
   {
     "listing": "/posts/gds.html",
     "items": [
+      "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
@@ -13,6 +14,7 @@
   {
     "listing": "/posts/all.html",
     "items": [
+      "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
@@ -25,6 +27,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
       "/posts/gds-2024-01-24-timestamp/index.html",
