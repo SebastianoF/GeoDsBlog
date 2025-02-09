@@ -298,10 +298,30 @@ window.Quarto = {
 
 
 <p><img src="images/cover.png" class="img-fluid"></p>
-<p>Latest update: 2024-06-25</p>
+<p>Updated: 2025-02-09</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When the blog was deployed on netlify (until June 2024), this particular post received many comments on <a href="https://news.ycombinator.com/item?id=40595499">Hacker News</a>. I would like to thank all the people that got enthralled by the same topic and wrote comments and suggestions for improvements. A few changes were made after the feedback that I received.</p>
+<ul>
+<li>The seven religious sites are not <code>cathedrals</code> as initially stated in a previous version. So the title and text were corrected in consequence, removing any reference to Cathedrals.</li>
+<li>Only the first five religious sites are dedicated to Saint Michael. Not all seven.</li>
+<li>These observations may make things less interesting. The alignment of “any” 7 religious sites may be way more likely to happen by chance.</li>
+</ul>
+<p>As suggested in the comments, can this be considered a geometric version of the birthday paradox, or the Texas sharpshooter fallacy.</p>
+<p>Exploring further into this direction is a very interesting direction that I did not think about, and I will leave that idea for another blog post!</p>
+</div>
+</div>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>We <a href="https://en.wikipedia.org/wiki/Saint_Michael%27s_line#:~:text=The%20aligned%20sites%20are%20almost,Stella%20Maris%20Monastery%3B%20although%20the">read on wikipedia</a> that there are 7 famous religious sites built across the past centuries, all related to Saint Michael and all aligned on a straight line.</p>
+<p>We <a href="https://en.wikipedia.org/wiki/Saint_Michael%27s_line#:~:text=The%20aligned%20sites%20are%20almost,Stella%20Maris%20Monastery%3B%20although%20the">read on wikipedia</a> that there are 7 famous religious sites built across the past centuries, some of which are related to Saint Michael and that are aligned on a straight line.</p>
 <p>Being more like Saint Thomas than Saint Michael, we say that if we do not see we do not believe.</p>
 <p>So we consider the perfect alignment as our research hypothesis, and we proceed as follows:</p>
 <ol type="1">
@@ -321,30 +341,10 @@ window.Quarto = {
 <li>The line is between the first and the last church as ground truth would bias the result for towards the misalignment of these two. A single line that minimizes the distances between all the buildings would reduce the overall error.</li>
 </ul>
 <p>We start the analysis nonetheless with these two limitations in mind and we see what happens, before deciding where to go next.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Posthumous note: this blog post, when the blog post was deployed on netlify, received many comments on <a href="https://news.ycombinator.com/item?id=40595499">Hacker News</a>. Mega thank you for all the comments and the email you sent me when the post went “viral”.</p>
-<ul>
-<li>The title is indeed wrong! The seven religious sites are not <code>cathedrals</code>, as initially stated in a previous version.</li>
-<li>Only the first five are dedicated to Saint Michael.</li>
-<li>This makes things less interesting, as the alignment of “any” 7 religious sites may be way more likely.</li>
-</ul>
-<p>As suggested in the comments, can this be considered a geometric version of the birthday paradox, or the Texas sharpshooter fallacy?</p>
-<p>Exploring further into this direction is a very interesting direction that I did not think about, and I will leave that idea to another blog post!</p>
-</div>
-</div>
 </section>
 <section id="dataset-collection" class="level2">
 <h2 class="anchored" data-anchor-id="dataset-collection">Dataset collection</h2>
-<div id="cell-4" class="cell" data-execution_count="30">
+<div id="cell-5" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -357,7 +357,7 @@ Note
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>KEPLER_OUTPUT <span class="op">=</span> <span class="va">False</span>  <span class="co"># set to False to see the kepler maps interactively</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>OVERWRITE_CONFIGS <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="31">
+<div id="cell-6" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coordinates from google maps, and teh segmentations from KepelerGl.</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -545,7 +545,7 @@ Note
 <span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>From the manual segmentations above, and the visually estimated locations of the tower bells in latitude, and longitude we create a 7 rows geopandas dataframe.</p>
-<div id="cell-7" class="cell" data-execution_count="32">
+<div id="cell-8" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>landmarks_michael <span class="op">=</span> {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: [<span class="st">"Skellig Michael"</span>, <span class="op">-</span><span class="fl">10.538483</span>, <span class="fl">51.772035</span>, shape(geometry_skellig)],</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: [<span class="st">"St Michael's Mount"</span>,  <span class="op">-</span><span class="fl">5.477813</span>, <span class="fl">50.116531</span>, shape(geometry_st_michael_mount)],</span>
@@ -556,7 +556,7 @@ Note
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>: [<span class="st">"Stella Maris"</span>, <span class="fl">34.969960</span>, <span class="fl">32.827297</span>, shape(geometry_stella_maris_monastery)],</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="33">
+<div id="cell-9" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gdf_buildings <span class="op">=</span> gpd.GeoDataFrame(pd.DataFrame(landmarks_michael, index <span class="op">=</span> [<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>, <span class="st">"geometry"</span>]).T)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gdf_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
@@ -631,7 +631,7 @@ Note
 </div>
 <section id="visualise-the-dataset-on-a-kepler-map" class="level3">
 <h3 class="anchored" data-anchor-id="visualise-the-dataset-on-a-kepler-map">Visualise the dataset on a kepler map</h3>
-<div id="cell-10" class="cell" data-execution_count="34">
+<div id="cell-11" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple utils to save and load Kepler configurations</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path, PosixPath</span>
@@ -665,7 +665,7 @@ Note
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._check_name(name_config)</span>
 <span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.loads(<span class="va">self</span>._parse_name(name_config).read_text(encoding<span class="op">=</span><span class="st">"UTF-8"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="35">
+<div id="cell-12" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_buildings.__geo_interface__})</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -690,7 +690,7 @@ Note
 </div>
 </div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="36">
+<div id="cell-13" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_1, <span class="st">"configs_map_1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -739,7 +739,7 @@ Figure&nbsp;1
 </figure>
 </div>
 <p>In python, and with a <code>Point</code> data class this translates into:</p>
-<div id="cell-14" class="cell" data-execution_count="37">
+<div id="cell-15" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R_Km <span class="op">=</span> <span class="dv">6371</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -787,7 +787,7 @@ Figure&nbsp;1
 <span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Point(lon_m, lat_m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And the recursive method to compute the points on the trajectory are:</p>
-<div id="cell-16" class="cell" data-execution_count="38">
+<div id="cell-17" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tolerance_Km <span class="op">=</span> <span class="fl">0.1</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>accumulator <span class="op">=</span> []  <span class="co"># list of objects of class Point</span></span>
@@ -808,7 +808,7 @@ Figure&nbsp;1
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>se_cathedral_centres_points <span class="op">=</span> gdf_buildings.<span class="bu">apply</span>(<span class="kw">lambda</span> row: Point(row.longitude, row.latitude), axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>midpoints_rec(se_cathedral_centres_points.loc[<span class="dv">1</span>], se_cathedral_centres_points.loc[<span class="dv">7</span>], <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="39">
+<div id="cell-18" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert accumulator into a dataframe of points</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_points <span class="op">=</span> pd.DataFrame([[p.lon, p.lat] <span class="cf">for</span> p <span class="kw">in</span> accumulator], columns<span class="op">=</span>[<span class="st">"longitude"</span>, <span class="st">"latitude"</span>]).sort_values(by<span class="op">=</span>[<span class="st">"longitude"</span>], ascending<span class="op">=</span><span class="va">True</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df_points.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -856,7 +856,7 @@ Figure&nbsp;1
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="40">
+<div id="cell-19" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_buildings.__geo_interface__, <span class="st">"line"</span>: df_points})</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -880,7 +880,7 @@ Figure&nbsp;1
 </div>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="41">
+<div id="cell-20" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_2, <span class="st">"configs_map_2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -913,7 +913,7 @@ Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
-<div id="cell-21" class="cell" data-execution_count="42">
+<div id="cell-22" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> distance_point_line(point: Point, line: <span class="bu">tuple</span>[Point, Point]) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A geodesic line is defined by two points on the sphere"""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -937,7 +937,7 @@ Figure&nbsp;2
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>np.testing.assert_almost_equal(<span class="dv">0</span>, distance_point_line(Point(<span class="dv">0</span>, <span class="dv">1</span>), (Point(<span class="dv">0</span>, <span class="dv">0</span>), Point(<span class="dv">0</span>, <span class="dv">2</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can use the created function to compute all the distances between the geodesic and each cathedral:</p>
-<div id="cell-23" class="cell" data-execution_count="43">
+<div id="cell-24" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> (Point(gdf_buildings.loc[<span class="dv">1</span>, <span class="st">"longitude"</span>], gdf_buildings.loc[<span class="dv">1</span>, <span class="st">"latitude"</span>]), Point(gdf_buildings.loc[<span class="dv">7</span>, <span class="st">"longitude"</span>], gdf_buildings.loc[<span class="dv">7</span>, <span class="st">"latitude"</span>]))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>gdf_buildings[<span class="st">"dist_to_geod"</span>] <span class="op">=</span> gdf_buildings.<span class="bu">apply</span>(<span class="kw">lambda</span> row: distance_point_line(Point(row[<span class="st">"longitude"</span>], row[<span class="st">"latitude"</span>]), line), axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>gdf_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1019,7 +1019,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="44">
+<div id="cell-25" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Root means squared error: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(np.sqrt(gdf_buildings[<span class="st">'dist_to_geod'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span>).<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(gdf_buildings) ), <span class="dv">4</span>) <span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Root means squared error: 167.0303 Km</code></pre>
@@ -1031,7 +1031,7 @@ Figure&nbsp;2
 <h2 class="anchored" data-anchor-id="are-the-buildings-aligned-on-the-mercator-projection">Are the buildings aligned on the Mercator projection?</h2>
 <p>With our experiments and measurements we saw that the buildings are not aligned in the spherical geometry. Visually on the same line only on the KeperlGl Mercator map projection. As for the previous case the model for the visualisation is different than the model for estimating the distance between the line and the cathedral.</p>
 <p>Let’s create a straight line between the first and the last Cathedral.</p>
-<div id="cell-26" class="cell" data-execution_count="45">
+<div id="cell-27" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_line <span class="op">=</span> gdf_buildings[[<span class="st">"name"</span>,<span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].loc[[<span class="dv">1</span>]].copy()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_line[<span class="st">"longitude_next"</span>] <span class="op">=</span> gdf_buildings.loc[<span class="dv">7</span>, <span class="st">"longitude"</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df_line[<span class="st">"latitude_next"</span>] <span class="op">=</span> gdf_buildings.loc[<span class="dv">7</span>, <span class="st">"latitude"</span>]</span>
@@ -1067,7 +1067,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<div id="cell-27" class="cell" data-execution_count="46">
+<div id="cell-28" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_buildings.__geo_interface__, <span class="st">"line"</span>: df_line})</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
@@ -1090,14 +1090,14 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="47">
+<div id="cell-29" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_3, <span class="st">"configs_map_3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The result with a straight line between the first and the last cathedral is more convincing than the previous one, computed with the geodesic line.</p>
 <p>Before summing the distances between the line and the bell towers though we can think that this approach of joining the first with the last may not be the optimal one. What if we try to fit the points with linear regression?</p>
-<div id="cell-30" class="cell" data-execution_count="48">
+<div id="cell-31" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gdf_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="48">
 <div>
@@ -1177,7 +1177,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="49">
+<div id="cell-32" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
@@ -1197,7 +1197,7 @@ Figure&nbsp;2
 Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 </div>
 </div>
-<div id="cell-32" class="cell" data-execution_count="50">
+<div id="cell-33" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_y(input_x, input_m, input_n):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" in degrees! """</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_x <span class="op">*</span> input_m <span class="op">+</span> input_n</span>
@@ -1206,7 +1206,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" in degrees! """</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">abs</span>(input_a <span class="op">*</span> input_x <span class="op">+</span> input_b <span class="op">*</span> input_y <span class="op">+</span> input_c ) <span class="op">/</span> np.sqrt(input_a <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> input_b <span class="op">**</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-33" class="cell" data-execution_count="51">
+<div id="cell-34" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_regression <span class="op">=</span> gdf_buildings[[<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].copy()</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_regression[<span class="st">"latitude_estimated"</span>] <span class="op">=</span> get_y(df_regression[<span class="st">"longitude"</span>], m, n)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df_regression[<span class="st">"latitude_estimated_next"</span>] <span class="op">=</span> df_regression[<span class="st">"latitude_estimated"</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
@@ -1298,7 +1298,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-34" class="cell" data-execution_count="52">
+<div id="cell-35" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_buildings.__geo_interface__, <span class="st">"line"</span>: df_regression})</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
@@ -1321,7 +1321,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-35" class="cell" data-execution_count="53">
+<div id="cell-36" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_4, <span class="st">"configs_map_4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1337,7 +1337,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 <section id="bloopers" class="level2">
 <h2 class="anchored" data-anchor-id="bloopers">Bloopers</h2>
 <p>In a first attempt of plotting the regression line with Kepler, we started drawing a straight line between the first and the last point, with the latitude computed via linear interpolation.</p>
-<div id="cell-38" class="cell" data-execution_count="54">
+<div id="cell-39" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_line_regression <span class="op">=</span> gdf_buildings[[<span class="st">"name"</span>, <span class="st">"longitude"</span>, <span class="st">"latitude"</span>]].copy()</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_line_regression[<span class="st">"latitude_estimated"</span>] <span class="op">=</span> get_y(df_line_regression[<span class="st">"longitude"</span>], m, n)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df_line_regression <span class="op">=</span> df_line_regression.drop(columns<span class="op">=</span>[<span class="st">"latitude"</span>])</span>
@@ -1375,7 +1375,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-39" class="cell" data-execution_count="55">
+<div id="cell-40" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="op">=</span> deepcopy({<span class="st">"cathedrals"</span>: gdf_buildings.__geo_interface__, <span class="st">"line"</span>: df_line_regression})</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT:</span>
@@ -1398,7 +1398,7 @@ Implicit form  : -0.414 x -1 y + 47.873 = 0</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-40" class="cell" data-execution_count="56">
+<div id="cell-41" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> KEPLER_OUTPUT <span class="kw">and</span> OVERWRITE_CONFIGS:</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    kcm <span class="op">=</span> KeplerConfigManager()</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    kcm.save_config(kmap_5, <span class="st">"configs_map_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
