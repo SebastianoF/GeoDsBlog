@@ -195,7 +195,15 @@ window.Quarto = {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
         <li>
     <a class="dropdown-item" href="../../about/about.html">
- <span class="dropdown-text">Author and feedback</span></a>
+ <span class="dropdown-text">Blog</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../about/feedback.html">
+ <span class="dropdown-text">Feedback</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../about/licence.html">
+ <span class="dropdown-text">Licence</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../about/CV_for_humans/curriculum.pdf">
@@ -624,7 +632,7 @@ B &amp;=(\cos\tilde{\theta}_B~\cos\varphi_B, \sin\tilde{\theta}_B~\cos\varphi_B,
 </section>
 <section id="sec-implementation" class="level2">
 <h2 class="anchored" data-anchor-id="sec-implementation">Implementation and examples</h2>
-<p>From a computational point of view, as sadi before, we want to avoid computing <span class="math inline">\(\sin\)</span> when the angles are very small. So a stable implementation would use the last part of <a href="#eq-hav-0" class="quarto-xref">Equation&nbsp;2</a>.</p>
+<p>From a computational point of view, it is better to avoid computing <span class="math inline">\(\cos\)</span> when the angles are very small. So a stable implementation would use the last part of <a href="#eq-hav-0" class="quarto-xref">Equation&nbsp;2</a>.</p>
 <div id="cell-17" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">""" Haversine function in python"""</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
