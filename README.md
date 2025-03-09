@@ -41,7 +41,8 @@ source .venv/bin/activate
 
 ## License
 
-This blog is licensed under [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/).
+- All the code snippets provided alongside with the post are licenced under [MIT Licence](https://choosealicense.com/licenses/mit/).
 
 ## Acknowledgements
 
