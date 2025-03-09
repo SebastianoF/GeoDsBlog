@@ -8,7 +8,7 @@
 - All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/).
 
 
-- All the code snippets provided alongside with the post are licenced under [MIT Licence](https://choosealicense.com/licenses/mit/)
+- All the code snippets provided alongside with the post are licenced under [MIT Licence](https://choosealicense.com/licenses/mit/).
 
 ```txt
 MIT License
