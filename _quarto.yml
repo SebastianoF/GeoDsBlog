@@ -36,8 +36,12 @@ website:
       #   menu:
       - text: About
         menu:
-          - text: Author and feedback
+          - text: Blog
             href: about/about.qmd
+          - text: Feedback
+            href: about/feedback.qmd
+          - text: Licence
+            href: about/licence.qmd
           - text: CV for humans
             href: about/CV_for_humans/curriculum.pdf
           - text: CV for machines

@@ -27,37 +27,28 @@ I'm Sebastiano Ferraris, a senior data scientist at [Kpler](https://www.kpler.co
 
 At Kpler I am part of the Risk and Compliance team where I work and learn with top notch analysts, developers and researchers.
 
-In my spare time I like to brush up the basics and explore a range of topics in geospatial data science. 
+In my spare time I like to brush up the basics and explore a varied range of topics in [geospatial data science](https://carto.com/what-is-spatial-data-science) with particular focus on algorithms, mathematics and coding practices.
 
 Sometimes the results of these explorations can become blog post in the personal blog you are reading right now.
 
-Here you will find some tutorials and small research projects about [geospatial data science](https://carto.com/what-is-spatial-data-science) with particular focus on algorithms, mathematics and coding practices.
-
-All my posts are aimed at be as *practical* and *hands-on* as possible, so as to give you the possibility of reproducing all that is shown.
+All my posts are aimed at be as *straightforward*, *practical* and *hands-on* as possible, so as to give you the possibility of reproducing all that is shown.
 
 The blog is created with with [Quarto](https://quarto.org/) and deployed on [github pages](https://pages.github.com/). You can find the source code [here](https://github.com/SebastianoF/GeoDsBlog). 
 
-All the posts and content created in this blog are licenced under [CC BY-SA 4.0 DEED](https://creativecommons.org/licenses/by-sa/4.0/).
-
 -------
 
-If you want to get in touch, please [drop me an email](mailto:sebastiano.ferraris@gmail.com), or connect on [linkedin](https://www.linkedin.com/in/ibis-redibis/). I am nowhere to be found on X, Facebook, Instagram or other social networks, as I can get distracted very easily already without their help.
+For comments and licencing, please look under:
 
-Also on this blog you can find two versions of my CV:
+- [Feedback](https://sebastianof.github.io/GeoDsBlog/about/feedback.html)
+- [Licence](https://sebastianof.github.io/GeoDsBlog/about/licence.html)
+
+
+To know more about myself, you can also find two versions of my CV:
 
 - [One for humans](https://sebastianof.github.io/GeoDsBlog/about/CV_for_humans/curriculum.pdf) it looks interesting and it is not Applicant Tracking Systems compatible.
 - [One for machines](https://sebastianof.github.io/GeoDsBlog/about/CV_for_machines/curriculum.docx.pdf) it looks dull and is ATS compatible.
 
 
-#### Feedback
-
-There are no public comment sections. This is a deliberate choice, as I can not commit to their moderation with enough consistency. 
-
-Nonetheless any comment, suggestion and feedback you would like to share with me, postive or negative is very welcome. Please drop me an email (you can find it on my [github](https://github.com/SebastianoF) profile). I do not guarantee to answer in short time, though I promise to do all what I can to answer to you in due course.
-Any contribution that will be integrated into the blog, from entire ideas for new blog posts, to typos and corrections will be acknowledged at the bottom of each post.
-
 -------
 
-All the images and articles are created by the author, unless otherwise specified. 
-
-In this page there is an example of an otherwise specified one. It is *The Apparition*, painted by Chagall in 1925.
+The image in this page is *The Apparition*, painted by Chagall in 1925.

@@ -1,0 +1,10 @@
+
+#### Feedback
+
+There are no public comment sections. This is a deliberate choice, as I can not commit to their moderation with enough consistency. 
+
+Nonetheless any comment, suggestion and feedback you would like to share with me, positive or negative, is always very welcome. 
+You can drop me an email [here](mailto:sebastiano.ferraris@gmail.com), raise an issue on the [github blog's repo](https://github.com/SebastianoF/GeoDsBlog) or connect via [linkedin](https://www.linkedin.com/in/ibis-redibis/).
+I do not guarantee to answer to any of these channels in short time, though I promise to do all what I can to answer to you in due course.
+
+Any contribution that will be integrated into the blog, from entire ideas for new blog posts, to typos and corrections, will be acknowledged at the bottom of each post (unless you prefer otherwise). Any  issue raised on github will remain public, unless in blatant breach of the [github code of conduct](https://docs.github.com/en/site-policy/github-terms/github-community-code-of-conduct).
