@@ -9,6 +9,7 @@ project:
 website:
   title: "A Geospatial Data Science Blog"
   favicon: images/favicon.png
+
   site-url: "https://sebastianof.github.io/GeoDsBlog/"
   google-analytics: "G-VPPV7D4HSQ"
   page-footer:
@@ -52,6 +53,9 @@ website:
         href: mailto:sebastiano.ferraris@gmail.com
 format:
   html:
+    include-in-header:
+    - text: |
+        <link rel = "shortcut icon" href = "images/favicon.png" />
     smooth-scroll: true
     citations-hover: true
     footnotes-hover: true
