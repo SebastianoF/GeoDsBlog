@@ -112,6 +112,7 @@ gtag('js', new Date());
 gtag('config', 'G-VPPV7D4HSQ', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link rel="shortcut icon" href="images/favicon.png">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -559,7 +560,7 @@ Figure&nbsp;4
 d = 2 \mathcal{R} \arcsin \left(\sqrt{\sin^2(\lambda / 2 )}\right)
 \]</span> <span id="eq-d-0"><span class="math display">\[
 d = 2 \mathcal{R} \arcsin \left(\sqrt{ \text{hav}(\lambda) }\right)
-\tag{1}\]</span></span> Where <span class="math inline">\(h\)</span> is the <strong>Haversine function</strong> given by: <span id="eq-hav-0"><span class="math display">\[
+\tag{1}\]</span></span> Where <span class="math inline">\(\text{hav}\)</span> is the <strong>Haversine function</strong> given by: <span id="eq-hav-0"><span class="math display">\[
 \text{hav}(\lambda) := \sin^2\left(\frac{\lambda}{2}\right) = \frac{1 - \cos(\lambda)}{2}~.
 \tag{2}\]</span></span></p>
 <p>The haversine function is particularly handy when we want to avoid computing a <span class="math inline">\(\cos\)</span>, and to transform it into a <span class="math inline">\(\sin\)</span> function. Since the <span class="math inline">\(\cos\)</span> for small angle is numerically unstable, given a <span class="math inline">\(\lambda\)</span> we can chose if we want to compute <span class="math inline">\(\text{hav}{\lambda}\)</span> via the <span class="math inline">\(\sin\)</span> or the <span class="math inline">\(\cos\)</span> according to the numerical stability we want to obtain.</p>
