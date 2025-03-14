@@ -2,6 +2,7 @@
   {
     "listing": "/posts/gds.html",
     "items": [
+      "/posts/gds-2025-03-10-haversine-with-altitude/index.html",
       "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
@@ -14,6 +15,7 @@
   {
     "listing": "/posts/all.html",
     "items": [
+      "/posts/gds-2025-03-10-haversine-with-altitude/index.html",
       "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
@@ -27,6 +29,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gds-2025-03-10-haversine-with-altitude/index.html",
       "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
       "/posts/gds-2024-04-20-cathedrals/index.html",
