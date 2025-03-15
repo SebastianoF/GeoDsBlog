@@ -270,17 +270,16 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
-  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#sec-problem-setting" id="toc-sec-problem-setting" class="nav-link" data-scroll-target="#sec-problem-setting">Problem setting</a></li>
   <li><a href="#sec-pythagoras" id="toc-sec-pythagoras" class="nav-link" data-scroll-target="#sec-pythagoras">First approximation with Pythagoras</a></li>
-  <li><a href="#sec-calculus" id="toc-sec-calculus" class="nav-link" data-scroll-target="#sec-calculus">Solution using calculus</a></li>
+  <li><a href="#sec-calculus" id="toc-sec-calculus" class="nav-link" data-scroll-target="#sec-calculus">Analytical solution</a></li>
   <li><a href="#sec-code" id="toc-sec-code" class="nav-link" data-scroll-target="#sec-code">Code</a>
   <ul class="collapse">
   <li><a href="#sec-validation" id="toc-sec-validation" class="nav-link" data-scroll-target="#sec-validation">Validation</a></li>
   </ul></li>
   <li><a href="#sec-exercises" id="toc-sec-exercises" class="nav-link" data-scroll-target="#sec-exercises">Hands-on</a></li>
-  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -295,9 +294,9 @@ window.Quarto = {
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>This blog post presents a numerical method to compute the Haversine distance between points at different altitude.</p>
-<p>The problem is formalised in <a href="#sec-problem-setting" class="quarto-xref">Section&nbsp;1.1</a>, then <a href="#sec-pythagoras" class="quarto-xref">Section&nbsp;1.2</a> offers a naive numerical method based on Pythagoras.</p>
-<p>Finally in section <a href="#sec-calculus" class="quarto-xref">Section&nbsp;1.3</a> a more accurate method based on differential calculus is presented.</p>
-<p>If you are passing around to get the code, please do jump directly to to <a href="#sec-code" class="quarto-xref">Section&nbsp;1.4</a>, and if you are here for some amusement, or to test your understanding, you can look at the final exercises (with some solutions) in section sec-appendix <a href="#sec-exercises" class="quarto-xref">Section&nbsp;1.5</a></p>
+<p>The problem is formalised in <a href="#sec-problem-setting" class="quarto-xref">Section&nbsp;2</a>, then <a href="#sec-pythagoras" class="quarto-xref">Section&nbsp;3</a> offers a naive numerical method based on Pythagoras.</p>
+<p>Finally in section <a href="#sec-calculus" class="quarto-xref">Section&nbsp;4</a> a more accurate method based on differential calculus is presented.</p>
+<p>If you are passing around to get the code, please do jump directly to to <a href="#sec-code" class="quarto-xref">Section&nbsp;5</a>, and if you are here for some amusement, or to test your understanding, you can look at the final exercises (with some solutions) in section sec-appendix <a href="#sec-exercises" class="quarto-xref">Section&nbsp;6</a></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -310,16 +309,18 @@ Note
 <div class="callout-body-container callout-body">
 <p>This blog post was inspired by and created after <a href="https://stackoverflow.com/questions/33111529/calculating-distance-between-two-points-using-latitude-longitude-and-altitude-e#:~:text=You%20can%20calculate%20distance%20between,change%20in%20elevation%20in%20meters">this question</a> on stack overflow (there was not enough space to fit it all in a single answer).</p>
 <p>Thanks to <a href="https://stackoverflow.com/users/4563194/sebb">sebb</a> for raising it, and to all the thread’s contributors.</p>
+<p>The proposed numerical solution is a direct and simple application of the Simpson method for numerical integration (Faires, Burdeen <em>Numerical Analysis</em>, 7th Edition, section 4.4) combined with the <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine distance</a> to measure the horizontal cathet of each approximant.</p>
 </div>
 </div>
 <ul>
-<li><a href="#sec-problem-setting" class="quarto-xref">Section&nbsp;1.1</a> problem setting</li>
-<li><a href="#sec-pythagoras" class="quarto-xref">Section&nbsp;1.2</a> naive solution with Pythagoras</li>
-<li><a href="#sec-calculus" class="quarto-xref">Section&nbsp;1.3</a> more accurate solution based on integral calculus</li>
-<li><a href="#sec-exercises" class="quarto-xref">Section&nbsp;1.5</a> hands-on exercises</li>
+<li><a href="#sec-problem-setting" class="quarto-xref">Section&nbsp;2</a> problem setting</li>
+<li><a href="#sec-pythagoras" class="quarto-xref">Section&nbsp;3</a> naive solution with Pythagoras</li>
+<li><a href="#sec-calculus" class="quarto-xref">Section&nbsp;4</a> more accurate solution based on integral calculus</li>
+<li><a href="#sec-exercises" class="quarto-xref">Section&nbsp;6</a> hands-on exercises</li>
 </ul>
-<section id="sec-problem-setting" class="level2">
-<h2 class="anchored" data-anchor-id="sec-problem-setting">Problem setting</h2>
+</section>
+<section id="sec-problem-setting" class="level1">
+<h1>Problem setting</h1>
 <p>Two points <span class="math inline">\(p_A\)</span> and <span class="math inline">\(p_B\)</span> on the surface of two concentric spheres can be described by the three coordinates: the usual latitude and longitude in degrees and the altitude in a chosen unit of measurement (Km in this case). When the angles are expressed in radians, we use the greek letters theta and phi, or <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\varphi\)</span>.</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -336,8 +337,8 @@ p_{B} = \begin{cases}
 \end{cases}
 \end{align*}
 \]</span></p>
-<p>The altitude is not the radius of the spheres where the point lives, as it is relative to a zero-altitude sphere whose radius is the average earth radius <span class="math inline">\(\mathcal{R}\)</span> (that is, the sea level).</p>
-<p>Something not used in this post, but added here for completeness and for a clearer understanding of the zero-altitude radius: the immersion of a point <span class="math inline">\(p\)</span> with altitude <span class="math inline">\(h\)</span> from the sphere of radius <span class="math inline">\(\mathcal{R}\)</span> to the 3D space whose origin is in the centre of the sphere and the north pole is on the z-axis, indicated with the greek letter iota, is given by:</p>
+<p>The altitude is not the radius of the spheres where the point lives, as it is relative to a zero-altitude sphere whose radius is the average earth radius <span class="math inline">\(\mathcal{R}\)</span> (that is, an ideal approximation of the sea level).</p>
+<p>Something not used in this post, but added here for completeness and for a clearer understanding of the zero-altitude radius: the immersion of a point <span class="math inline">\(p\)</span> with altitude <span class="math inline">\(h\)</span> from the sphere of radius <span class="math inline">\(\mathcal{R}\)</span> to the 3D space whose origin is at the centre of the sphere and the north pole is on the z-axis, indicated with the greek letter iota, is given by:</p>
 <p><span class="math display">\[
 \iota_{\mathcal{R}}: \mathbb{S}^2 \rightarrow  \mathbb{R}^3
 \]</span></p>
@@ -352,8 +353,8 @@ p_{B} = \begin{cases}
        z = (\mathcal{R} + h) \sin\varphi\\
 \end{cases}
 \]</span></p>
-<p>In the previous blog posts about the <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-10-haversine-dist/">Haversine distance</a> and <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2025-02-09-bearing/">bearing</a> we have dealt with only 2 coordinates system and done without classes. Here for a change, and to avoid swapping latitude and longitude by mistake, points are encoded with python classes.</p>
-<div id="cell-5" class="cell" data-execution_count="42">
+<p>In the previous blog posts about the <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-10-haversine-dist/">Haversine distance</a> and <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2025-02-09-bearing/">bearing</a> we have dealt with only 2 coordinate systems and done without classes. Here for a change, and to avoid swapping latitude and longitude by mistake, points are encoded with python classes.</p>
+<div id="cell-5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> AfterValidator, BaseModel</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing_extensions <span class="im">import</span> Annotated</span>
@@ -456,7 +457,7 @@ p_{B} = \begin{cases}
 \]</span> where <span class="math inline">\(\text{hav}\)</span> is the <strong>Haversine function</strong> given by: <span class="math display">\[
 \text{hav}(\lambda) := \sin^2\left(\frac{\lambda}{2}\right) = \frac{1 - \cos(\lambda)}{2}~.
 \]</span></p>
-<div id="cell-7" class="cell" data-execution_count="59">
+<div id="cell-7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _hav_aux(p1: PointRad, p2: PointRad) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    hav_fun <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x <span class="op">/</span> <span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_fun(p2.phi <span class="op">-</span> p1.phi) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_fun(p2.phi <span class="op">-</span> p1.phi) <span class="op">-</span> hav_fun(p2.phi <span class="op">+</span> p1.phi)) <span class="op">*</span> hav_fun(</span>
@@ -469,12 +470,12 @@ p_{B} = \begin{cases}
 </div>
 <p>We conclude the section with an observation that will prove to be very convenient later on: if we have the Haversine distance between two points at the same altitude <span class="math inline">\(h_1\)</span> (or radius <span class="math inline">\(\mathcal{R} + h_1\)</span>) and we want to know the distance between the same point at the same altitude <span class="math inline">\(h_2\)</span> (or radius <span class="math inline">\(\mathcal{R} + h_2\)</span>) there is no need to re-compute the haversine.</p>
 <p>We can simply divide by the orignal radius <span class="math inline">\(\mathcal{R} + h_1\)</span>, and then multiply for the intended radius <span class="math inline">\(\mathcal{R} + h_2\)</span>.</p>
-<p>In formula: <span class="math display">\[
-\begin{align*}
+<p>In formula: <span id="eq-hav-diff-h"><span class="math display">\[
+\begin{align}
 \text{Hav}_{h_1} = \frac{\mathcal{R} + h_2}{\mathcal{R} + h_1} \text{Hav}_{h_2}
-\end{align*}
-\]</span></p>
-<div id="cell-9" class="cell">
+\end{align}
+\tag{1}\]</span></span></p>
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R_Km <span class="op">=</span> <span class="dv">6371</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># two input points</span></span>
@@ -486,34 +487,43 @@ p_{B} = \begin{cases}
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>R_min <span class="op">=</span> np.<span class="bu">min</span>([p_A.alt, p_B.alt]) <span class="op">+</span> R_Km</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>R_max <span class="op">=</span> np.<span class="bu">max</span>([p_A.alt, p_B.alt]) <span class="op">+</span> R_Km</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius lowest point:      </span><span class="sc">{</span>R_min<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius highest point:     </span><span class="sc">{</span>R_max<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius of the lowest point:      </span><span class="sc">{</span>R_min<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius of the highest point:     </span><span class="sc">{</span>R_max<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.<span class="bu">abs</span>(haversine_distance(p_A, p_B, R_max) <span class="op">-</span> (R_max <span class="op">/</span> R_min) <span class="op">*</span> haversine_distance(p_A, p_B, R_min)) <span class="op">&lt;</span> <span class="fl">10e-12</span></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.<span class="bu">abs</span>(haversine_distance(p_A, p_B, R_min) <span class="op">-</span> (R_min <span class="op">/</span> R_max) <span class="op">*</span> haversine_distance(p_A, p_B, R_max)) <span class="op">&lt;</span> <span class="fl">10e-12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>radius lowest point:      6371.0 (Km)
-radius highest point:     6571.0 (Km)</code></pre>
+<pre><code>radius of the lowest point:      6371.0 (Km)
+radius of the highest point:     6571.0 (Km)</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-pythagoras" class="level2">
-<h2 class="anchored" data-anchor-id="sec-pythagoras">First approximation with Pythagoras</h2>
-<p>The most direct way to compute the Haversine distance between two points at different altitude <span class="math inline">\(\text{Havh}\)</span> is to apply Pythagora to the two cathets given by the haversine distance at the lowest altitude of the two points (say <span class="math inline">\(h_A\)</span>) and to the difference in altitudes:</p>
+<section id="sec-pythagoras" class="level1">
+<h1>First approximation with Pythagoras</h1>
+<p>The most direct way to compute the Haversine distance between two points at different altitude <span class="math inline">\(\text{Havh}\)</span> is to apply Pythagora<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to the two cathets given by the haversine distance at the lowest altitude of the two points (say <span class="math inline">\(h_A\)</span>) and to the difference in altitudes:</p>
 <p><span class="math display">\[
 \begin{align*}
-\text{Havh} (p_A, p_B) = \sqrt{\text{Hav}_{h_A} (p_A, p_B)^2 +  (h_B - h_A)^2 }
+\text{Havh} (p_A, p_B) := \sqrt{\text{Hav}_{h_A} (p_A, p_B)^2 +  (h_B - h_A)^2 }
 \end{align*}
 \]</span></p>
 <p>Now, for the case of <span class="math inline">\(h_A &lt; h_B\)</span> we can geometrically expect <span class="math inline">\(\sqrt{\text{Hav}_{h_A} (p_A, p_B)^2 +  (h_B - h_A)^2 }\)</span> to be smaller than <span class="math inline">\(\sqrt{\text{Hav}_{h_B} (p_A, p_B)^2 +  (h_B - h_A)^2 }\)</span>. We can also expect the first hypotenuse to be a lower bound for the correct solution and the second hypotenuse to be an upper bound.</p>
-<p>FIGURE HERE</p>
+<div id="fig-haversine-with-alt" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-haversine-with-alt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/figure_1_haversine_with_altitude.png" id="fig-haversine-with-alt" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-haversine-with-alt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
 <p>So, a more accurate, although still naive answer can be their average:</p>
 <p><span class="math display">\[
 \begin{align*}
-\text{Havh} (p_A, p_B) = 0.5 \sqrt{\text{Hav}_{h_A} (p_A, p_B)^2 +  (h_B - h_A)^2 } + 0.5  \sqrt{\text{Hav}_{h_B} (p_A, p_B)^2 +  (h_B - h_A)^2 }
+\text{Havh} (p_A, p_B) := 0.5 \sqrt{\text{Hav}_{h_A} (p_A, p_B)^2 +  (h_B - h_A)^2 } + 0.5  \sqrt{\text{Hav}_{h_B} (p_A, p_B)^2 +  (h_B - h_A)^2 }
 \end{align*}
 \]</span></p>
-<div id="cell-11" class="cell">
+<div id="cell-11" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_h_naive(p1: PointDeg, p2: PointDeg, earth_radius: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    r_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    r_max <span class="op">=</span> np.<span class="bu">max</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
@@ -523,248 +533,232 @@ radius highest point:     6571.0 (Km)</code></pre>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with naive Pythagoras </span><span class="sc">{</span>haversine_distance_h_naive(p_A, p_B, R_Km)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>dist_pyt <span class="op">=</span> haversine_distance_h_naive(p_A, p_B, R_Km)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distance with naive Pythagoras </span><span class="sc">{</span><span class="bu">round</span>(dist_pyt, <span class="dv">4</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Distance with naive Pythagoras 822.7841448241761 Km</code></pre>
+<pre><code>Distance with naive Pythagoras 822.7841 Km</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-calculus" class="level2">
-<h2 class="anchored" data-anchor-id="sec-calculus">Solution using calculus</h2>
-<p>Now, why the naive solution is not a great approximation? As it may be clear from the previous image, when increasing the altitude also the distance between points increases too, and that increase is not taken into account when using the distance at the lowest altitude for horizontal cathet. In the same way, when decreasing the altitude, the distance between points decreases, and this increase is not taken into account when using the distance at the highest altitude for horizontal cathet.</p>
-<p>If <span class="math inline">\(x\)</span> is the point on the</p>
-</section>
-<section id="sec-code" class="level2">
-<h2 class="anchored" data-anchor-id="sec-code">Code</h2>
-<p>or, if you prefer to avoid classes (in markdown):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_aux(theta_A: <span class="bu">float</span>, phi_A: <span class="bu">float</span>, theta_B: <span class="bu">float</span>, phi_B: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    hav_fun <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x <span class="op">/</span> <span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_fun(phi_B <span class="op">-</span> phi_A) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_fun(phi_B <span class="op">-</span> phi_A) <span class="op">-</span> hav_fun(phi_B <span class="op">+</span> phi_A)) <span class="op">*</span> hav_fun(theta_B <span class="op">-</span> theta_A)</span>
+<section id="sec-calculus" class="level1">
+<h1>Analytical solution</h1>
+<p>The naive solution is not a great approximation: when increasing the altitude also the distance between points increases too, and that progressive increase is not taken into account when using the distance at the lowest altitude for horizontal cathet.</p>
+<p>Equivalently, when decreasing the altitude, the distance between points decreases, a progressive decrease that is not taken into account when using the distance at the highest altitude for horizontal cathet.</p>
+<p>Skipping the integral calculus details<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, we go directly to the numerical approximation based on the Simpson method and combined with the Haversine distance for the horizontal cathet.</p>
+<p>Considering <span class="math inline">\(R_{\text{min}} = \mathcal{R} + \text{min}(h_A, h_B)\)</span> and <span class="math inline">\(R_{\text{max}} = \mathcal{R} + \text{max}(h_A, h_B)\)</span> the radius of the smallest and largest concentric spheres of our model, we define <span class="math inline">\(D := \text{Hav}_{\text{min}(h_A, h_B)} (p_A, p_B)\)</span> the distance between the two points at the lowest altitude, <span class="math inline">\(H := |h_A - h_B|\)</span> the absolute difference of the altitudes. Chosen a positive integer number <span class="math inline">\(N\)</span>, the horizontal cathet <span class="math inline">\(D\)</span> splits in <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(d := D/N\)</span> and the vertical cathet splits into <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(h := H/N\)</span>.</p>
+<p>If the earth was flat the sought distance between <span class="math inline">\(p_A\)</span> and <span class="math inline">\(p_B\)</span> would be trivially the sum of the hypotenuses <span class="math inline">\(\gamma_i = \sqrt{d^2 + h^2}\)</span> for <span class="math inline">\(i=0, \dots , N\)</span>. Due to the curvature, the length of the horizontal cathet has to be adjusted by the altitude. We can do that simply using <span class="math inline">\(d\)</span> and <a href="#eq-hav-diff-h" class="quarto-xref">Equation&nbsp;1</a> , with no need to re-compute the haversine distance at each step:</p>
+<p><span class="math display">\[
+\gamma_i = \sqrt{ \left( d \frac{ R_{\text{min}} + ih }{ R_{\text{min}}} \right)^2 + h^2}
+\]</span> And their sum: <span class="math display">\[
+\text{Havh}(p_A, p_B) = \gamma = \sum_{i=0}^{N-1}\sqrt{ \left( d \frac{ R_{\text{min}} + ih }{ R_{\text{min}}} \right)^2 + h^2}
+\]</span></p>
+<div id="fig-simpson" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-simpson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/figure_2_simpson.png" id="fig-simpson" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-simpson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+<div id="cell-14" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.<span class="bu">abs</span>(p_A.alt <span class="op">-</span> p_B.alt)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> haversine_distance(p_A, p_B, R_min)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>D_max <span class="op">=</span> haversine_distance(p_A, p_B, R_max)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance(p1_lon: <span class="bu">float</span>, p1_lat: <span class="bu">float</span>, p2_lon: <span class="bu">float</span>, p2_lat: <span class="bu">float</span>, R_Km: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [p1_lon, p1_lat, p2_lon, p2_lat])</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(<span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_aux(theta_1, phi_1, theta_2, phi_2))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="sec-validation" class="level3">
-<h3 class="anchored" data-anchor-id="sec-validation">Validation</h3>
-</section>
-</section>
-<section id="sec-exercises" class="level2">
-<h2 class="anchored" data-anchor-id="sec-exercises">Hands-on</h2>
-<p>final exercise for the python-minded (and with no solution): turn functions into class methods.</p>
-<div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do some testing</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># try:</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     PointDeg(lonlat=-)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># except ValidationError as err:</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(err)</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     """</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     1 validation error for Model</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     number</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#       Value error, 1 is not an even number [type=value_error, input_value=1, input_type=int]</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-21" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://stackoverflow.com/questions/33111529/calculating-distance-between-two-points-using-latitude-longitude-and-altitude-e#:~:text=You%20can%20calculate%20distance%20between,change%20in%20elevation%20in%20meters.</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as soon as written post it over this blog post.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-22" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>R_Km <span class="op">=</span> <span class="dv">6371</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># given two points</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>p_A <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">0.0</span>, lat<span class="op">=</span><span class="fl">0.0</span>, alt<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>p_B <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">5.0</span>, lat<span class="op">=</span><span class="fl">5.0</span>, alt<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-23" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>haversine_distance(p_A, p_B, R_Km)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="45">
-<pre><code>785.7672208422621</code></pre>
-</div>
-</div>
-<div id="cell-25" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>haversine_distance(p_A, p_B, R_Km)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-27" class="cell" data-execution_count="70">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>R_min <span class="op">=</span> np.<span class="bu">min</span>([p_A.alt, p_B.alt]) <span class="op">+</span> R_Km</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>R_max <span class="op">=</span> np.<span class="bu">max</span>([p_A.alt, p_B.alt]) <span class="op">+</span> R_Km</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius lowest point:                </span><span class="sc">{</span>R_min<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"radius highest point:               </span><span class="sc">{</span>R_max<span class="sc">}</span><span class="ss"> (Km)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"distance in altitude:                 </span><span class="sc">{</span><span class="bu">round</span>(H,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> Km)"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"haversine dist at lowest altitude:    </span><span class="sc">{</span><span class="bu">round</span>(D,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"haversine dist at highest altitude:   </span><span class="sc">{</span><span class="bu">round</span>(D_max,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> D <span class="op">/</span> N</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> H <span class="op">/</span> N</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"step distance in altitude:            </span><span class="sc">{</span><span class="bu">round</span>(h,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"step distance haversine:              </span><span class="sc">{</span><span class="bu">round</span>(d,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> <span class="bu">float</span>(np.<span class="bu">sum</span>([np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, N)]))</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solution with Pythagoras:             </span><span class="sc">{</span><span class="bu">round</span>(dist_pyt,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solution with the numerical approx:   </span><span class="sc">{</span><span class="bu">round</span>(dist,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>radius lowest point:                6371.0 (Km)
-radius highest point:               6571.0 (Km)</code></pre>
+<pre><code>distance in altitude:                 200.0 Km)
+haversine dist at lowest altitude:    785.7672 Km
+haversine dist at highest altitude:   810.4342 Km
+
+step distance in altitude:            0.6667 (Km)
+step distance haversine:              2.6192 (Km)
+
+solution with Pythagoras:             822.7841 (Km)
+solution with the numerical approx:   822.7406 (Km)</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="71">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> haversine_distance(p_A, p_B, R_max) <span class="op">==</span> <span class="bu">float</span>(haversine_distance(p_A, p_B, R_min) <span class="op">*</span> (R_min <span class="op">+</span> H) <span class="op">/</span> R_min)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-29" class="cell" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with Pitagora</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.<span class="bu">abs</span>(p_A.alt <span class="op">-</span> p_B.alt)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> haversine_distance(p_A, p_B, R_min)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>D_max <span class="op">=</span> haversine_distance(p_A, p_B, R_max)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"distance in altitude:               </span><span class="sc">{</span>H<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"haversine dist at lowest altitude:  </span><span class="sc">{</span>D<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"haversine dist at highest altitude: </span><span class="sc">{</span>D_max<span class="sc">}</span><span class="ss"> (Km)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sec-code" class="level1">
+<h1>Code</h1>
+<p>Bringing it together in a single function:</p>
+<div id="cell-16" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>([np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)]))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> haversine_distance_with_altitude(p_A, p_B, iterations<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Haversine distance with altitude:   </span><span class="sc">{</span><span class="bu">round</span>(dist,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> Km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>distance in altitude:               200.0 (Km)
-haversine dist at lowest altitude:  785.7672208422621 (Km)
-haversine dist at highest altitude: 810.4342188282067 (Km)</code></pre>
+<pre><code>Haversine distance with altitude:   822.7406 Km</code></pre>
 </div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="73">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what is the difference between dist and the dist computed on the full batch and with no iterative process</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>dist_pitagora_direct_min <span class="op">=</span> <span class="bu">float</span>(np.sqrt(haversine_distance(p_A, p_B, R_min) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> H<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>dist_pitagora_direct_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="73">
-<pre><code>810.820649311654</code></pre>
+<p>For the reader who prefers to avoid classes, at the cost of having more arguments and less validations:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hav_aux(theta_1: <span class="bu">float</span>, phi_1: <span class="bu">float</span>, theta_2: <span class="bu">float</span>, phi_2: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    hav_fun <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x <span class="op">/</span> <span class="dv">2</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hav_fun(phi_2 <span class="op">-</span> phi_1) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> hav_fun(phi_2 <span class="op">-</span> phi_1) <span class="op">-</span> hav_fun(phi_2 <span class="op">+</span> phi_1)) <span class="op">*</span> hav_fun(theta_2 <span class="op">-</span> theta_1)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance(p1_lon: <span class="bu">float</span>, p1_lat: <span class="bu">float</span>, p2_lon: <span class="bu">float</span>, p2_lat: <span class="bu">float</span>, R_Km: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    theta_1, phi_1, theta_2, phi_2 <span class="op">=</span> <span class="bu">map</span>(np.radians, [p1_lon, p1_lat, p2_lon, p2_lat])</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(<span class="dv">2</span> <span class="op">*</span> R_Km <span class="op">*</span> np.arcsin(np.sqrt(hav_aux(theta_1, phi_1, theta_2, phi_2))))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    lon_1: <span class="bu">float</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    lat_1: <span class="bu">float</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    alt_1: <span class="bu">float</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    lon_2: <span class="bu">float</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    lat_2: <span class="bu">float</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    alt_2: <span class="bu">float</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([alt_1, alt_2]) <span class="op">+</span> earth_radius</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(lon_1, lat_1, lon_2, lat_2, R_min) <span class="op">/</span> iterations</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(alt_1 <span class="op">-</span> alt_2) <span class="op">/</span> iterations</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>([np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="sec-validation" class="level2">
+<h2 class="anchored" data-anchor-id="sec-validation">Validation</h2>
+<div id="cell-19" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># points at the same altitude</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p_A <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">0.0</span>, lat<span class="op">=</span><span class="fl">0.0</span>, alt<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>p_B <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">5.0</span>, lat<span class="op">=</span><span class="fl">5.0</span>, alt<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> haversine_distance_with_altitude(p_A, p_B, R_Km, <span class="dv">300</span>) <span class="op">==</span> haversine_distance(p_A, p_B, R_Km)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># points in same location, at different altitude</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>alt_diff <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>p_A <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">0.0</span>, lat<span class="op">=</span><span class="fl">5.0</span>, alt<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>p_B <span class="op">=</span> PointDeg(lon<span class="op">=</span><span class="fl">0.0</span>, lat<span class="op">=</span><span class="fl">5.0</span>, alt<span class="op">=</span>alt_diff)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> haversine_distance_with_altitude(p_A, p_B, R_Km, <span class="dv">300</span>) <span class="op">==</span> alt_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+</section>
+<section id="sec-exercises" class="level1">
+<h1>Hands-on</h1>
+<ol type="1">
+<li>Can you improve the numerical method with the average of the hypotenuses for each single sub-segment, as done in the naive solution?</li>
+<li>Can you weight the hypotenuses’ average to improve the solution further? how would you compute the weights?</li>
+<li>Can you turn the <code>haversine_distance_with_altitude</code> function into class methods?</li>
+<li>Is the haversine distance with altitude a geodesic in the 3D space? What is the shortest path between two points at different altitudes (with and without digging tunnels)?</li>
+</ol>
+<div id="cell-21" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># solution to problem 1</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude_better(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        np.<span class="bu">sum</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            [</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                (</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                    np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                    <span class="op">+</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co"># solution to problem 2</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude_even_better(</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    R_max <span class="op">=</span> np.<span class="bu">max</span>([p_A.alt, p_B.alt]) <span class="op">+</span> earth_radius</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    dp_min <span class="op">=</span> <span class="bu">float</span>(np.sqrt(haversine_distance(p_A, p_B, R_min) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> (p_A.alt <span class="op">-</span> p_B.alt) <span class="op">**</span> <span class="dv">2</span>))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    dp_max <span class="op">=</span> <span class="bu">float</span>(np.sqrt(haversine_distance(p_A, p_B, R_max) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> (p_A.alt <span class="op">-</span> p_B.alt) <span class="op">**</span> <span class="dv">2</span>))</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    dh <span class="op">=</span> haversine_distance_with_altitude_better(p_A, p_B)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># find w such that dh ~= (1-w)*dp_min + w*dp_max</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> (dh <span class="op">-</span> dp_min) <span class="op">/</span> (dp_max <span class="op">-</span> dp_min)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        np.<span class="bu">sum</span>(</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>            [</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>                (</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>                    <span class="op">+</span> w <span class="op">*</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="74">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if the direct was working OK then direct_min and direct_max should be the same. But it is not!</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dist_pitagora_direct_max <span class="op">=</span> <span class="bu">float</span>(np.sqrt(haversine_distance(p_A, p_B, R_max) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> H<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>dist_pitagora_direct_max</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="74">
-<pre><code>834.7476403366982</code></pre>
-</div>
-</div>
-<div id="cell-32" class="cell" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># an approximation is the average of the direct</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dist_pitagora <span class="op">=</span> (dist_pitagora_direct_max <span class="op">+</span> dist_pitagora_direct_min) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>dist_pitagora</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="75">
-<pre><code>822.7841448241761</code></pre>
-</div>
-</div>
-<div id="cell-33" class="cell" data-execution_count="76">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>haversine_distance_h_naive(p_A, p_B, R_Km)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="76">
-<pre><code>np.float64(822.7841448241761)</code></pre>
-</div>
-</div>
-<div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># approximating method</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">300</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> D <span class="op">/</span> N</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> H <span class="op">/</span> N</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"step distance in altitude: </span><span class="sc">{</span><span class="bu">round</span>(h,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"step distance haversine:   </span><span class="sc">{</span><span class="bu">round</span>(d,<span class="dv">4</span>)<span class="sc">}</span><span class="ss"> (Km)"</span>)</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> <span class="bu">float</span>(np.<span class="bu">sum</span>([np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, N)]))</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-36" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dist_better <span class="op">=</span> <span class="bu">float</span>(</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    np.<span class="bu">sum</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        [</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>            (</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, N)</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>dist_better</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-37" class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all in one function</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude(</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>([np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)]))</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>haversine_distance_with_altitude(p_A, p_B, iterations<span class="op">=</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-40" class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test with point in the same location different altitude, same altitude different location.</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># check that is close enough to the method with pitagora</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Leave as an exercise: can you apply the pitagora idea to improve the haversine distance with altitude?</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># solution:</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude_better(</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        np.<span class="bu">sum</span>(</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>            [</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>                (</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>                    np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>                    <span class="op">+</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>                )</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>                <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>            ]</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="co"># pitagora is based on the average, can you find a parameter to weight the average so that the average would be more accurate</span></span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="co"># solution: </span><span class="al">TODO</span><span class="co"> compute w with some examples</span></span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> haversine_distance_with_altitude_even_better(</span>
-<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>    p1: PointDeg,</span>
-<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    p2: PointDeg,</span>
-<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    earth_radius: <span class="bu">float</span> <span class="op">=</span> <span class="fl">6371.0</span>,</span>
-<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">300</span>,</span>
-<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> <span class="fl">0.6</span></span>
-<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>    R_min <span class="op">=</span> np.<span class="bu">min</span>([p1.alt, p2.alt]) <span class="op">+</span> earth_radius</span>
-<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> haversine_distance(p1, p2, R_min) <span class="op">/</span> iterations</span>
-<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.<span class="bu">abs</span>(p1.alt <span class="op">-</span> p2.alt) <span class="op">/</span> iterations</span>
-<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(</span>
-<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>        np.<span class="bu">sum</span>(</span>
-<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>            [</span>
-<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>                (</span>
-<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> i <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>                    <span class="op">+</span> w <span class="op">*</span> np.sqrt((d <span class="op">*</span> ((R_min <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> h) <span class="op">/</span> R_min)) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> h<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>                )</span>
-<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, iterations)</span>
-<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>            ]</span>
-<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Is the haversine distance between two points at different altitude the shortest distance between the two points? Do you need to dig a tunnel?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-41" class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>haversine_distance_with_altitude_even_better(p_A, p_B, iterations<span class="op">=</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-42" class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>haversine_distance_with_altitude_better(p_A, p_B, iterations<span class="op">=</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><a href="https://stackoverflow.com/questions/33111529/calculating-distance-between-two-points-using-latitude-longitude-and-altitude-e#:~:text=You%20can%20calculate%20distance%20between,change%20in%20elevation%20in%20meters">Stack overflow question</a></li>
+<li>Burden, Richard L., and J. Douglas Faires. “Numerical analysis”, brooks, 7th edition, 2000.</li>
+<li>Richard Hamming. “Numerical Methods for Scientists and Engineers.” Dover, 2nd edition, 2021.</li>
+</ul>
 
 
 </section>
-</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>For the naming, the two edges <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> adjacent to the <span class="math inline">\(90^{o}\)</span> angle are called here <strong>cathets</strong>, and the opposite edge <span class="math inline">\(\gamma\)</span> is called here <strong>hypotenuse</strong>, so <span class="math inline">\(\gamma = \sqrt{\alpha^2 + \beta^2}\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>To continue in this direction we would consider the infinitesimal lengths <span class="math inline">\(\gamma_{x}^{x+dx} =  \sqrt{\text{Hav}_{h_x} (p_x, p_{x + dx})^2 +  (h_{x} - h_{x+dx})^2 }\)</span>, and their infinite sum <span class="math inline">\(\gamma = \int_{0}^{\text{Hav}_{h_A}(p_A, p_B) } \sqrt{ \left( \frac{\mathcal{R} + h(x)}{\mathcal{R} + h_A} \text{Hav}_{h_x}(p_A, p_x)\right)^2 +  \left( h(x) - h_{A}\right)^2 } dx\)</span>. There is no need to expand further in this direction, as the blog post is only about the numerical solution.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
