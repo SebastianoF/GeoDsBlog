@@ -39,7 +39,7 @@
     "href": "posts/gds-2025-03-10-haversine-with-altitude/index.html#footnotes",
     "title": "Haversine distance at different altitudes",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nFor the naming, the two edges \\(\\alpha\\) and \\(\\beta\\) adjacent to the \\(90^{o}\\) angle are called here cathets, and the opposite edge \\(\\gamma\\) is called here hypotenuse, so \\(\\gamma = \\sqrt{\\alpha^2 + \\beta^2}\\).↩︎\nTo continue in this direction we would consider the infinitesimal lengths \\(\\gamma_{x}^{x+dx} =  \\sqrt{\\text{Hav}_{h_x} (p_x, p_{x + dx})^2 +  (h_{x} - h_{x+dx})^2 }\\), and their infinite sum \\(\\gamma = \\int_{0}^{\\text{Hav}_{h_A}(p_A, p_B) } \\sqrt{ \\left( \\frac{\\mathcal{R} + h(x)}{\\mathcal{R} + h_A} \\text{Hav}_{h_x}(p_A, p_x)\\right)^2 +  \\left( h(x) - h_{A}\\right)^2 } dx\\). There is no need to expand further in this direction, as the blog post is only about the numerical solution.↩︎"
+    "text": "Footnotes\n\n\nFor the naming, the two edges \\(\\alpha\\) and \\(\\beta\\) adjacent to the \\(90^{o}\\) angle are called here cathets, and the opposite edge \\(\\gamma\\) is called here hypotenuse, so \\(\\gamma = \\sqrt{\\alpha^2 + \\beta^2}\\).↩︎\nTo continue in this direction we would consider the infinitesimal lengths \\(\\gamma_{x}^{x+dx} =  \\sqrt{\\text{Hav}_{h_x} (p_x, p_{x + dx})^2 +  (h_{x} - h_{x+dx})^2 }\\), and their infinite sum \\(\\gamma = \\int_{0}^{\\text{Hav}_{h_A}(p_A, p_B) } \\sqrt{ \\left( \\frac{\\mathcal{R} + h(x)}{\\mathcal{R} + h_A} \\text{Hav}_{h_x}(p_A, p_x)\\right)^2 +  \\left( h(x) - h_{A}\\right)^2 } dx\\).↩︎"
   },
   {
     "objectID": "posts/gds-2024-01-24-timestamp/index.html#summary",

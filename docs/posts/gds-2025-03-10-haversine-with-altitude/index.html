@@ -293,10 +293,10 @@ window.Quarto = {
 <p><img src="images/cover.png" class="img-fluid"></p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This blog post presents a numerical method to compute the Haversine distance between points at different altitude.</p>
+<p>This blog post presents a numerical method to compute the Haversine distance between points at different altitudes.</p>
 <p>The problem is formalised in <a href="#sec-problem-setting" class="quarto-xref">Section&nbsp;2</a>, then <a href="#sec-pythagoras" class="quarto-xref">Section&nbsp;3</a> offers a naive numerical method based on Pythagoras.</p>
 <p>Finally in section <a href="#sec-calculus" class="quarto-xref">Section&nbsp;4</a> a more accurate method based on differential calculus is presented.</p>
-<p>If you are passing around to get the code, please do jump directly to to <a href="#sec-code" class="quarto-xref">Section&nbsp;5</a>, and if you are here for some amusement, or to test your understanding, you can look at the final exercises (with some solutions) in section sec-appendix <a href="#sec-exercises" class="quarto-xref">Section&nbsp;6</a></p>
+<p>If you are passing around to get the code, please do jump directly to to <a href="#sec-code" class="quarto-xref">Section&nbsp;5</a>, and if you are here for some amusement, or to test your understanding, you can look at the final exercises (with some solutions) in <a href="#sec-exercises" class="quarto-xref">Section&nbsp;6</a> .</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -307,7 +307,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This blog post was inspired by and created after <a href="https://stackoverflow.com/questions/33111529/calculating-distance-between-two-points-using-latitude-longitude-and-altitude-e#:~:text=You%20can%20calculate%20distance%20between,change%20in%20elevation%20in%20meters">this question</a> on stack overflow (there was not enough space to fit it all in a single answer).</p>
+<p>This blog post was inspired by (and created after) <a href="https://stackoverflow.com/questions/33111529/calculating-distance-between-two-points-using-latitude-longitude-and-altitude-e#:~:text=You%20can%20calculate%20distance%20between,change%20in%20elevation%20in%20meters">this question on stack overflow</a> (there was not enough space to fit it all in a single answer).</p>
 <p>Thanks to <a href="https://stackoverflow.com/users/4563194/sebb">sebb</a> for raising it, and to all the thread’s contributors.</p>
 <p>The proposed numerical solution is a direct and simple application of the Simpson method for numerical integration (Faires, Burdeen <em>Numerical Analysis</em>, 7th Edition, section 4.4) combined with the <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine distance</a> to measure the horizontal cathet of each approximant.</p>
 </div>
@@ -337,7 +337,7 @@ p_{B} = \begin{cases}
 \end{cases}
 \end{align*}
 \]</span></p>
-<p>The altitude is not the radius of the spheres where the point lives, as it is relative to a zero-altitude sphere whose radius is the average earth radius <span class="math inline">\(\mathcal{R}\)</span> (that is, an ideal approximation of the sea level).</p>
+<p>The altitude is not the radius of the spheres where each point lives, as it is relative to a zero-altitude sphere whose radius is the average earth radius <span class="math inline">\(\mathcal{R}\)</span> (that is, an ideal approximation of the sea level).</p>
 <p>Something not used in this post, but added here for completeness and for a clearer understanding of the zero-altitude radius: the immersion of a point <span class="math inline">\(p\)</span> with altitude <span class="math inline">\(h\)</span> from the sphere of radius <span class="math inline">\(\mathcal{R}\)</span> to the 3D space whose origin is at the centre of the sphere and the north pole is on the z-axis, indicated with the greek letter iota, is given by:</p>
 <p><span class="math display">\[
 \iota_{\mathcal{R}}: \mathbb{S}^2 \rightarrow  \mathbb{R}^3
@@ -353,7 +353,7 @@ p_{B} = \begin{cases}
        z = (\mathcal{R} + h) \sin\varphi\\
 \end{cases}
 \]</span></p>
-<p>In the previous blog posts about the <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-10-haversine-dist/">Haversine distance</a> and <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2025-02-09-bearing/">bearing</a> we have dealt with only 2 coordinate systems and done without classes. Here for a change, and to avoid swapping latitude and longitude by mistake, points are encoded with python classes.</p>
+<p>In the previous blog posts about the <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2024-01-10-haversine-dist/">Haversine distance</a> and <a href="https://sebastianof.github.io/GeoDsBlog/posts/gds-2025-02-09-bearing/">bearing</a> we have dealt with only 2 coordinates and done without embedding them in a data class. Here for a change and to avoid swapping latitude, longitude and altitude by mistake, points on the sphere at different altitudes are encoded with python data classes.</p>
 <div id="cell-5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> AfterValidator, BaseModel</span>
@@ -444,7 +444,7 @@ p_{B} = \begin{cases}
 <span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> immersion_from_deg(point: PointDeg) <span class="op">-&gt;</span> Point3D:</span>
 <span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> immersion_from_rad(deg2rad(point))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Finally, we add one more tool foundational to find the solution of the haversine distance for 2 points at different altitude: the Haversine distance for two points at the <strong>same</strong> altitude <span class="math inline">\(h\)</span>, or better, the haversine distance for a heart of radius <span class="math inline">\(\mathcal{R} + h\)</span>:</p>
+<p>Finally, we remind the Haversine distance formula for two points at the <strong>same</strong> altitude <span class="math inline">\(h\)</span>, or better, the Haversine distance for a earth of radius <span class="math inline">\(\mathcal{R} + h\)</span>:</p>
 <p><span class="math display">\[
 \begin{align*}
 \text{Hav}_{h}(p_A, p_B) =  2 (\mathcal{R} + h) \arcsin
@@ -472,7 +472,7 @@ p_{B} = \begin{cases}
 <p>We can simply divide by the orignal radius <span class="math inline">\(\mathcal{R} + h_1\)</span>, and then multiply for the intended radius <span class="math inline">\(\mathcal{R} + h_2\)</span>.</p>
 <p>In formula: <span id="eq-hav-diff-h"><span class="math display">\[
 \begin{align}
-\text{Hav}_{h_1} = \frac{\mathcal{R} + h_2}{\mathcal{R} + h_1} \text{Hav}_{h_2}
+\text{Hav}_{h_1} = \frac{\mathcal{R} + h_1}{\mathcal{R} + h_2} \text{Hav}_{h_2}
 \end{align}
 \tag{1}\]</span></span></p>
 <div id="cell-9" class="cell" data-execution_count="3">
@@ -542,11 +542,11 @@ Figure&nbsp;1
 </section>
 <section id="sec-calculus" class="level1">
 <h1>Analytical solution</h1>
-<p>The naive solution is not a great approximation: when increasing the altitude also the distance between points increases too, and that progressive increase is not taken into account when using the distance at the lowest altitude for horizontal cathet.</p>
-<p>Equivalently, when decreasing the altitude, the distance between points decreases, a progressive decrease that is not taken into account when using the distance at the highest altitude for horizontal cathet.</p>
-<p>Skipping the integral calculus details<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, we go directly to the numerical approximation based on the Simpson method and combined with the Haversine distance for the horizontal cathet.</p>
-<p>Considering <span class="math inline">\(R_{\text{min}} = \mathcal{R} + \text{min}(h_A, h_B)\)</span> and <span class="math inline">\(R_{\text{max}} = \mathcal{R} + \text{max}(h_A, h_B)\)</span> the radius of the smallest and largest concentric spheres of our model, we define <span class="math inline">\(D := \text{Hav}_{\text{min}(h_A, h_B)} (p_A, p_B)\)</span> the distance between the two points at the lowest altitude, <span class="math inline">\(H := |h_A - h_B|\)</span> the absolute difference of the altitudes. Chosen a positive integer number <span class="math inline">\(N\)</span>, the horizontal cathet <span class="math inline">\(D\)</span> splits in <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(d := D/N\)</span> and the vertical cathet splits into <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(h := H/N\)</span>.</p>
-<p>If the earth was flat the sought distance between <span class="math inline">\(p_A\)</span> and <span class="math inline">\(p_B\)</span> would be trivially the sum of the hypotenuses <span class="math inline">\(\gamma_i = \sqrt{d^2 + h^2}\)</span> for <span class="math inline">\(i=0, \dots , N\)</span>. Due to the curvature, the length of the horizontal cathet has to be adjusted by the altitude. We can do that simply using <span class="math inline">\(d\)</span> and <a href="#eq-hav-diff-h" class="quarto-xref">Equation&nbsp;1</a> , with no need to re-compute the haversine distance at each step:</p>
+<p>The naive solution is not a great approximation: when increasing the altitude, the distance between points increases too, and that progressive increase is not taken into account when using the distance at the lowest altitude for the horizontal cathet.</p>
+<p>Equivalently, when we use the highest altitude for horizontal cathet, the progressive decrease is not taken into account.</p>
+<p>Skipping the integral calculus details<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, we go directly to the numerical approximation based on a simplified Simpson method and combined with the Haversine distance for the horizontal cathet.</p>
+<p>Considering <span class="math inline">\(R_{\text{min}} = \mathcal{R} + \text{min}(h_A, h_B)\)</span> and <span class="math inline">\(R_{\text{max}} = \mathcal{R} + \text{max}(h_A, h_B)\)</span> the radius of the smallest and largest concentric spheres of our model respectively, we define <span class="math inline">\(D := \text{Hav}_{\text{min}(h_A, h_B)} (p_A, p_B)\)</span> the distance between the two points at the lowest altitude, and <span class="math inline">\(H := |h_A - h_B|\)</span> the absolute difference of the altitudes. Chosen a positive integer number <span class="math inline">\(N\)</span>, the horizontal cathet <span class="math inline">\(D\)</span> splits in <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(d := D/N\)</span> at the base and the vertical cathet splits into <span class="math inline">\(N\)</span> segments of length <span class="math inline">\(h := H/N\)</span>.</p>
+<p>If the earth was flat the sought distance between <span class="math inline">\(p_A\)</span> and <span class="math inline">\(p_B\)</span> would be trivially the sum of the hypotenuses <span class="math inline">\(\gamma_i = \sqrt{d^2 + h^2}\)</span> for <span class="math inline">\(i=0, \dots , N\)</span>. Due to the curvature, the length of the horizontal cathet has to be adjusted for the altitude increase. We can do that simply using <span class="math inline">\(d\)</span> and <a href="#eq-hav-diff-h" class="quarto-xref">Equation&nbsp;1</a> , with no need to re-compute the haversine distance at each step:</p>
 <p><span class="math display">\[
 \gamma_i = \sqrt{ \left( d \frac{ R_{\text{min}} + ih }{ R_{\text{min}}} \right)^2 + h^2}
 \]</span> And their sum: <span class="math display">\[
@@ -678,7 +678,8 @@ solution with the numerical approx:   822.7406 (Km)</code></pre>
 <li>Can you improve the numerical method with the average of the hypotenuses for each single sub-segment, as done in the naive solution?</li>
 <li>Can you weight the hypotenuses’ average to improve the solution further? how would you compute the weights?</li>
 <li>Can you turn the <code>haversine_distance_with_altitude</code> function into class methods?</li>
-<li>Is the haversine distance with altitude a geodesic in the 3D space? What is the shortest path between two points at different altitudes (with and without digging tunnels)?</li>
+<li>Is the haversine distance with altitude a geodesic in the 3D space? What is the shortest path between two points at different altitudes (with and without digging tunnels)? For this answer the function <span class="math inline">\(\iota_{\mathcal{R}}\)</span> introduced in the first section may be of some help.</li>
+<li>The Simpson method was mentioned, though not all the terms of the usual Simpson formula were used. Can you find an analogous Simpson with the right set of weights? Problem 2 may give some hints in this direction.</li>
 </ol>
 <div id="cell-21" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># solution to problem 1</span></span>
@@ -756,7 +757,7 @@ solution with the numerical approx:   822.7406 (Km)</code></pre>
 
 <ol>
 <li id="fn1"><p>For the naming, the two edges <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> adjacent to the <span class="math inline">\(90^{o}\)</span> angle are called here <strong>cathets</strong>, and the opposite edge <span class="math inline">\(\gamma\)</span> is called here <strong>hypotenuse</strong>, so <span class="math inline">\(\gamma = \sqrt{\alpha^2 + \beta^2}\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>To continue in this direction we would consider the infinitesimal lengths <span class="math inline">\(\gamma_{x}^{x+dx} =  \sqrt{\text{Hav}_{h_x} (p_x, p_{x + dx})^2 +  (h_{x} - h_{x+dx})^2 }\)</span>, and their infinite sum <span class="math inline">\(\gamma = \int_{0}^{\text{Hav}_{h_A}(p_A, p_B) } \sqrt{ \left( \frac{\mathcal{R} + h(x)}{\mathcal{R} + h_A} \text{Hav}_{h_x}(p_A, p_x)\right)^2 +  \left( h(x) - h_{A}\right)^2 } dx\)</span>. There is no need to expand further in this direction, as the blog post is only about the numerical solution.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>To continue in this direction we would consider the infinitesimal lengths <span class="math inline">\(\gamma_{x}^{x+dx} =  \sqrt{\text{Hav}_{h_x} (p_x, p_{x + dx})^2 +  (h_{x} - h_{x+dx})^2 }\)</span>, and their infinite sum <span class="math inline">\(\gamma = \int_{0}^{\text{Hav}_{h_A}(p_A, p_B) } \sqrt{ \left( \frac{\mathcal{R} + h(x)}{\mathcal{R} + h_A} \text{Hav}_{h_x}(p_A, p_x)\right)^2 +  \left( h(x) - h_{A}\right)^2 } dx\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
