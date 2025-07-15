@@ -15,6 +15,7 @@
   {
     "listing": "/posts/all.html",
     "items": [
+      "/posts/bp-2025-07-15-logging-in-notebooks/index.html",
       "/posts/gds-2025-03-10-haversine-with-altitude/index.html",
       "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
@@ -29,6 +30,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/bp-2025-07-15-logging-in-notebooks/index.html",
       "/posts/gds-2025-03-10-haversine-with-altitude/index.html",
       "/posts/gds-2025-02-09-bearing/index.html",
       "/posts/gds-2024-06-20-dataset-profiling/index.html",
@@ -43,6 +45,7 @@
   {
     "listing": "/posts/bp.html",
     "items": [
+      "/posts/bp-2025-07-15-logging-in-notebooks/index.html",
       "/posts/bp-2022-07-23-gpg/index.html"
     ]
   }
