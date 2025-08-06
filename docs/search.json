@@ -375,7 +375,7 @@
     "href": "posts/bp-2025-07-15-logging-in-notebooks/index.html",
     "title": "Show python logs within jupyter notebooks",
     "section": "",
-    "text": "This is another blog post aiming at the best approximation of coding best practices I can produce, and it goes beyond the topic of geospatial data science to which this blog is devoted.\nInspired by this stack-overflow question stack-overflow question, this blog post delineates how to customise and visualise log messages, and to prompt them into your jupyter notebook cells."
+    "text": "This is another blog post aiming at the best approximation of coding best practices I can produce, and it goes beyond the topic of geospatial data science to which this blog is devoted.\nInspired by this stack-overflow question, this blog post delineates how to customise and visualise log messages, and to prompt them into your jupyter notebook cells."
   },
   {
     "objectID": "posts/bp-2025-07-15-logging-in-notebooks/index.html#troubleshooting",
