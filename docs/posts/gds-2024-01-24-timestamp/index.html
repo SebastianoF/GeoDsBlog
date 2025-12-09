@@ -288,6 +288,7 @@ window.Quarto = {
   <li><a href="#timezones-as-capital-cities" id="toc-timezones-as-capital-cities" class="nav-link" data-scroll-target="#timezones-as-capital-cities">Timezones as capital cities</a></li>
   <li><a href="#timezones-in-pandas" id="toc-timezones-in-pandas" class="nav-link" data-scroll-target="#timezones-in-pandas">Timezones in pandas</a></li>
   </ul></li>
+  <li><a href="#appendix-time-intervals-overlaps" id="toc-appendix-time-intervals-overlaps" class="nav-link" data-scroll-target="#appendix-time-intervals-overlaps">Appendix: time intervals overlaps</a></li>
   </ul>
 </nav>
     </div>
@@ -304,7 +305,7 @@ window.Quarto = {
 <p>This blog post collects in one place a range of methods for converting datetime objects across types in python and pandas.</p>
 <p>The code snippet and the subsequent diagram summarise the data casting between <code>datetime</code>, <code>int</code>, <code>str</code>, <code>pd.Timestamp</code>.</p>
 <p>The remaining sections offer more details and examples about each of those methods. At the end of the post you will find a section about some snippets to manipulate <a href="https://geospatial.netlify.app/posts/gds-2024-01-24-timestamp/#timezones"><strong>timezones</strong></a> in all the examined formats.</p>
-<div id="cell-3" class="cell" data-execution_count="41">
+<div id="cell-3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -327,7 +328,7 @@ window.Quarto = {
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list of timestamps</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>dt_start, dt_end <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">1</span>), dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>list_events <span class="op">=</span> []</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> dt_start <span class="op">&lt;=</span> dt_end:</span>
@@ -400,7 +401,7 @@ Note
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Event 1: </span><span class="sc">{</span>event_1<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Event 2: </span><span class="sc">{</span>event_2<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> event_1 <span class="op">&lt;</span> event_2: </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> event_1 <span class="op">&lt;</span> event_2:</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Datetime </span><span class="sc">{</span>event_1<span class="sc">}</span><span class="ss"> comes before </span><span class="sc">{</span>event_2<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -412,7 +413,7 @@ Note
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Event 2: </span><span class="sc">{</span>event_2<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> event_1 <span class="op">&gt;</span> event_2: </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> event_1 <span class="op">&gt;</span> event_2:</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Datetime </span><span class="sc">{</span>event_1<span class="sc">}</span><span class="ss"> comes after </span><span class="sc">{</span>event_2<span class="sc">}</span><span class="ss">."</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Oh, Really?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -491,7 +492,7 @@ Datetime: 2024-01-22 13:55:12</code></pre>
 <div id="cell-16" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dt.time(hour<span class="op">=</span><span class="dv">4</span>))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dt.date(year<span class="op">=</span><span class="dv">2024</span>, month<span class="op">=</span><span class="dv">3</span>, day<span class="op">=</span><span class="dv">11</span>))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dt.timedelta(hours<span class="op">=</span><span class="dv">3</span>))  </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dt.timedelta(hours<span class="op">=</span><span class="dv">3</span>))</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># we can not sum a timedelta to a time</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -591,9 +592,9 @@ Back to datetime:      2024-03-11 03:13:45</code></pre>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list of datetime.datetime</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dt_start <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dt_end <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>list_events <span class="op">=</span> []</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> dt_start <span class="op">&lt;=</span> dt_end:</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    list_events.append(dt_start)</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    dt_start <span class="op">+=</span> dt.timedelta(days<span class="op">=</span><span class="dv">1</span>)</span>
@@ -623,7 +624,7 @@ This is a &lt;class 'list'&gt; of &lt;class 'datetime.datetime'&gt; elements.</c
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>dt_start <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>dt_end <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span>dt_start, end<span class="op">=</span>dt_end)</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>print_events(index_events)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -662,43 +663,43 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2022-03-01</td>
-<td>m</td>
+<td>n</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2022-03-02</td>
-<td>r</td>
+<td>m</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2022-03-03</td>
-<td>n</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2022-03-04</td>
-<td>o</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2022-03-05</td>
 <td>r</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2022-03-06</td>
+<td data-quarto-table-cell-role="th">2022-03-04</td>
 <td>d</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2022-03-05</td>
+<td>o</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2022-03-06</td>
+<td>a</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2022-03-07</td>
-<td>m</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2022-03-08</td>
-<td>n</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2022-03-09</td>
 <td>a</td>
 </tr>
 <tr class="even">
+<td data-quarto-table-cell-role="th">2022-03-08</td>
+<td>m</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2022-03-09</td>
+<td>n</td>
+</tr>
+<tr class="even">
 <td data-quarto-table-cell-role="th">2022-03-10</td>
-<td>d</td>
+<td>a</td>
 </tr>
 </tbody>
 </table>
@@ -708,7 +709,7 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 </div>
 <div id="cell-29" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same pandas index_events created above can be created directly with strings</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">'3/1/2022'</span>, end<span class="op">=</span><span class="st">'3/10/2022'</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">"3/1/2022"</span>, end<span class="op">=</span><span class="st">"3/10/2022"</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>print_events(index_events)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -812,7 +813,7 @@ The two index events are still not equal!</code></pre>
 <p>So we can use a list comprehension and combine the two exported formats:</p>
 <div id="cell-40" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Pandas Timestamp object</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>pd_event <span class="op">=</span> pd.Timestamp(<span class="st">'2022-06-18 12:34:56'</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>pd_event <span class="op">=</span> pd.Timestamp(<span class="st">"2022-06-18 12:34:56"</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the Timestamp to a Python datetime.date object</span></span>
 <span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>date <span class="op">=</span> pd_event.date()</span>
@@ -1003,15 +1004,14 @@ datetime +01:00: 2023-02-21T03:37:21+01:00</code></pre>
 <h3 class="anchored" data-anchor-id="timezones-as-capital-cities">Timezones as capital cities</h3>
 <p>Below, with <code>dateutil</code> we can also pass the offset with the capital city based offset, such as “Asia/Tehran”.</p>
 <div id="cell-54" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># country/city offset</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>str_event <span class="op">=</span> <span class="st">"2023-02-21 03:37:21"</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>str_offset <span class="op">=</span> <span class="st">"Asia/Tehran"</span></span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt.datetime.strptime(str_event, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt_event.astimezone(tz.gettz(str_offset))</span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># country/city offset</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>str_event <span class="op">=</span> <span class="st">"2023-02-21 03:37:21"</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>str_offset <span class="op">=</span> <span class="st">"Asia/Tehran"</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt.datetime.strptime(str_event, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>dt_event <span class="op">=</span> dt_event.astimezone(tz.gettz(str_offset))</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"datetime: </span><span class="sc">{</span>dt_event<span class="sc">.</span>isoformat()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>datetime: 2023-02-21T03:37:21
 datetime: 2023-02-21T07:07:21+03:30</code></pre>
@@ -1066,11 +1066,11 @@ Error raised: &lt;class 'pytz.exceptions.UnknownTimeZoneError'&gt; 'MiddleEarth/
 <h3 class="anchored" data-anchor-id="timezones-in-pandas">Timezones in pandas</h3>
 <p>Also to the <code>pd.Timestamp</code> object can be assigned a timezone with <code>tz_localize</code> and can be converted from one timezone to another with <code>tz_convert</code> (this last works only with the non-naive timestamps).</p>
 <div id="cell-60" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">'3/1/2022'</span>, end<span class="op">=</span><span class="st">'3/10/2022'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">"3/1/2022"</span>, end<span class="op">=</span><span class="st">"3/10/2022"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-61" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    index_events.tz_convert(<span class="st">'US/Pacific'</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    index_events.tz_convert(<span class="st">"US/Pacific"</span>)</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">TypeError</span> <span class="im">as</span> err:</span>
 <span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"We can not use tz_convert directly. Error raised: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1078,8 +1078,10 @@ Error raised: &lt;class 'pytz.exceptions.UnknownTimeZoneError'&gt; 'MiddleEarth/
 </div>
 </div>
 <div id="cell-62" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>index_events_localised <span class="op">=</span> index_events.tz_localize(<span class="st">'US/Pacific'</span>)</span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>print_events(index_events_localised)  <span class="co"># note that the datetimes are not shifted! They are considered in local time at the specified location</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>index_events_localised <span class="op">=</span> index_events.tz_localize(<span class="st">"US/Pacific"</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>print_events(</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    index_events_localised</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># note that the datetimes are not shifted! They are considered in local time at the specified location</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10 days: 
 [
@@ -1098,7 +1100,7 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 </div>
 </div>
 <div id="cell-63" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>print_events(index_events_localised.tz_convert(<span class="st">'GMT'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>print_events(index_events_localised.tz_convert(<span class="st">"GMT"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10 days: 
 [
@@ -1118,8 +1120,8 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 </div>
 <p>For a given dataset of datetime in GMT, we have first to localise them over Greenwich, and then convert to the local timezone.</p>
 <div id="cell-65" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">'3/1/2022'</span>, end<span class="op">=</span><span class="st">'3/10/2022'</span>).tz_localize(<span class="st">"GMT"</span>)</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>print_events(index_events.tz_convert(<span class="st">'US/Pacific'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>index_events <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">"3/1/2022"</span>, end<span class="op">=</span><span class="st">"3/10/2022"</span>).tz_localize(<span class="st">"GMT"</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>print_events(index_events.tz_convert(<span class="st">"US/Pacific"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10 days: 
 [
@@ -1137,9 +1139,46 @@ This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;cla
 This is a &lt;class 'pandas.core.indexes.datetimes.DatetimeIndex'&gt; of &lt;class 'pandas._libs.tslibs.timestamps.Timestamp'&gt; elements.</code></pre>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="appendix-time-intervals-overlaps" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-time-intervals-overlaps">Appendix: time intervals overlaps</h2>
+<p>There is an elegant formula that recurs often when dealing with time intervals, that is couples of ordered timestamps. To find if two time intervals are overlapping, and what is the length of the overlap, the brute force option is to write several if-else statement to cover all the cases.</p>
+<p>A less time consuming option comes after the consideration that when two interval overlaps, the first point of the intersection is always the maximum of the starting points, and the last point of the intersection is the minimum of the ending point.</p>
+<p><img src="images/time_interval_overlaps.png" class="img-fluid"></p>
+<p>For two time intervals <span class="math inline">\(t_i = (t_i^{\text{start}}, t_i^{\text{end}})\)</span> for <span class="math inline">\(i=1,2\)</span> the length of the intersection is: <span class="math display">\[
+\delta = \max(0, \min_{i}(t_i^{\text{end}}) - \max_{i}(t_i^{\text{end}}))
+\]</span></p>
+<div id="cell-67" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_overlap(</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    t1_start: datetime,</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    t1_end: datetime,</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    t2_start: datetime,</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>    t2_end: datetime,</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> timedelta:</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(timedelta(<span class="dv">0</span>), <span class="bu">min</span>(t1_end, t2_end) <span class="op">-</span> <span class="bu">max</span>(t1_start, t2_start))</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_overlap_hours(t1_start: datetime, t1_end: datetime, t2_start: datetime, t2_end: datetime) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> time_overlap(t1_start, t1_end, t2_start, t2_end).total_seconds() <span class="op">/</span> <span class="dv">3600</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-68" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>time_overlap(datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>datetime.timedelta(seconds=7200)</code></pre>
+</div>
+</div>
+<div id="cell-69" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>time_overlap(datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">7</span>), datetime(<span class="dv">2025</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>datetime.timedelta(0)</code></pre>
+</div>
+</div>
+
+
 </section>
 
 
