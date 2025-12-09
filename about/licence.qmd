@@ -34,6 +34,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
--  All the images and articles are created by the author, unless otherwise specified. For example in the [`about`](https://sebastianof.github.io/GeoDsBlog/about/about.html) page there is an example of an otherwise specified one. It is *The Apparition*, painted by Chagall in 1925.
-
-
+-  All the images and articles are created by the author, unless otherwise specified.

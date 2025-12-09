@@ -1,6 +1,6 @@
 ---
 title: "Sebastiano Ferraris"
-image: images/apparition_chagall.jpg
+image: images/seb_avatar.png
 about:
   template: trestles
   links:
@@ -18,8 +18,6 @@ about:
       href: https://leetcode.com/u/SebastianoF/
 
 ---
-
-<!-- [![](images/apparition_chagall.jpg){fig-align="center"}](https://www.marcchagallart.net/chagall-113.php) -->
 
 #### Welcome to my blog,
 
@@ -51,4 +49,3 @@ To know more about myself, you can also find two versions of my CV:
 
 -------
 
-The image in this page is *The Apparition*, painted by Chagall in 1925.
